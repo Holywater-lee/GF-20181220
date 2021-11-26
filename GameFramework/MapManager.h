@@ -1,5 +1,6 @@
 #pragma once
 #include "WIDTHHEIGHT.h"
+#include "Tile.h"
 
 class MapManager
 {
@@ -14,11 +15,11 @@ public:
 
 	void SetMap(int map_x, int map_y, int value);
 	void CreateMap(int x, int y);
+	bool IsTileThere(int x, int y);
 private:
 	MapManager() {}
 
 	int loadedTileMap[MAP_MAX_HEIGHT][MAP_MAX_WIDTH] = { 0 };
-
 	static MapManager* s_pInstance;
 };
 typedef MapManager TheMap;

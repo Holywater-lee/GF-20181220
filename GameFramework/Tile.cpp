@@ -10,7 +10,7 @@ void Tile::draw()
 	SDLGameObject::draw();
 }
 
-void Tile::update(float deltaTime)
+void Tile::update()
 {
 
 }

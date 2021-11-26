@@ -13,11 +13,12 @@ public:
 	}
 	~Camera() {}
 
-	void Update(SDLGameObject* obj, float deltaTime);
+	void Update(SDLGameObject* obj);
 	int GetX() { return position.getX(); }
 	int GetY() { return position.getY(); }
 	int GetX(float pos);
 	int GetY(float pos);
+	void AddForce(float x, float y);
 private:
 	Camera() : position(0, 0) {}
 	static Camera* s_pInstance;

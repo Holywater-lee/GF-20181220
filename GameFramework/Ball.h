@@ -7,11 +7,11 @@ class Ball : public SDLGameObject
 public:
 	Ball(const LoaderParams* pParams);
 	virtual void draw();
-	virtual void update(float deltaTime);
+	virtual void update();
 	virtual void clean();
 
 private:
-	int moveSpeed = 2;
+	int moveSpeed = 6;
 
 	void DeleteBecauseOutOfScreen();
 };

@@ -10,13 +10,11 @@ int main(int argc, char* argv[])
 
 	Uint32 frameStart, frameTime;
 
-	double deltaTime = 0;
-
 	while (Game::Instance()->running())
 	{
 		frameStart = SDL_GetTicks();
 		Game::Instance()->handleEvents();
-		Game::Instance()->update(deltaTime);
+		Game::Instance()->update();
 		Game::Instance()->render();
 		frameTime = SDL_GetTicks() - frameStart;
 

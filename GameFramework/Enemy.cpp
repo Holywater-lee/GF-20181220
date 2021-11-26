@@ -31,7 +31,7 @@ void Enemy::OnHit()
 	}
 }
 
-void Enemy::update(float deltaTime)
+void Enemy::update()
 {
 	if (isDead)
 	{
@@ -41,7 +41,6 @@ void Enemy::update(float deltaTime)
 			this->clean();
 		}
 	}
-	//SDLGameObject::update(deltaTime);
 }
 
 void Enemy::clean()

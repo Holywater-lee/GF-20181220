@@ -1,5 +1,7 @@
-Background
 Player
+Tile
+FXSword
+FXGun
+Background
 Ball
 Enemy
-Tile

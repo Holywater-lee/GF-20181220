@@ -9,7 +9,7 @@ class SDLGameObject : public GameObject
 public:
 	SDLGameObject(const LoaderParams* pParams);
 	virtual void draw();
-	virtual void update(float deltaTime);
+	virtual void update();
 	virtual void clean();
 	virtual Vector2D GetPos() { return m_position; }
 	virtual void OnHit();

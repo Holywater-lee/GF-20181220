@@ -2,7 +2,7 @@
 
 Camera* Camera::s_pInstance = nullptr;
 
-void Camera::Update(SDLGameObject* obj, float deltaTime)
+void Camera::Update(SDLGameObject* obj)
 {
 	Vector2D targetPos(obj->GetPos().getX() + obj->GetWidth() / 2 - SCREEN_WIDTH / 2, obj->GetPos().getY() + obj->GetHeight() / 2 - SCREEN_HEIGHT / 2);
 	position = position.Lerp(position, targetPos, cameraSpeed);
@@ -20,4 +20,10 @@ int Camera::GetX(float pos)
 int Camera::GetY(float pos)
 {
 	return pos - position.getY();
+}
+
+void Camera::AddForce(float x, float y)
+{
+	position.setX(position.getX() + x);
+	position.setY(position.getY() + y);
 }

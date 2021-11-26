@@ -36,11 +36,10 @@ void Ball::draw()
 	SDLGameObject::draw();
 }
 
-void Ball::update(float deltaTime)
+void Ball::update()
 {
 	DeleteBecauseOutOfScreen();
-	SDLGameObject::update(deltaTime);
-	//CheckCollision(); // Game으로 역할 이동
+	SDLGameObject::update();
 }
 
 void Ball::clean()

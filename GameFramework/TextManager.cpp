@@ -12,7 +12,7 @@ bool TextManager::InitFont(const char* fontFile, int fontSize)
 	return true;
 }
 
-bool TextManager::LoadText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, const char* textContents)
+bool TextManager::LoadText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, const char* textContents, bool isUI)
 {
 	SDL_Texture* t_texture;
 	SDL_Surface* t_textSurface = TTF_RenderText_Shaded(m_pFont, textContents, fgColor, bgColor);
@@ -24,7 +24,7 @@ bool TextManager::LoadText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, i
 
 	if (t_texture == 0) return false;
 
-	Text* tempText = new Text(x, y, width, height);
+	Text* tempText = new Text(x, y, width, height, isUI);
 	tempText->SetTexture(t_texture);
 	TheGame::Instance()->CreateText(tempText);
 
@@ -46,7 +46,7 @@ void TextManager::RefreshIntText(Text* text, SDL_Color fgColor, SDL_Color bgColo
 	text->SetTexture(t_texture);
 }
 
-Text* TextManager::LoadIntToText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, int contents)
+Text* TextManager::LoadIntToText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, int contents, bool isUI)
 {
 	SDL_Texture* t_texture;
 	char tempContents[128];
@@ -61,13 +61,13 @@ Text* TextManager::LoadIntToText(SDL_Color fgColor, SDL_Color bgColor, int x, in
 
 	if (t_texture == 0) return 0;
 
-	Text* tempText = new Text(x, y, width, height);
+	Text* tempText = new Text(x, y, width, height, isUI);
 	tempText->SetTexture(t_texture);
 
 	return tempText;
 }
 
-bool TextManager::LoadHanguelText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, const wchar_t* textContents)
+bool TextManager::LoadHanguelText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, const wchar_t* textContents, bool isUI)
 {
 	SDL_Texture* t_texture;
 	SDL_Surface* t_textSurface = TTF_RenderUNICODE_Shaded(m_pFont, (Uint16*)textContents, fgColor, bgColor);
@@ -79,7 +79,7 @@ bool TextManager::LoadHanguelText(SDL_Color fgColor, SDL_Color bgColor, int x, i
 
 	if (t_texture == 0) return false;
 
-	Text* tempText = new Text(x, y, width, height);
+	Text* tempText = new Text(x, y, width, height, isUI);
 	tempText->SetTexture(t_texture);
 	TheGame::Instance()->CreateText(tempText);
 

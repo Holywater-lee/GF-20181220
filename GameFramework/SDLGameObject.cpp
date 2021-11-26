@@ -17,7 +17,7 @@ void SDLGameObject::draw()
 	TheTextureManager::Instance()->drawFrame(m_textureID, TheCam::Instance()->GetX(m_position.getX()), TheCam::Instance()->GetY(m_position.getY()), m_width, m_height, m_currentRow, m_currentFrame, TheGame::Instance()->getRenderer(), flip);
 }
 
-void SDLGameObject::update(float deltaTime)
+void SDLGameObject::update()
 {
 	m_velocity += m_acceleration;
 	m_position += m_velocity;
