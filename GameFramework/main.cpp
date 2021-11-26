@@ -1,26 +1,31 @@
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-SDL_Window* g_pWindow = 0;
-SDL_Renderer* g_pRenderer = 0;
-int main(int argc, char* args[])
+#include "Game.h"
+#include "WIDTHHEIGHT.h"
+
+const int FPS = 60;
+const int DELAY_TIME = 1000.0f / FPS;
+
+int main(int argc, char* argv[])
 {
-	if (SDL_Init(SDL_INIT_EVERYTHING) >= 0) {
-		g_pWindow = SDL_CreateWindow("GF01.HelloSDL",
-			SDL_WINDOWPOS_CENTERED,
-			SDL_WINDOWPOS_CENTERED,
-			640, 480, SDL_WINDOW_SHOWN);
-		if (g_pWindow != 0) {
-			g_pRenderer = SDL_CreateRenderer(g_pWindow, -1, 0);
+	Game::Instance()->init("20181220_LEESUNGSOO_GWAJE_2", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+
+	Uint32 frameStart, frameTime;
+
+	double deltaTime = 0;
+
+	while (Game::Instance()->running())
+	{
+		frameStart = SDL_GetTicks();
+		Game::Instance()->handleEvents();
+		Game::Instance()->update(deltaTime);
+		Game::Instance()->render();
+		frameTime = SDL_GetTicks() - frameStart;
+
+		if (frameTime < DELAY_TIME)
+		{
+			SDL_Delay((int)(DELAY_TIME - frameTime));
 		}
 	}
-	else {
-		return 1;
-	}
-	SDL_SetRenderDrawColor(g_pRenderer, 0, 0, 0, 255);
-	SDL_RenderClear(g_pRenderer);
-	SDL_RenderPresent(g_pRenderer);
-	SDL_Delay(5000);
-	SDL_Quit();
+
+	Game::Instance()->clean();
 	return 0;
 }

@@ -1,0 +1,5 @@
+Assets/back.png
+Assets/Player-Sheet.png
+Assets/Bullet.png
+Assets/Enemy-Sheet.png
+Assets/Tile-stone.png

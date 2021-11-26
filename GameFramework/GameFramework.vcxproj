@@ -18,6 +18,45 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapManager.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
+    <ClCompile Include="SDLGameObject.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextManager.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="Vector2D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="LoaderParams.h" />
+    <ClInclude Include="LoadFiles.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="ScoreManager.h" />
+    <ClInclude Include="ScrollingBackGround.h" />
+    <ClInclude Include="SDLGameObject.h" />
+    <ClInclude Include="Text.h" />
+    <ClInclude Include="TextManager.h" />
+    <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="WIDTHHEIGHT.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -94,7 +133,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -141,9 +180,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
