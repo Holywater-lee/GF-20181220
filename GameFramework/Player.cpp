@@ -2,7 +2,6 @@
 #include "InputHandler.h"
 #include "Game.h"
 #include "Collision.h"
-#include "Ball.h"
 #include "Camera.h"
 #include "FXAnimation.h"
 
@@ -86,27 +85,43 @@ void Player::Jump()
 	}
 }
 
-void Player::Shoot()
+void Player::Attack()
 {
-	if (TheInputHandler::Instance()->getMouseButtonState(0))
+	if (KeyDown(SDL_SCANCODE_A))
 	{
-		if (SDL_GetTicks() >= nextShootDelay)
-		{
-			printf("공(총알) 생성\n");
-			TheGame::Instance()->CreateBulletObject(new Ball(new LoaderParams(m_position.getX() + m_width / 2 - 4, m_position.getY() + m_height / 2 - 4, 8, 8, "Ball")));
-			nextShootDelay = SDL_GetTicks() + ballShootDelay;
-		}
+		ChangeState(PlayerState::ATTACK);
 	}
 }
 
-void Player::Attack()
+void Player::ChangeWeapon()
 {
-	if (KeyDown(SDL_SCANCODE_DOWN) && !isAttack)
+	if (KeyDown(SDL_SCANCODE_DOWN) && SDL_GetTicks() >= nextWeaponChangeDelay)
 	{
-		cout << "플레이어 근접 공격 시도" << endl;
-		ChangeState(PlayerState::ATTACK);
-		attackStartTime = SDL_GetTicks();
+		cout << "무기 변경 시도 (테스트)" << endl;
+		if (isRanged)
+		{
+			SetAttackStrategy(new MeleeAttackStrategy());
+		}
+		else
+		{
+			SetAttackStrategy(new RangedAttackStrategy());
+		}
+		
+		nextWeaponChangeDelay = SDL_GetTicks() + weaponChangeDelay;
+		isRanged = !isRanged;
 	}
+}
+
+void Player::SetAttackStrategy(PlayerAttackStrategy* strategy)
+{
+	if (attackStrategy != nullptr)
+	{
+		delete attackStrategy;
+		attackStrategy = nullptr;
+		std::cout << "기존 스트래티지 지워짐: " << attackStrategy << std::endl;
+	}
+	attackStrategy = strategy;
+	std::cout << "스트래티지 변경 완료: " << attackStrategy << std::endl;
 }
 
 void Player::UpdateFrame()
@@ -126,49 +141,71 @@ void Player::UpdateFrame()
 		m_currentFrame = ((SDL_GetTicks() / 100) % 4);
 		break;
 	case PlayerState::ATTACK:
-		m_currentRow = 1;
-
-		switch ((SDL_GetTicks() - attackStartTime) / 100)
+		if (isRanged)
 		{
-		case 0:
-		case 1:
-			m_currentFrame = 0;
-			break;
-		case 2:
-		case 3:
-		case 4:
-			m_currentFrame = 1;
-			break;
-		case 5:
-			m_currentFrame = 2;
+			m_currentRow = 2;
 
-			if (!slashFXFlag)
+			switch ((SDL_GetTicks() - attackStartTime) / 100)
 			{
-				slashFXFlag = true;
-				TheCam::Instance()->AddForce(flip == SDL_FLIP_NONE ? 2 : -2, 20);
-				attackArea.x = m_position.getX() + m_width / 2 + (flip == SDL_FLIP_NONE ? 10 : -10 - 32);
-				attackArea.y = m_position.getY() + 2;
-				for (const auto& enemy : TheGame::Instance()->GetGameObjects())
+			case 0:
+			case 1:
+			case 2:
+				m_currentFrame = 0;
+				break;
+			case 3:
+				m_currentFrame = 1;
+				if (!attackFXFlag)
 				{
-					if (Collision::onCollision(&attackArea, enemy))
-					{
-						if (dynamic_cast<SDLGameObject*>(enemy)->GetTag() == "Enemy")
-						{
-							enemy->OnHit();
-						}
-					}
+					attackFXFlag = true;
+					AttackActionWithStrategy();
 				}
-				TheGame::Instance()->CreateFX(new FXAnimation(new LoaderParams(attackArea.x, attackArea.y, 32, 64, "FXSword"), SDL_GetTicks(), 350, 1, flip == SDL_FLIP_HORIZONTAL));
+				break;
+			case 4:
+			case 5:
+				m_currentFrame = 2;
+				break;
+			case 6:
+				m_currentFrame = 3;
+				break;
+			case 7:
+			default:
+				ChangeState(PlayerState::IDLE);
+				break;
 			}
-			break;
-		case 6:
-		case 7:
-			m_currentFrame = 3;
-			break;
-		case 8:
-		default:
-			ChangeState(PlayerState::IDLE);
-			break;
+		}
+		else
+		{
+			m_currentRow = 1;
+
+			switch ((SDL_GetTicks() - attackStartTime) / 100)
+			{
+			case 0:
+			case 1:
+				m_currentFrame = 0;
+				break;
+			case 2:
+			case 3:
+			case 4:
+				m_currentFrame = 1;
+				break;
+			case 5:
+				m_currentFrame = 2;
+
+				if (!attackFXFlag)
+				{
+					attackFXFlag = true;
+					AttackActionWithStrategy();
+				}
+				break;
+			case 6:
+			case 7:
+				m_currentFrame = 3;
+				break;
+			case 8:
+			default:
+				ChangeState(PlayerState::IDLE);
+				break;
+			}
 		}
 		break;
 	default:
@@ -308,8 +345,7 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::JUMP:
 		break;
 	case PlayerState::ATTACK:
-		isAttack = false;
-		slashFXFlag = false;
+		attackFXFlag = false;
 		break;
 
 	default:
@@ -329,9 +365,10 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::JUMP:
 		break;
 	case PlayerState::ATTACK:
-		isAttack = true;
+		attackStartTime = SDL_GetTicks();
 		m_velocity.setX(0);
-		TheGame::Instance()->CreateFX(new FXAnimation(new LoaderParams(m_position.getX() + m_width / 2 - 16, m_position.getY() - 30, 32, 64, "FXSword"), SDL_GetTicks(), 350, 0));
+		if (!isRanged)
+			TheGame::Instance()->CreateFX(new FXAnimation(new LoaderParams(m_position.getX() + m_width / 2 - 16, m_position.getY() - 30, 32, 64, "FXSword"), SDL_GetTicks(), 350, 0));
 		break;
 
 	default:
@@ -346,25 +383,26 @@ bool Player::KeyDown(SDL_Scancode code)
 
 void Player::handleInput()
 {
-	Shoot();
-
 	switch (m_currentState)
 	{
 	case PlayerState::IDLE:
 		Idle();
 		Jump();
 		Attack();
+		ChangeWeapon();
 		break;
 
 	case PlayerState::MOVE:
 		Move();
 		Jump();
 		Attack();
+		ChangeWeapon();
 		break;
 
 	case PlayerState::JUMP:
 		Move();
 		Jump();
+		ChangeWeapon();
 		break;
 
 	case PlayerState::ATTACK:

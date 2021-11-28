@@ -1,11 +1,12 @@
 #pragma once
 #include "SDLGameObject.h"
-#include <vector>
+#include "PlayerAttackStrategy.h"
 
 class Player : public SDLGameObject
 {
 public:
 	Player(const LoaderParams* pParams);
+	~Player() { delete attackStrategy; }
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
@@ -22,13 +23,17 @@ private:
 	void Idle();
 	void Move();
 	void Jump();
-	void Shoot();
 	void Attack();
-	
-	PlayerState m_currentState = PlayerState::IDLE;
+	void ChangeWeapon();
+	void SetAttackStrategy(PlayerAttackStrategy* strategy);
 
-	int ballShootDelay = 500;
-	int nextShootDelay = 0;
+	void AttackActionWithStrategy()
+	{
+		attackStrategy->AttackAction(this, &attackArea, flip);
+	}
+
+	PlayerState m_currentState = PlayerState::IDLE;
+	PlayerAttackStrategy* attackStrategy = new RangedAttackStrategy();
 
 	int multipleJumpDelay = 300;
 	int nextJumpDelay = 0;
@@ -40,9 +45,11 @@ private:
 	int nextAttackDelay = 0;
 	int attackStartTime = 0;
 
-	bool isGrounded = false;
-	bool isAttack = false;
-	bool slashFXFlag = false;
+	int weaponChangeDelay = 3000;
+	int nextWeaponChangeDelay = 0;
 
+	bool isGrounded = false;
+	bool attackFXFlag = false;
+	bool isRanged = true;
 	SDL_Rect attackArea = { 0,0,32,64 };
 };

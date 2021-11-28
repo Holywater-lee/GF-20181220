@@ -3,5 +3,5 @@ Tile
 FXSword
 FXGun
 Background
-Ball
+Bullet
 Enemy

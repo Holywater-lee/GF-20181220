@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FXAnimation.cpp" />
@@ -28,6 +28,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerAttackStrategy.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SDLGameObject.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -37,7 +38,7 @@
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Ball.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Enemy.h" />
@@ -49,6 +50,7 @@
     <ClInclude Include="LoadFiles.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerAttackStrategy.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="ScrollingBackGround.h" />
     <ClInclude Include="SDLGameObject.h" />

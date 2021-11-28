@@ -10,6 +10,7 @@
 #include "MapManager.h"
 
 #include "ScrollingBackGround.h"
+#include "Player.h"
 
 #include <algorithm>
 
@@ -88,14 +89,15 @@ bool Game::InitTextures()
 bool Game::InitTexts()
 {
 	if (!TheTextManager::Instance()->InitFont("Assets/Fonts/NanumSquareRoundL.ttf", 64)) return false;
-
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, SCREEN_WIDTH - 128, 0, 64, 32, L"점수: ");
+	
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 2, 32 * 19, 256, 32, L"좌우 방향키로 이동", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 2, 32 * 20, 256, 32, L"위 방향키로 점프", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13 - 16, 32 * 19, 256 + 32, 32, L"마우스 왼쪽 클릭으로 원거리 공격", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13, 32 * 20, 256, 32, L"아래 방향키로 근접 공격", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13, 32 * 19, 256, 32, L"A키를 눌러 공격", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13 - 16, 32 * 20, 256 + 32, 32, L"아래 방향키로 공격 방식 전환", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 26, 32 * 17, 256, 32, L"점프 두 번으로 더블 점프", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 14, 32 * 10, 256, 32, L"간격이 길게 더블 점프", false);
+
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, SCREEN_WIDTH - 128, 0, 64, 32, L"점수: ");
 	scoreText = TheTextManager::Instance()->LoadIntToText(color_white, color_black, SCREEN_WIDTH - 64, 0, 64, 32, TheScore::Instance()->GetScore());
 	CreateText(scoreText);
 
