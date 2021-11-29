@@ -3,5 +3,5 @@ Assets/Sprites/Tile_Stone.png
 Assets/Sprites/FX_Sword_Sheet.png
 Assets/Sprites/FX_Gun_Sheet.png
 Assets/back.png
-Assets/Bullet.png
-Assets/Enemy-Sheet.png
+Assets/Sprites/Bullet.png
+Assets/Sprites/Enemy_Sprite_Sheet.png

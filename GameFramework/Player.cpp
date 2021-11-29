@@ -9,11 +9,11 @@
 
 const int MOVESPEED = 3;
 const int JUMPHEIGHT = 8;
-const float GRAVITY = 0.5f;
 
 Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams)
 {
 	tag = "Player";
+	life = 5;
 }
 
 void Player::draw()
@@ -24,10 +24,10 @@ void Player::draw()
 void Player::update()
 {
 	handleInput();
-	UpdateFrame();
+	UpdateInState();
 
 	//SDLGameObject::update();
-	CheckCollision();
+	CheckCollisionWithMove();
 
 	TheCam::Instance()->Update(this);
 
@@ -38,6 +38,25 @@ void Player::update()
 
 		m_acceleration.setY(0);
 		m_velocity.setY(0);
+	}
+}
+
+void Player::OnHit()
+{
+	if (m_currentState != PlayerState::DEAD)
+	{
+		life--;
+
+		if (life <= 0)
+		{
+			ChangeState(PlayerState::DEAD);
+			std::cout << "사망!" << std::endl;
+		}
+		else
+		{
+			//ChangeState(PlayerState::DAMAGED);
+			std::cout << "타격 당함!" << std::endl;
+		}
 	}
 }
 
@@ -124,7 +143,7 @@ void Player::SetAttackStrategy(PlayerAttackStrategy* strategy)
 	std::cout << "스트래티지 변경 완료: " << attackStrategy << std::endl;
 }
 
-void Player::UpdateFrame()
+void Player::UpdateInState()
 {
 	switch (m_currentState)
 	{
@@ -213,7 +232,7 @@ void Player::UpdateFrame()
 	}
 }
 
-void Player::CheckCollision()
+void Player::CheckCollisionWithMove()
 {
 	if (!isGrounded)
 	{
@@ -224,52 +243,6 @@ void Player::CheckCollision()
 		if (m_currentState == PlayerState::JUMP)
 			ChangeState(PlayerState::IDLE);
 	}
-
-	/*
-	float oldX = m_position.getX();
-
-	for (auto& tile : TheGame::Instance()->GetTileObjects())
-	{
-		if (Collision::onCollision(this, tile))
-		{
-			if (m_position.getY() != tile->GetPos().getY() + tile->GetHeight() && m_position.getY() + m_height != tile->GetPos().getY())
-			{
-				if (m_velocity.getX() > 0 && m_position.getX() + m_width > tile->GetPos().getX() && m_position.getX() + m_width < tile->GetPos().getX() + tile->GetWidth())
-				{
-					m_position.setX(tile->GetPos().getX() - m_width);
-				}
-				else if (m_velocity.getX() < 0 && m_position.getX() < tile->GetPos().getX() + tile->GetWidth() && m_position.getX() > tile->GetWidth())
-				{
-					m_position.setX(tile->GetPos().getX() + tile->GetWidth());
-				}
-				m_velocity.setX(0);
-			}
-
-			if (m_position.getX() != tile->GetPos().getX() + tile->GetWidth() && m_position.getX() + m_width != tile->GetPos().getX())
-			{
-				if (m_velocity.getY() > 0 && m_position.getY() + m_height > tile->GetPos().getY() && m_position.getY() + m_height < tile->GetPos().getY() + tile->GetHeight())
-				{
-					isGrounded = true;
-					currentJumpCount = 0;
-					m_position.setX(oldX);
-					m_position.setY(tile->GetPos().getY() - m_height);
-				}
-				else if (m_velocity.getY() < 0 && m_position.getY() < tile->GetPos().getY() + tile->GetHeight() && m_position.getY() > tile->GetHeight())
-				{
-					m_position.setX(oldX);
-					m_position.setY(tile->GetPos().getY() + tile->GetHeight());
-					m_velocity.setY(0);
-				}
-
-				if (m_currentState != PlayerState::JUMP)
-				{
-					m_acceleration.setY(0);
-					m_velocity.setY(0);
-				}
-			}
-		}
-	}
-	*/
 
 	m_velocity.setX(m_velocity.getX() + m_acceleration.getX());
 	m_position.setX(m_position.getX() + m_velocity.getX());

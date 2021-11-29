@@ -51,6 +51,11 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
 }
 
+void TextureManager::drawBackground(std::string id, SDL_Renderer* pRenderer)
+{
+	SDL_RenderCopy(pRenderer, m_textureMap[id], NULL, NULL);
+}
+
 void TextureManager::DestroyTex(std::string id)
 {
 	SDL_DestroyTexture(m_textureMap[id]);

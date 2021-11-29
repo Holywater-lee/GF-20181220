@@ -13,6 +13,7 @@ public:
 	void setY(float y) { m_y = y; }
 
 	float length() { return sqrt(m_x * m_x + m_y * m_y); }
+	static float LengthSquare(Vector2D& a, Vector2D& b) { return (a.m_x - b.m_x) * (a.m_x - b.m_x) + (a.m_y - b.m_y) * (a.m_y - b.m_y); }
 
 	Vector2D operator+(const Vector2D& v2) const;
 	Vector2D operator-(const Vector2D& v2) const;
@@ -27,7 +28,7 @@ public:
 	friend Vector2D& operator+=(Vector2D& v1, const Vector2D& v2);
 	friend Vector2D& operator-=(Vector2D& v1, const Vector2D& v2);
 
-	Vector2D Lerp(Vector2D& vec1, Vector2D& vec2, float time);
+	static Vector2D Lerp(Vector2D& vec1, Vector2D& vec2, float time);
 
 private:
 	float m_x;

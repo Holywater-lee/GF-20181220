@@ -5,6 +5,7 @@
 #include "SDL.h"
 #include "GameObject.h"
 #include <vector>
+#include "Vector2D.h"
 
 #include "Text.h"
 
@@ -38,6 +39,8 @@ public:
 	vector<GameObject*> GetTileObjects() { return m_tiles; }
 	void RefreshScore();
 
+	Vector2D GetPlayerPos() const { return playerObject->GetPos(); }
+
 private:
 	Game() {}
 	static Game* s_pInstance;
@@ -47,19 +50,18 @@ private:
 
 	bool InitTextures();
 	bool InitTexts();
-	void InitBackgrounds();
 
 	void RefreshGameObjects();
 	void RemoveGameObject(vector<GameObject*>& list, GameObject& remove);
 	void DetectCollision();
 
-	vector<GameObject*> m_backgrounds;
 	vector<GameObject*> m_gameObjects;
 	vector<GameObject*> m_bullets;
 	vector<GameObject*> m_tiles;
 	vector<GameObject*> m_FXs;
 
 	vector<Text*> m_texts;
+	GameObject* playerObject;
 	Text* scoreText;
 };
 typedef Game TheGame;

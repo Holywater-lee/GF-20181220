@@ -52,7 +52,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackStrategy.h" />
     <ClInclude Include="ScoreManager.h" />
-    <ClInclude Include="ScrollingBackGround.h" />
     <ClInclude Include="SDLGameObject.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextManager.h" />

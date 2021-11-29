@@ -10,14 +10,15 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
+	virtual void OnHit();
 
 private:
-	enum class PlayerState { IDLE = 0, MOVE, JUMP, ATTACK };
+	enum class PlayerState { IDLE = 0, MOVE, JUMP, ATTACK, DEAD };
 	void handleInput();
-	void UpdateFrame();
+	void UpdateInState();
 	bool KeyDown(SDL_Scancode code);
 
-	void CheckCollision();
+	void CheckCollisionWithMove();
 	void ChangeState(PlayerState state);
 
 	void Idle();

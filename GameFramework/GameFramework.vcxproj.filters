@@ -104,9 +104,6 @@
     <ClInclude Include="ScoreManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ScrollingBackGround.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="SDLGameObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

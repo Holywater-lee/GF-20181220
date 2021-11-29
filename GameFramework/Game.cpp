@@ -9,7 +9,6 @@
 #include "LoadFiles.h"
 #include "MapManager.h"
 
-#include "ScrollingBackGround.h"
 #include "Player.h"
 
 #include <algorithm>
@@ -60,9 +59,9 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	if (!InitTextures()) return false;
 	if (!InitTexts()) return false;
 
-	InitBackgrounds();
 	TheMap::Instance()->CreateMap(0, 0);
-	CreateGameObject(new Player(new LoaderParams(32*2, 32*16, 32, 60, "Player")));
+	playerObject = new Player(new LoaderParams(32 * 2, 32 * 16, 32, 60, "Player"));
+	CreateGameObject(playerObject);
 
 	cout << "초기화 성공!" << endl;
 	m_bRunning = true;
@@ -104,12 +103,6 @@ bool Game::InitTexts()
 	return true;
 }
 
-void Game::InitBackgrounds()
-{
-	m_backgrounds.push_back(new ScrollingBackGround(new LoaderParams(0, 0, 1280, 720, "Background"), 1));
-	m_backgrounds.push_back(new ScrollingBackGround(new LoaderParams(1280, 0, 1280, 720, "Background"), 1));
-}
-
 void Game::RefreshScore()
 {
 	TheTextManager::Instance()->RefreshIntText(scoreText, color_white, color_black, TheScore::Instance()->GetScore());
@@ -145,10 +138,7 @@ void Game::render()
 {
 	SDL_RenderClear(m_pRenderer);
 
-	for (const auto& bgs : m_backgrounds)
-	{
-		bgs->draw();
-	}
+	TheTextureManager::Instance()->drawBackground("Background", m_pRenderer);
 	for (const auto& tile : m_tiles)
 	{
 		tile->draw();
@@ -177,10 +167,6 @@ void Game::update()
 {
 	RefreshGameObjects();
 
-	for (const auto& bgs : m_backgrounds)
-	{
-		bgs->update();
-	}
 	for (const auto& go : m_gameObjects)
 	{
 		go->update();
