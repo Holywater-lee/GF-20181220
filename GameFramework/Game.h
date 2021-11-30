@@ -39,7 +39,9 @@ public:
 	vector<GameObject*> GetTileObjects() { return m_tiles; }
 	void RefreshScore();
 
-	Vector2D GetPlayerPos() const { return playerObject->GetPos(); }
+	Vector2D GetPlayerPos() const;
+
+	int GetRandomInt(int min, int max);
 
 private:
 	Game() {}

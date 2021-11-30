@@ -38,7 +38,12 @@ void Enemy::OnHit()
 
 void Enemy::update()
 {
-	CheckPlayerInRange();
+	if (currentState != EnemyState::DEAD)
+	{
+		CheckPlayerInRange();
+		CheckMoveDirection();
+	}
+
 	UpdateInState();
 	SDLGameObject::update();
 	CheckCollision();
@@ -178,7 +183,6 @@ void Enemy::ChangePartrolState(PatrolState state)
 	switch (state)
 	{
 	case PatrolState::PATROL:
-		ChangeState(EnemyState::IDLE);
 		break;
 	case PatrolState::CHASING:
 		if (currentState == EnemyState::IDLE)
@@ -193,7 +197,7 @@ void Enemy::ChangePartrolState(PatrolState state)
 
 void Enemy::CheckPlayerInRange()
 {
-	if (currentState != EnemyState::DEAD && (SDL_GetTicks() / 100) % 5 == 0)
+	if ((SDL_GetTicks() / 100) % 5 == 0)
 	{
 		playerPosition = TheGame::Instance()->GetPlayerPos();
 		CheckPlayerInAttackRange();
@@ -227,6 +231,60 @@ void Enemy::CheckPlayerInAttackRange()
 	else return;
 }
 
+void Enemy::CheckMoveDirection()
+{
+	if ((SDL_GetTicks() / 300) % randomWaitTime == 0)
+	{
+		if (!moveDirRefreshedFlag)
+		{
+			moveDirRefreshedFlag = true;
+			randomWaitTime = TheGame::Instance()->GetRandomInt(5, 7);
+			randomDirection = TheGame::Instance()->GetRandomInt(0, 2);
+		}
+
+		switch (currentPatrolState)
+		{
+		case PatrolState::PATROL:
+			switch (randomDirection)
+			{
+			case 0:
+				moveDir = moveDirection::LEFT;
+				break;
+			case 1:
+				moveDir = moveDirection::STOP;
+				break;
+			case 2:
+				moveDir = moveDirection::RIGHT;
+				break;
+			default:
+				break;
+			}
+			ChangeState(EnemyState::MOVE);
+
+			break;
+		case PatrolState::CHASING:
+			if (playerPosition.getX() - m_position.getX() > 0)
+			{
+				moveDir = moveDirection::RIGHT;
+			}
+			else
+			{
+				moveDir = moveDirection::LEFT;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	else if ((SDL_GetTicks() / 300) % randomWaitTime == 1)
+	{
+		moveDirRefreshedFlag = false;
+	}
+
+	//std::cout << "ป๓ลย: " << static_cast<int>(currentState) << ", moveDir: " << static_cast<int>(moveDir) << std::endl;
+
+}
+
 void Enemy::Attack()
 {
 	attackFlag = true;
@@ -248,14 +306,46 @@ void Enemy::Attack()
 void Enemy::Move()
 {
 	int yPos = m_position.getY() + m_height + 4;
-
 	int xPos = m_position.getX();
 
+	switch (moveDir)
+	{
+	case moveDirection::RIGHT:
+		if (TheMap::Instance()->IsTileThere((xPos + m_width + 2) / TILE_SIZE, yPos / TILE_SIZE))
+		{
+			m_velocity.setX(moveSpeed);
+		}
+		else
+		{
+			m_velocity.setX(0);
+			moveDir = moveDirection::LEFT;
+		}
+		flip = SDL_FLIP_NONE;
+		break;
+	case moveDirection::LEFT:
+		if (TheMap::Instance()->IsTileThere((xPos - 2) / TILE_SIZE, yPos / TILE_SIZE))
+		{
+			m_velocity.setX(-moveSpeed);
+		}
+		else
+		{
+			m_velocity.setX(0);
+			moveDir = moveDirection::RIGHT;
+		}
+		flip = SDL_FLIP_HORIZONTAL;
+		break;
+	case moveDirection::STOP:
+		ChangeState(EnemyState::IDLE);
+		break;
+	default:
+		break;
+	}
+	/*
 	if (playerPosition.getX() - m_position.getX() > 0)
 	{
 		if (TheMap::Instance()->IsTileThere((xPos + m_width + 2) / TILE_SIZE, yPos / TILE_SIZE))
 		{
-			m_velocity.setX(moveSpeed);
+			m_velocity.setX(applySpeed);
 		}
 		else
 		{
@@ -266,10 +356,14 @@ void Enemy::Move()
 	{
 		if (TheMap::Instance()->IsTileThere((xPos - 2) / TILE_SIZE, yPos / TILE_SIZE))
 		{
-			m_velocity.setX(-moveSpeed);
+			m_velocity.setX(-applySpeed);
 		}
-		else m_velocity.setX(0);
+		else
+		{
+			m_velocity.setX(0);
+		}
 	}
+	*/
 }
 
 void Enemy::Knockback()

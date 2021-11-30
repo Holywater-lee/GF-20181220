@@ -27,7 +27,8 @@ void Player::update()
 	UpdateInState();
 
 	//SDLGameObject::update();
-	CheckCollisionWithMove();
+	if (m_currentState != PlayerState::DEAD)
+		CheckCollisionWithMove();
 
 	TheCam::Instance()->Update(this);
 
@@ -54,8 +55,8 @@ void Player::OnHit()
 		}
 		else
 		{
-			//ChangeState(PlayerState::DAMAGED);
-			std::cout << "타격 당함!" << std::endl;
+			ChangeState(PlayerState::DAMAGED);
+			std::cout << "타격 당함! 남은 체력: " << life << std::endl;
 		}
 	}
 }
@@ -227,6 +228,18 @@ void Player::UpdateInState()
 			}
 		}
 		break;
+	case PlayerState::DEAD:
+		m_currentRow = 1;
+		m_currentFrame = 1;
+		break;
+	case PlayerState::DAMAGED:
+		m_currentRow = 4;
+		m_currentFrame = 0;
+		if (SDL_GetTicks() >= damagedTime + knockbackTime)
+		{
+			ChangeState(PlayerState::IDLE);
+		}
+		break;
 	default:
 		break;
 	}
@@ -320,7 +333,9 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::ATTACK:
 		attackFXFlag = false;
 		break;
-
+	case PlayerState::DAMAGED:
+		m_velocity.setX(0);
+		m_velocity.setY(0);
 	default:
 		break;
 	}
@@ -343,10 +358,21 @@ void Player::ChangeState(PlayerState state)
 		if (!isRanged)
 			TheGame::Instance()->CreateFX(new FXAnimation(new LoaderParams(m_position.getX() + m_width / 2 - 16, m_position.getY() - 30, 32, 64, "FXSword"), SDL_GetTicks(), 350, 0));
 		break;
-
+	case PlayerState::DEAD:
+		m_angle = -90;
+		break;
+	case PlayerState::DAMAGED:
+		Knockback();
+		damagedTime = SDL_GetTicks();
 	default:
 		break;
 	}
+}
+
+void Player::Knockback()
+{
+	m_velocity.setX((flip == SDL_FLIP_NONE ? -1 : 1) * knockbackPower);
+	m_velocity.setY(-knockbackPower / 2);
 }
 
 bool Player::KeyDown(SDL_Scancode code)
@@ -381,6 +407,11 @@ void Player::handleInput()
 	case PlayerState::ATTACK:
 		break;
 
+	case PlayerState::DEAD:
+		break;
+
+	case PlayerState::DAMAGED:
+		break;
 	default:
 		break;
 	}

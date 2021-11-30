@@ -13,7 +13,7 @@ public:
 	virtual void OnHit();
 
 private:
-	enum class PlayerState { IDLE = 0, MOVE, JUMP, ATTACK, DEAD };
+	enum class PlayerState { IDLE = 0, MOVE, JUMP, ATTACK, DEAD, DAMAGED };
 	void handleInput();
 	void UpdateInState();
 	bool KeyDown(SDL_Scancode code);
@@ -25,6 +25,7 @@ private:
 	void Move();
 	void Jump();
 	void Attack();
+	void Knockback();
 	void ChangeWeapon();
 	void SetAttackStrategy(PlayerAttackStrategy* strategy);
 
@@ -42,9 +43,13 @@ private:
 	int currentJumpCount = 0;
 	int maxJumpCount = 2;
 
+	int knockbackPower = 10;
+
 	int attackDelay = 500;
 	int nextAttackDelay = 0;
 	int attackStartTime = 0;
+	int damagedTime = 0;
+	int knockbackTime = 200;
 
 	int weaponChangeDelay = 3000;
 	int nextWeaponChangeDelay = 0;

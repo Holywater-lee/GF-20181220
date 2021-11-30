@@ -12,6 +12,7 @@
 #include "Player.h"
 
 #include <algorithm>
+#include <random>
 
 #include "WIDTHHEIGHT.h"
 
@@ -106,6 +107,14 @@ bool Game::InitTexts()
 void Game::RefreshScore()
 {
 	TheTextManager::Instance()->RefreshIntText(scoreText, color_white, color_black, TheScore::Instance()->GetScore());
+}
+
+Vector2D Game::GetPlayerPos() const
+{
+	if (playerObject == nullptr)
+		return Vector2D(0, 0);
+	
+	return playerObject->GetPos();
 }
 
 void Game::DetectCollision()
@@ -209,6 +218,14 @@ void Game::RefreshGameObjects()
 			RemoveGameObject(m_FXs, *fx);
 		}
 	}
+}
+
+int Game::GetRandomInt(int min, int max)
+{
+	std::random_device rd;
+	std::mt19937 mersenne(rd()); // 메르센 트위스터라는 방법을 사용해 rd로부터 시드를 얻는다
+	std::uniform_int_distribution<> value(min, max);
+	return value(mersenne);
 }
 
 void Game::RemoveGameObject(vector<GameObject*>& list, GameObject& remove)

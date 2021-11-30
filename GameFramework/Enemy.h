@@ -22,6 +22,7 @@ private:
 	void CheckCollision();
 	void CheckPlayerInRange();
 	void CheckPlayerInAttackRange();
+	void CheckMoveDirection();
 	void Attack();
 	void Move();
 	void Knockback();
@@ -32,16 +33,21 @@ private:
 	Vector2D playerPosition;
 
 	bool attackFlag = false;
+	bool moveDirRefreshedFlag = false;
 	bool isGrounded = true;
+	enum class moveDirection { RIGHT, LEFT, STOP };
+	moveDirection moveDir = moveDirection::STOP;
 
 	int damagedTime = 0;
 	int deadTime = 0;
 	int attackStartTime = 0;
 	int knockbackTime = 200;
+	int randomWaitTime = 3;
+	int randomDirection = 2;
 
 	int moveSpeed = 2;
 	float attackRange = 48;
-	float chasingDetectRange = 128;
+	float chasingDetectRange = 128+32;
 	float knockbackPower = 3;
 	SDL_Rect attackArea = { 0,0,32,32 };
 };
