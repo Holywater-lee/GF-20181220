@@ -9,6 +9,7 @@ Bullet::Bullet(const LoaderParams* pParams, SDL_RendererFlip isFlip) : SDLGameOb
 	tag = "Bullet";
 	m_currentFrame = 0;
 	flip = isFlip;
+	createdTime = SDL_GetTicks();
 
 	Vector2D center(m_position.getX() + m_width / 2, m_position.getY() + m_height / 2);
 
@@ -30,6 +31,14 @@ void Bullet::DeleteBecauseOutOfScreen()
 	}
 }
 
+void Bullet::DeleteBecauseLifeTime()
+{
+	if (SDL_GetTicks() >= createdTime + lifeTime)
+	{
+		this->clean();
+	}
+}
+
 void Bullet::draw()
 {
 	SDLGameObject::draw();
@@ -39,6 +48,7 @@ void Bullet::update()
 {
 	SDLGameObject::update();
 	DeleteBecauseOutOfScreen();
+	DeleteBecauseLifeTime();
 }
 
 void Bullet::clean()

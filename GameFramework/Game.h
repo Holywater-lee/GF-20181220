@@ -22,6 +22,8 @@ public:
 	~Game() {}
 
 	bool init(const char* title, int xpos, int ypos, int height, int width, int flags);
+	bool Init_Everything();
+	void RestartGame();
 	void quit() { m_bRunning = false; }
 	void render();
 	void update();

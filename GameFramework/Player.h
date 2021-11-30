@@ -43,7 +43,7 @@ private:
 	int currentJumpCount = 0;
 	int maxJumpCount = 2;
 
-	int knockbackPower = 10;
+	int knockbackPower = 15;
 
 	int attackDelay = 500;
 	int nextAttackDelay = 0;

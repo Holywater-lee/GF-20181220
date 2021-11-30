@@ -12,6 +12,9 @@ public:
 
 private:
 	int moveSpeed = 6;
+	int lifeTime = 500;
+	int createdTime = 0;
 
 	void DeleteBecauseOutOfScreen();
+	void DeleteBecauseLifeTime();
 };

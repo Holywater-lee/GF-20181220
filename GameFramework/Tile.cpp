@@ -3,6 +3,7 @@
 Tile::Tile(const LoaderParams* pParams) : SDLGameObject(pParams)
 {
 	tag = "Tile";
+	isActive = true;
 }
 
 void Tile::draw()
@@ -12,7 +13,7 @@ void Tile::draw()
 
 void Tile::update()
 {
-
+	SDLGameObject::update();
 }
 
 void Tile::clean()

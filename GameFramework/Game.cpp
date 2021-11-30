@@ -52,6 +52,15 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 		return false;
 	}
 
+	if (!Init_Everything()) return false;
+
+	cout << "초기화 성공!" << endl;
+	m_bRunning = true;
+	return true;
+}
+
+bool Game::Init_Everything()
+{
 	if (!TheLoadFiles::Instance()->Load())
 	{
 		cout << "파일 불러오기 실패" << endl;
@@ -64,9 +73,49 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	playerObject = new Player(new LoaderParams(32 * 2, 32 * 16, 32, 60, "Player"));
 	CreateGameObject(playerObject);
 
-	cout << "초기화 성공!" << endl;
-	m_bRunning = true;
 	return true;
+}
+
+void Game::RestartGame()
+{
+	for (auto& go : m_gameObjects)
+	{
+		go->clean();
+	}
+	for (auto& bullet : m_bullets)
+	{
+		bullet->clean();
+	}
+	for (auto& tile : m_tiles)
+	{
+		tile->clean();
+	}
+	for (auto& fx : m_FXs)
+	{
+		fx->clean();
+	}
+	for (auto& text : m_texts)
+	{
+		text->clean();
+	}
+	RefreshGameObjects();
+
+	m_gameObjects.clear();
+	m_bullets.clear();
+	m_tiles.clear();
+	m_FXs.clear();
+	m_texts.clear();
+
+	TheTextManager::Instance()->clean();
+	TheScore::Instance()->SetScore(0);
+	RefreshScore();
+
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetTexMapsSize(); i++)
+	{
+		TheTextureManager::Instance()->DestroyTex(TheLoadFiles::Instance()->GetLoadedTexMaps(i));
+	}
+
+	Init_Everything();
 }
 
 bool Game::InitTextures()
@@ -89,7 +138,7 @@ bool Game::InitTextures()
 bool Game::InitTexts()
 {
 	if (!TheTextManager::Instance()->InitFont("Assets/Fonts/NanumSquareRoundL.ttf", 64)) return false;
-	
+
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 2, 32 * 19, 256, 32, L"좌우 방향키로 이동", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 2, 32 * 20, 256, 32, L"위 방향키로 점프", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13, 32 * 19, 256, 32, L"A키를 눌러 공격", false);
@@ -111,10 +160,10 @@ void Game::RefreshScore()
 
 Vector2D Game::GetPlayerPos() const
 {
-	if (playerObject == nullptr)
+	if (playerObject != nullptr)
+		return playerObject->GetPos();
+	else
 		return Vector2D(0, 0);
-	
-	return playerObject->GetPos();
 }
 
 void Game::DetectCollision()
@@ -198,6 +247,11 @@ void Game::RefreshGameObjects()
 	{
 		if (!dynamic_cast<SDLGameObject*>(go)->GetIsActive())
 		{
+			if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Player")
+			{
+				playerObject = nullptr;
+			}
+			go = nullptr;
 			delete go;
 			RemoveGameObject(m_gameObjects, *go);
 		}
@@ -206,16 +260,36 @@ void Game::RefreshGameObjects()
 	{
 		if (!dynamic_cast<SDLGameObject*>(bullet)->GetIsActive())
 		{
+			bullet = nullptr;
 			delete bullet;
 			RemoveGameObject(m_bullets, *bullet);
+		}
+	}
+	for (auto& tile : m_tiles)
+	{
+		if (!dynamic_cast<SDLGameObject*>(tile)->GetIsActive())
+		{
+			tile = nullptr;
+			delete tile;
+			RemoveGameObject(m_tiles, *tile);
 		}
 	}
 	for (auto& fx : m_FXs)
 	{
 		if (!dynamic_cast<SDLGameObject*>(fx)->GetIsActive())
 		{
+			fx = nullptr;
 			delete fx;
 			RemoveGameObject(m_FXs, *fx);
+		}
+	}
+	for (auto& text : m_texts)
+	{
+		if (!text->GetIsActive())
+		{
+			text = nullptr;
+			delete text;
+			m_texts.erase(std::remove(std::begin(m_texts), std::end(m_texts), text), std::end(m_texts));
 		}
 	}
 }

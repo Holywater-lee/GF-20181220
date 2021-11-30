@@ -233,7 +233,7 @@ void Enemy::CheckPlayerInAttackRange()
 
 void Enemy::CheckMoveDirection()
 {
-	if ((SDL_GetTicks() / 300) % randomWaitTime == 0)
+	if ((SDL_GetTicks() / 100) % randomWaitTime == 0)
 	{
 		if (!moveDirRefreshedFlag)
 		{
@@ -276,7 +276,7 @@ void Enemy::CheckMoveDirection()
 			break;
 		}
 	}
-	else if ((SDL_GetTicks() / 300) % randomWaitTime == 1)
+	else if ((SDL_GetTicks() / 100) % randomWaitTime == 1)
 	{
 		moveDirRefreshedFlag = false;
 	}
