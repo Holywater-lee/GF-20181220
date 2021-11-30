@@ -39,7 +39,8 @@ private:
 	int attackStartTime = 0;
 	int knockbackTime = 200;
 
-	float attackRange = 40;
+	int moveSpeed = 2;
+	float attackRange = 48;
 	float chasingDetectRange = 128;
 	float knockbackPower = 3;
 	SDL_Rect attackArea = { 0,0,32,32 };

@@ -2,6 +2,7 @@
 #include "ScoreManager.h"
 #include "Game.h"
 #include "Collision.h"
+#include "MapManager.h"
 
 #include "WIDTHHEIGHT.h"
 
@@ -45,6 +46,16 @@ void Enemy::update()
 
 void Enemy::UpdateInState()
 {
+	switch (currentPatrolState)
+	{
+	case PatrolState::PATROL:
+		break;
+	case PatrolState::CHASING:
+		break;
+	default:
+		break;
+	}
+
 	switch (currentState)
 	{
 	case EnemyState::IDLE:
@@ -54,27 +65,29 @@ void Enemy::UpdateInState()
 	case EnemyState::MOVE:
 		m_currentRow = 2;
 		m_currentFrame = (SDL_GetTicks() / 100) % 4;
+
+		Move();
 		break;
 	case EnemyState::ATTACK:
 		switch ((SDL_GetTicks() - attackStartTime) / 100)
 		{
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-				m_currentRow = 1;
-				m_currentFrame = 0;
-				break;
-			case 4:
-				if (!attackFlag) Attack();
-			case 5:
-			case 6:
-			case 7:
-				m_currentFrame = 1;
-				break;
-			case 8:
-			default:
-				ChangeState(EnemyState::IDLE);
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			m_currentRow = 1;
+			m_currentFrame = 0;
+			break;
+		case 4:
+			if (!attackFlag) Attack();
+		case 5:
+		case 6:
+		case 7:
+			m_currentFrame = 1;
+			break;
+		case 8:
+		default:
+			ChangeState(EnemyState::IDLE);
 		}
 		break;
 	case EnemyState::DEAD:
@@ -126,14 +139,17 @@ void Enemy::ChangeState(EnemyState state)
 	{
 	case EnemyState::IDLE:
 		Flipping();
+		m_velocity.setX(0);
 		break;
 	case EnemyState::MOVE:
 		break;
 	case EnemyState::ATTACK:
 		attackStartTime = SDL_GetTicks();
+		m_velocity.setX(0);
 		break;
 	case EnemyState::DEAD:
 		deadTime = SDL_GetTicks();
+		m_velocity.setX(0);
 		break;
 	case EnemyState::DAMAGED:
 		std::cout << "대미지드 상태 진입" << std::endl;
@@ -162,8 +178,13 @@ void Enemy::ChangePartrolState(PatrolState state)
 	switch (state)
 	{
 	case PatrolState::PATROL:
+		ChangeState(EnemyState::IDLE);
 		break;
 	case PatrolState::CHASING:
+		if (currentState == EnemyState::IDLE)
+		{
+			ChangeState(EnemyState::MOVE);
+		}
 		break;
 	default:
 		break;
@@ -210,7 +231,7 @@ void Enemy::Attack()
 {
 	attackFlag = true;
 
-	attackArea.x = m_position.getX() + m_width / 2 + (flip == SDL_FLIP_NONE ? 8 : -8 - attackArea.w);
+	attackArea.x = m_position.getX() + m_width / 2 + (flip == SDL_FLIP_NONE ? 16 : -16 - attackArea.w);
 	attackArea.y = m_position.getY();
 	for (const auto& player : TheGame::Instance()->GetGameObjects())
 	{
@@ -226,7 +247,29 @@ void Enemy::Attack()
 
 void Enemy::Move()
 {
+	int yPos = m_position.getY() + m_height + 4;
 
+	int xPos = m_position.getX();
+
+	if (playerPosition.getX() - m_position.getX() > 0)
+	{
+		if (TheMap::Instance()->IsTileThere((xPos + m_width + 2) / TILE_SIZE, yPos / TILE_SIZE))
+		{
+			m_velocity.setX(moveSpeed);
+		}
+		else
+		{
+			m_velocity.setX(0);
+		}
+	}
+	else
+	{
+		if (TheMap::Instance()->IsTileThere((xPos - 2) / TILE_SIZE, yPos / TILE_SIZE))
+		{
+			m_velocity.setX(-moveSpeed);
+		}
+		else m_velocity.setX(0);
+	}
 }
 
 void Enemy::Knockback()

@@ -29,5 +29,5 @@ void MapManager::CreateMap(int x, int y)
 
 bool MapManager::IsTileThere(int x, int y)
 {
-	return loadedTileMap[x][y] == 1;
+	return loadedTileMap[y][x] == 1;
 }
