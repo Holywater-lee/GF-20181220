@@ -4,10 +4,11 @@
 
 #include "SDL.h"
 #include "GameObject.h"
-#include <vector>
 #include "Vector2D.h"
 
 #include "Text.h"
+#include <vector>
+#include <map>
 
 using namespace std;
 
@@ -31,14 +32,14 @@ public:
 	void handleEvents();
 	void clean();
 	SDL_Renderer* getRenderer() const { return m_pRenderer; }
-	void CreateGameObject(GameObject* obj) { m_gameObjects.push_back(obj); }
-	void CreateBulletObject(GameObject* obj) { m_bullets.push_back(obj); }
-	void CreateTileObject(GameObject* obj) { m_tiles.push_back(obj); }
-	void CreateFX(GameObject* obj) { m_FXs.push_back(obj); }
 	void CreateText(Text* text) { m_texts.push_back(text); }
+	
+	void CreateTileObject(GameObject* obj) { m_tiles.push_back(obj); }
+	void CreateGameObject(GameObject* obj) { m_gameObjects.push_back(obj); }
 
-	vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 	vector<GameObject*> GetTileObjects() { return m_tiles; }
+	vector<GameObject*> GetGameObjects() { return m_gameObjects; }
+
 	void RefreshScore();
 
 	Vector2D GetPlayerPos() const;
@@ -61,10 +62,12 @@ private:
 	void RemoveGameObject(vector<GameObject*>& list, GameObject& remove);
 	void DetectCollision();
 
-	vector<GameObject*> m_gameObjects;
-	vector<GameObject*> m_bullets;
 	vector<GameObject*> m_tiles;
-	vector<GameObject*> m_FXs;
+	vector<GameObject*> m_gameObjects;
+	map<int, vector<GameObject*>> vectorsMap
+	{
+		{0, move(m_tiles)}, {1, move(m_gameObjects)}
+	};
 
 	vector<Text*> m_texts;
 	GameObject* playerObject;

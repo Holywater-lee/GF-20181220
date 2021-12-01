@@ -366,7 +366,7 @@ void Player::ChangeState(PlayerState state)
 		attackStartTime = SDL_GetTicks();
 		m_velocity.setX(0);
 		if (!isRanged)
-			TheGame::Instance()->CreateFX(new FXAnimation(new LoaderParams(m_position.getX() + m_width / 2 - 16, m_position.getY() - 30, 32, 64, "FXSword"), SDL_GetTicks(), 350, 0));
+			TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX() + m_width / 2 - 16, m_position.getY() - 30, 32, 64, "FXSword"), SDL_GetTicks(), 350, 0));
 		break;
 	case PlayerState::DEAD:
 		m_angle = -90;

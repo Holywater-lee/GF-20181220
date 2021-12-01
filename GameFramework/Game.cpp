@@ -143,25 +143,28 @@ Vector2D Game::GetPlayerPos() const
 
 void Game::DetectCollision()
 {
-	for (auto& bullet : m_bullets)
+	for (auto& bullet : m_gameObjects)
 	{
-		for (const auto& go : m_gameObjects)
+		if (dynamic_cast<SDLGameObject*>(bullet)->GetTag() == "Bullet")
 		{
-			if (Collision::onCollision(bullet, go))
+			for (const auto& go : m_gameObjects)
 			{
-				if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Enemy")
+				if (bullet != go && Collision::onCollision(bullet, go))
 				{
-					bullet->clean();
-					go->OnHit();
+					if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Enemy")
+					{
+						bullet->clean();
+						go->OnHit();
+					}
 				}
 			}
-		}
 
-		for (const auto& tile : m_tiles)
-		{
-			if (Collision::onCollision(bullet, tile))
+			for (const auto& tile : m_tiles)
 			{
-				bullet->clean();
+				if (Collision::onCollision(bullet, tile))
+				{
+					bullet->clean();
+				}
 			}
 		}
 	}
@@ -172,6 +175,14 @@ void Game::render()
 	SDL_RenderClear(m_pRenderer);
 
 	TheTextureManager::Instance()->drawBackground("Background", m_pRenderer);
+	/*for (int i = 0; i < vectorsMap.size(); i++)
+	{
+		for (int k = 0; k < vectorsMap[i].size(); k++)
+		{
+			vectorsMap[i][k]->draw();
+		}
+	}*/
+	
 	for (const auto& tile : m_tiles)
 	{
 		tile->draw();
@@ -179,14 +190,6 @@ void Game::render()
 	for (const auto& go : m_gameObjects)
 	{
 		go->draw();
-	}
-	for (const auto& bullet : m_bullets)
-	{
-		bullet->draw();
-	}
-	for (const auto& fx : m_FXs)
-	{
-		fx->draw();
 	}
 	for (const auto& text : m_texts)
 	{
@@ -199,18 +202,10 @@ void Game::render()
 void Game::update()
 {
 	RefreshGameObjects();
-
+	
 	for (const auto& go : m_gameObjects)
 	{
 		go->update();
-	}
-	for (const auto& bullet : m_bullets)
-	{
-		bullet->update();
-	}
-	for (const auto& fx : m_FXs)
-	{
-		fx->update();
 	}
 
 	DetectCollision();
@@ -226,31 +221,20 @@ void Game::RefreshGameObjects()
 			RemoveGameObject(m_gameObjects, *go);
 		}
 	}
-	for (auto& bullet : m_bullets)
-	{
-		if (!bullet->GetIsActive())
-		{
-			delete bullet;
-			RemoveGameObject(m_bullets, *bullet);
-		}
-	}
-	for (auto& fx : m_FXs)
-	{
-		if (!fx->GetIsActive())
-		{
-			delete fx;
-			RemoveGameObject(m_FXs, *fx);
-		}
-	}
 }
 
 void Game::Clean_Everything()
 {
-	int size_go = m_gameObjects.size(); // for문 내부에 넣으면 계속 갱신되어버려 덜 돌아감
-	int size_bullet = m_bullets.size();
-	int size_tile = m_tiles.size();
-	int size_fx = m_FXs.size();
+	int size_tile = m_tiles.size(); // for문 내부에 넣으면 계속 갱신되어버려 덜 돌아감
+	int size_go = m_gameObjects.size();
 	int size_text = m_texts.size();
+
+	for (int i = 0; i < size_tile; i++)
+	{
+		delete m_tiles[0];
+		RemoveGameObject(m_tiles, *m_tiles[0]);
+	}
+
 	for (int i = 0; i < size_go; i++)
 	{
 		// std::erase와 std::remove로 이루어진 RemoveGameObject에 의해 삭제될 때마다 한 칸씩 당겨지므로
@@ -265,21 +249,6 @@ void Game::Clean_Everything()
 	delete playerObject;
 	RemoveGameObject(m_gameObjects, *playerObject);
 
-	for (int i = 0; i < size_bullet; i++)
-	{
-		delete m_bullets[0];
-		RemoveGameObject(m_bullets, *m_bullets[0]);
-	}
-	for (int i = 0; i < size_tile; i++)
-	{
-		delete m_tiles[0];
-		RemoveGameObject(m_tiles, *m_tiles[0]);
-	}
-	for (int i = 0; i < size_fx; i++)
-	{
-		delete m_FXs[0];
-		RemoveGameObject(m_FXs, *m_FXs[0]);
-	}
 	for (int i = 0; i < size_text; i++)
 	{
 		delete m_texts[0];
