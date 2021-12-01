@@ -8,6 +8,7 @@ class Collision
 public:
 	static bool onCollision(GameObject* a, GameObject* b)
 	{
+		if (a == nullptr || b == nullptr) return false;
 		float aLeft = a->GetPos().getX();
 		float aTop = a->GetPos().getY();
 

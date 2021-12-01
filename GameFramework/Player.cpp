@@ -23,6 +23,15 @@ void Player::draw()
 
 void Player::update()
 {
+	if (m_currentState == PlayerState::DEAD)
+	{
+		if (KeyDown(SDL_SCANCODE_R))
+		{
+			TheGame::Instance()->RestartGame();
+			return;
+		}
+	}
+
 	handleInput();
 	UpdateInState();
 
@@ -39,11 +48,6 @@ void Player::update()
 
 		m_acceleration.setY(0);
 		m_velocity.setY(0);
-	}
-
-	if (KeyDown(SDL_SCANCODE_R))
-	{
-		TheGame::Instance()->RestartGame();
 	}
 }
 
@@ -236,11 +240,6 @@ void Player::UpdateInState()
 	case PlayerState::DEAD:
 		m_currentRow = 1;
 		m_currentFrame = 1;
-
-		if (KeyDown(SDL_SCANCODE_R))
-		{
-			TheGame::Instance()->RestartGame();
-		}
 		break;
 	case PlayerState::DAMAGED:
 		m_currentRow = 4;

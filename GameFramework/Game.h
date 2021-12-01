@@ -8,7 +8,7 @@
 
 #include "Text.h"
 #include <vector>
-#include <map>
+#include <list>
 
 using namespace std;
 
@@ -64,10 +64,7 @@ private:
 
 	vector<GameObject*> m_tiles;
 	vector<GameObject*> m_gameObjects;
-	map<int, vector<GameObject*>> vectorsMap
-	{
-		{0, move(m_tiles)}, {1, move(m_gameObjects)}
-	};
+	//list<vector<GameObject*>> vectorsList;
 
 	vector<Text*> m_texts;
 	GameObject* playerObject;

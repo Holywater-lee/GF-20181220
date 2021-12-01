@@ -52,6 +52,9 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 		return false;
 	}
 
+	//vectorsList.emplace_back(move(m_tiles));
+	//vectorsList.emplace_back(move(m_gameObjects));
+
 	if (!TheLoadFiles::Instance()->Load())
 	{
 		cout << "파일 불러오기 실패" << endl;
@@ -175,22 +178,37 @@ void Game::render()
 	SDL_RenderClear(m_pRenderer);
 
 	TheTextureManager::Instance()->drawBackground("Background", m_pRenderer);
-	/*for (int i = 0; i < vectorsMap.size(); i++)
+	
+	for (int i = 0; i < 2; i++)
 	{
-		for (int k = 0; k < vectorsMap[i].size(); k++)
+		vector<GameObject*> tempVector;
+		switch (i)
 		{
-			vectorsMap[i][k]->draw();
+		case 0:
+			tempVector = m_tiles;
+			break;
+		case 1:
+			tempVector = m_gameObjects;
+			break;
+		default:
+			break;
+		}
+
+		for (const auto& go : tempVector)
+		{
+			go->draw();
+		}
+	}
+	/*
+	list<vector<GameObject*>>::iterator listIter;
+	vector<GameObject*>::iterator vecIter;
+	for (listIter = vectorsList.begin(); listIter != vectorsList.end(); listIter++)
+	{
+		for (vecIter = listIter->begin(); vecIter != listIter->end(); vecIter++)
+		{
+			(*vecIter)->draw();
 		}
 	}*/
-	
-	for (const auto& tile : m_tiles)
-	{
-		tile->draw();
-	}
-	for (const auto& go : m_gameObjects)
-	{
-		go->draw();
-	}
 	for (const auto& text : m_texts)
 	{
 		text->Draw();
