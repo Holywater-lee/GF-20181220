@@ -13,7 +13,7 @@ void Tile::draw()
 
 void Tile::update()
 {
-	SDLGameObject::update();
+
 }
 
 void Tile::clean()

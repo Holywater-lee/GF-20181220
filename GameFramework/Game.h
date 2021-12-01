@@ -22,7 +22,7 @@ public:
 	~Game() {}
 
 	bool init(const char* title, int xpos, int ypos, int height, int width, int flags);
-	bool Init_Everything();
+	
 	void RestartGame();
 	void quit() { m_bRunning = false; }
 	void render();
@@ -54,6 +54,8 @@ private:
 
 	bool InitTextures();
 	bool InitTexts();
+	bool Init_Everything();
+	void Clean_Everything();
 
 	void RefreshGameObjects();
 	void RemoveGameObject(vector<GameObject*>& list, GameObject& remove);

@@ -52,6 +52,12 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 		return false;
 	}
 
+	if (!TheLoadFiles::Instance()->Load())
+	{
+		cout << "파일 불러오기 실패" << endl;
+		return false;
+	}
+
 	if (!Init_Everything()) return false;
 
 	cout << "초기화 성공!" << endl;
@@ -61,11 +67,6 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 
 bool Game::Init_Everything()
 {
-	if (!TheLoadFiles::Instance()->Load())
-	{
-		cout << "파일 불러오기 실패" << endl;
-		return false;
-	}
 	if (!InitTextures()) return false;
 	if (!InitTexts()) return false;
 
@@ -78,37 +79,9 @@ bool Game::Init_Everything()
 
 void Game::RestartGame()
 {
-	for (auto& go : m_gameObjects)
-	{
-		go->clean();
-	}
-	for (auto& bullet : m_bullets)
-	{
-		bullet->clean();
-	}
-	for (auto& tile : m_tiles)
-	{
-		tile->clean();
-	}
-	for (auto& fx : m_FXs)
-	{
-		fx->clean();
-	}
-	for (auto& text : m_texts)
-	{
-		text->clean();
-	}
-	RefreshGameObjects();
-
-	m_gameObjects.clear();
-	m_bullets.clear();
-	m_tiles.clear();
-	m_FXs.clear();
-	m_texts.clear();
+	Clean_Everything();
 
 	TheTextManager::Instance()->clean();
-	TheScore::Instance()->SetScore(0);
-	RefreshScore();
 
 	for (size_t i = 0; i < TheLoadFiles::Instance()->GetTexMapsSize(); i++)
 	{
@@ -116,6 +89,8 @@ void Game::RestartGame()
 	}
 
 	Init_Everything();
+	TheScore::Instance()->SetScore(0);
+	RefreshScore();
 }
 
 bool Game::InitTextures()
@@ -245,53 +220,73 @@ void Game::RefreshGameObjects()
 {
 	for (auto& go : m_gameObjects)
 	{
-		if (!dynamic_cast<SDLGameObject*>(go)->GetIsActive())
+		if (!go->GetIsActive())
 		{
-			if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Player")
-			{
-				playerObject = nullptr;
-			}
-			go = nullptr;
 			delete go;
 			RemoveGameObject(m_gameObjects, *go);
 		}
 	}
 	for (auto& bullet : m_bullets)
 	{
-		if (!dynamic_cast<SDLGameObject*>(bullet)->GetIsActive())
+		if (!bullet->GetIsActive())
 		{
-			bullet = nullptr;
 			delete bullet;
 			RemoveGameObject(m_bullets, *bullet);
 		}
 	}
-	for (auto& tile : m_tiles)
-	{
-		if (!dynamic_cast<SDLGameObject*>(tile)->GetIsActive())
-		{
-			tile = nullptr;
-			delete tile;
-			RemoveGameObject(m_tiles, *tile);
-		}
-	}
 	for (auto& fx : m_FXs)
 	{
-		if (!dynamic_cast<SDLGameObject*>(fx)->GetIsActive())
+		if (!fx->GetIsActive())
 		{
-			fx = nullptr;
 			delete fx;
 			RemoveGameObject(m_FXs, *fx);
 		}
 	}
-	for (auto& text : m_texts)
+}
+
+void Game::Clean_Everything()
+{
+	int size_go = m_gameObjects.size(); // for문 내부에 넣으면 계속 갱신되어버려 덜 돌아감
+	int size_bullet = m_bullets.size();
+	int size_tile = m_tiles.size();
+	int size_fx = m_FXs.size();
+	int size_text = m_texts.size();
+	for (int i = 0; i < size_go; i++)
 	{
-		if (!text->GetIsActive())
+		// std::erase와 std::remove로 이루어진 RemoveGameObject에 의해 삭제될 때마다 한 칸씩 당겨지므로
+		// 항상 0번째를 검사
+		if (dynamic_cast<SDLGameObject*>(m_gameObjects[0])->GetTag() == "Player")
 		{
-			text = nullptr;
-			delete text;
-			m_texts.erase(std::remove(std::begin(m_texts), std::end(m_texts), text), std::end(m_texts));
+			continue;
 		}
+		delete m_gameObjects[0];
+		RemoveGameObject(m_gameObjects, *m_gameObjects[0]);
 	}
+	delete playerObject;
+	RemoveGameObject(m_gameObjects, *playerObject);
+
+	for (int i = 0; i < size_bullet; i++)
+	{
+		delete m_bullets[0];
+		RemoveGameObject(m_bullets, *m_bullets[0]);
+	}
+	for (int i = 0; i < size_tile; i++)
+	{
+		delete m_tiles[0];
+		RemoveGameObject(m_tiles, *m_tiles[0]);
+	}
+	for (int i = 0; i < size_fx; i++)
+	{
+		delete m_FXs[0];
+		RemoveGameObject(m_FXs, *m_FXs[0]);
+	}
+	for (int i = 0; i < size_text; i++)
+	{
+		delete m_texts[0];
+		m_texts.erase(std::remove(std::begin(m_texts), std::end(m_texts), m_texts[0]), std::end(m_texts));
+	}
+	playerObject = nullptr;
+	scoreText = nullptr;
 }
 
 int Game::GetRandomInt(int min, int max)

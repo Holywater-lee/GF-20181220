@@ -13,9 +13,9 @@ public:
 	virtual void clean();
 	virtual Vector2D GetPos() { return m_position; }
 	virtual void OnHit();
+	virtual bool GetIsActive() { return isActive; }
 	virtual ~SDLGameObject() {}
 
-	bool GetIsActive() { return isActive; }
 	std::string GetTag() { return tag; }
 
 	virtual int GetWidth() { return m_width; }

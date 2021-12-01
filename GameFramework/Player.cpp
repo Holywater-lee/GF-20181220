@@ -40,6 +40,11 @@ void Player::update()
 		m_acceleration.setY(0);
 		m_velocity.setY(0);
 	}
+
+	if (KeyDown(SDL_SCANCODE_R))
+	{
+		TheGame::Instance()->RestartGame();
+	}
 }
 
 void Player::OnHit()

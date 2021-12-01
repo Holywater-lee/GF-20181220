@@ -10,6 +10,7 @@ public:
 	virtual void clean() = 0;
 	virtual Vector2D GetPos() = 0;
 	virtual void OnHit() = 0;
+	virtual bool GetIsActive() = 0;
 	virtual ~GameObject() {}
 
 	virtual int GetWidth() = 0;
