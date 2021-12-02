@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "FXAnimation.h"
 #include "Audio.h"
+#include "UIManager.h"
 
 #include "WIDTHHEIGHT.h"
 
@@ -60,6 +61,7 @@ void Player::OnHit()
 
 		if (life <= 0)
 		{
+			life = 0;
 			ChangeState(PlayerState::DEAD);
 			std::cout << "사망!" << std::endl;
 		}
@@ -68,6 +70,8 @@ void Player::OnHit()
 			ChangeState(PlayerState::DAMAGED);
 			std::cout << "타격 당함! 남은 체력: " << life << std::endl;
 		}
+
+		UIManager::Instance()->RefreshHPBar(life);
 	}
 }
 

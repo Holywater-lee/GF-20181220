@@ -6,9 +6,10 @@
 #include "TextManager.h"
 #include "ScoreManager.h"
 #include "TextureManager.h"
-#include "LoadFiles.h"
 #include "MapManager.h"
 #include "Audio.h"
+#include "UIManager.h"
+#include "LoadFiles.h"
 
 #include "Player.h"
 
@@ -17,7 +18,7 @@
 
 #include "WIDTHHEIGHT.h"
 
-Game* Game::s_pInstance = 0;
+Game* Game::s_pInstance = nullptr;
 
 const SDL_Color color_white = { 255,255,255 };
 const SDL_Color color_black = { 0,0,0 };
@@ -56,8 +57,6 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	//vectorsList.emplace_back(move(m_tiles));
 	//vectorsList.emplace_back(move(m_gameObjects));
 
-	if (!TheAudio::Instance()->Init()) return false;
-
 	if (!TheLoadFiles::Instance()->Load())
 	{
 		cout << "파일 불러오기 실패" << endl;
@@ -65,6 +64,7 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	}
 
 	if (!InitAudios()) return false;
+	TheAudio::Instance()->SetVolume(25);
 
 	if (!Init_Everything()) return false;
 
@@ -76,6 +76,7 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 bool Game::Init_Everything()
 {
 	TheAudio::Instance()->PlayBGM();
+	UIManager::Instance()->Init();
 
 	if (!InitTextures()) return false;
 	if (!InitTexts()) return false;
@@ -134,6 +135,7 @@ bool Game::InitTexts()
 
 bool Game::InitAudios()
 {
+	if (!TheAudio::Instance()->Init()) return false;
 	TheAudio::Instance()->LoadBGM(TheLoadFiles::Instance()->GetLoadedBGM().c_str());
 
 	for (size_t i = 0; i < TheLoadFiles::Instance()->GetSfxMapsSize(); i++)
@@ -233,6 +235,7 @@ void Game::render()
 	{
 		text->Draw();
 	}
+	UIManager::Instance()->Draw();
 
 	SDL_RenderPresent(m_pRenderer);
 }
@@ -245,6 +248,7 @@ void Game::update()
 	{
 		go->update();
 	}
+	UIManager::Instance()->Update();
 
 	DetectCollision();
 }

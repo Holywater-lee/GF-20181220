@@ -5,3 +5,5 @@ Assets/Sprites/FX_Gun_Sheet.png
 Assets/back.png
 Assets/Sprites/Bullet.png
 Assets/Sprites/Enemy_Sprite_Sheet.png
+Assets/Sprites/HPBar.png
+Assets/Sprites/HPBar_Dark.png

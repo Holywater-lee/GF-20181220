@@ -5,3 +5,5 @@ FXGun
 Background
 Bullet
 Enemy
+HP
+HPDark

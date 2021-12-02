@@ -8,8 +8,8 @@ class Audio
 public:
 	static Audio* Instance()
 	{
-		if (s_pInstance == nullptr) s_pInstance = new Audio();
-		return s_pInstance;
+		if (s_p_Instance == nullptr) s_p_Instance = new Audio();
+		return s_p_Instance;
 	}
 	~Audio() {}
 
@@ -20,11 +20,15 @@ public:
 	void StopBGM();
 	void PlaySFX(std::string nameID);
 	void RemoveSFX(std::string nameID);
+	void SetVolume(int volume = 100);
 	void Clean();
 
 private:
 	Audio() {}
-	static Audio* s_pInstance;
+	static Audio* s_p_Instance;
+
+	float maxVolume = 100;
+
 	Mix_Music* bgm;
 	std::map<std::string, Mix_Chunk*> sfxMap;
 };

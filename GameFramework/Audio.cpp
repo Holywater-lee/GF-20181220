@@ -1,7 +1,9 @@
 #include "Audio.h"
-#include <iostream>
 
-Audio* Audio::s_pInstance = nullptr;
+#include <iostream>
+#include "LoadFiles.h"
+
+Audio* Audio::s_p_Instance = nullptr;
 
 bool Audio::Init()
 {
@@ -12,6 +14,16 @@ bool Audio::Init()
 	}
 
 	return true;
+}
+
+void Audio::SetVolume(int volume)
+{
+	Mix_VolumeMusic(static_cast<int>((MIX_MAX_VOLUME / maxVolume) * volume));
+
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetSfxMapsSize(); i++)
+	{
+		Mix_VolumeChunk(sfxMap[TheLoadFiles::Instance()->GetLoadedSfxMaps(i)], static_cast<int>((MIX_MAX_VOLUME / maxVolume) * volume));
+	}
 }
 
 bool Audio::LoadBGM(const char* pFileName)
@@ -68,5 +80,6 @@ void Audio::Clean()
 	Mix_FreeMusic(bgm);
 	bgm = nullptr;
 
+	Mix_CloseAudio();
 	Mix_Quit();
 }

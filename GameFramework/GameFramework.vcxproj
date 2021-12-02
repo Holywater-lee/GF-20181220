@@ -26,6 +26,7 @@
     <ClCompile Include="FXAnimation.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="LoadFiles.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -36,6 +37,8 @@
     <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="UIManager.cpp" />
+    <ClCompile Include="UIObject.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +50,7 @@
     <ClInclude Include="FXAnimation.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HPBar.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="LoaderParams.h" />
     <ClInclude Include="LoadFiles.h" />
@@ -59,6 +63,8 @@
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="UIManager.h" />
+    <ClInclude Include="UIObject.h" />
     <ClInclude Include="Vector2D.h" />
     <ClInclude Include="WIDTHHEIGHT.h" />
   </ItemGroup>

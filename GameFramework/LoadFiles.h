@@ -1,9 +1,9 @@
 #pragma once
-#include <fstream>
 #include <vector>
 #include <string>
 #include "WIDTHHEIGHT.h"
 #include "MapManager.h"
+#include <fstream>
 
 using namespace std;
 
@@ -44,7 +44,7 @@ public:
 		}
 		texMap.close();
 
-		// 브금 주소 (1개만)
+		// 브금 주소 (1개만, 추후 수정 가능성 있음)
 		ifstream bgmFile("Assets/Files/BgmInit.txt");
 		if (!bgmFile) return false;
 		while (bgmFile.peek() != EOF)
@@ -119,5 +119,3 @@ private:
 	vector<string> loadedSfxMaps;
 };
 typedef LoadFiles TheLoadFiles;
-
-LoadFiles* LoadFiles::s_pInstance = nullptr;
