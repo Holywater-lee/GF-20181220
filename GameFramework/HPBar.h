@@ -1,6 +1,5 @@
 #pragma once
 #include "UIObject.h"
-#include <math.h>
 
 class HPBar : public UIObject
 {

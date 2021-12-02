@@ -14,7 +14,6 @@
 #include "Player.h"
 
 #include <algorithm>
-#include <random>
 
 #include "WIDTHHEIGHT.h"
 
@@ -64,7 +63,7 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	}
 
 	if (!InitAudios()) return false;
-	TheAudio::Instance()->SetVolume(25);
+	TheAudio::Instance()->SetVolume(15);
 
 	if (!Init_Everything()) return false;
 
@@ -160,10 +159,12 @@ void Game::RefreshScore()
 
 Vector2D Game::GetPlayerPos() const
 {
+	if (dynamic_cast<Player*>(playerObject)->GetIsDead())
+		return Vector2D(0, 0);
+
 	if (playerObject != nullptr)
 		return playerObject->GetPos();
-	else
-		return Vector2D(0, 0);
+	else return Vector2D(0, 0);
 }
 
 void Game::DetectCollision()
@@ -307,14 +308,6 @@ void Game::Clean_Everything()
 	}
 }
 
-int Game::GetRandomInt(int min, int max)
-{
-	std::random_device rd;
-	std::mt19937 mersenne(rd()); // 메르센 트위스터라는 방법을 사용해 rd로부터 시드를 얻는다
-	std::uniform_int_distribution<> value(min, max);
-	return value(mersenne);
-}
-
 void Game::RemoveGameObject(vector<GameObject*>& list, GameObject& remove)
 {
 	list.erase(std::remove(std::begin(list), std::end(list), &remove), std::end(list));
@@ -342,6 +335,7 @@ void Game::clean()
 	{
 		TheAudio::Instance()->RemoveSFX(TheLoadFiles::Instance()->GetLoadedSfxMaps(i));
 	}
+	TheUI::Instance()->Clean();
 
 	if (m_pWindow != 0) SDL_DestroyWindow(m_pWindow);
 	if (m_pRenderer != 0) SDL_DestroyRenderer(m_pRenderer);

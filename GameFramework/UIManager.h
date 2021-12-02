@@ -1,5 +1,6 @@
 #pragma once
 #include "HPBar.h"
+#include "Icon.h"
 
 class UIManager
 {
@@ -14,7 +15,10 @@ public:
 	void Init();
 	void Update();
 	void Draw();
+	void Clean();
 	void RefreshHPBar(int amount);
+	void SetWeaponIcon(std::string nameID);
+	void ShakeIcon();
 
 private:
 	UIManager();
@@ -23,6 +27,8 @@ private:
 
 	HPBar* hpBar;
 	HPBar* fakeHpBar;
+	Icon* weaponIcon;
+
 	int hpBarMaxAmount = 5;
 	int targetHpAmount = 0;
 

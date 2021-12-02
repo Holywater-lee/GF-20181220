@@ -44,8 +44,6 @@ public:
 
 	Vector2D GetPlayerPos() const;
 
-	int GetRandomInt(int min, int max);
-
 private:
 	Game() {}
 	static Game* s_pInstance;

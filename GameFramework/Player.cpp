@@ -130,20 +130,29 @@ void Player::Attack()
 
 void Player::ChangeWeapon()
 {
-	if (KeyDown(SDL_SCANCODE_DOWN) && SDL_GetTicks() >= nextWeaponChangeDelay)
+	if (KeyDown(SDL_SCANCODE_DOWN))
 	{
-		cout << "무기 변경 시도 (테스트)" << endl;
-		if (isRanged)
+		if (SDL_GetTicks() >= nextWeaponChangeDelay)
 		{
-			SetAttackStrategy(new MeleeAttackStrategy());
+			cout << "무기 변경 시도 (테스트)" << endl;
+			if (isRanged)
+			{
+				SetAttackStrategy(new MeleeAttackStrategy());
+				UIManager::Instance()->SetWeaponIcon("IconSword");
+			}
+			else
+			{
+				SetAttackStrategy(new RangedAttackStrategy());
+				UIManager::Instance()->SetWeaponIcon("IconGun");
+			}
+
+			nextWeaponChangeDelay = SDL_GetTicks() + weaponChangeDelay;
+			isRanged = !isRanged;
 		}
 		else
 		{
-			SetAttackStrategy(new RangedAttackStrategy());
+			UIManager::Instance()->ShakeIcon();
 		}
-		
-		nextWeaponChangeDelay = SDL_GetTicks() + weaponChangeDelay;
-		isRanged = !isRanged;
 	}
 }
 
@@ -244,8 +253,41 @@ void Player::UpdateInState()
 		}
 		break;
 	case PlayerState::DEAD:
-		m_currentRow = 1;
-		m_currentFrame = 1;
+		switch ((SDL_GetTicks() - deadTime) / 100)
+		{
+		case 0:
+			m_currentRow = 5;
+			m_currentFrame = 0;
+			break;
+		case 1:
+		case 2:
+			m_currentFrame = 1;
+			break;
+		case 3:
+		case 4:
+		case 5:
+			m_currentFrame = 2;
+			break;
+		case 6:
+		case 7:
+			m_currentFrame = 3;
+			break;
+		case 8:
+			m_currentRow = 6;
+			m_currentFrame = 0;
+			break;
+		case 9:
+		case 10:
+			m_currentFrame = 1;
+			break;
+		case 11:
+		case 12:
+			m_currentFrame = 2;
+			break;
+		default:
+			m_currentFrame = 3;
+			break;
+		}
 		break;
 	case PlayerState::DAMAGED:
 		m_currentRow = 4;
@@ -288,6 +330,14 @@ void Player::CheckCollisionWithMove()
 			}
 			m_velocity.setX(0);
 		}
+	}
+	if (m_position.getX() <= 0)
+	{
+		m_position.setX(0);
+	}
+	else if (m_position.getX() + m_width >= LEVEL_WIDTH)
+	{
+		m_position.setX(LEVEL_WIDTH - m_width);
 	}
 
 	m_velocity.setY(m_velocity.getY() + m_acceleration.getY());
@@ -367,7 +417,6 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::MOVE:
 		break;
 	case PlayerState::JUMP:
-		//TheAudio::Instance()->PlaySFX("Jump");
 		break;
 	case PlayerState::ATTACK:
 		attackStartTime = SDL_GetTicks();
@@ -376,7 +425,7 @@ void Player::ChangeState(PlayerState state)
 			TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX() + m_width / 2 - 16, m_position.getY() - 30, 32, 64, "FXSword"), SDL_GetTicks(), 350, 0));
 		break;
 	case PlayerState::DEAD:
-		m_angle = -90;
+		deadTime = SDL_GetTicks();
 		break;
 	case PlayerState::DAMAGED:
 		Knockback();

@@ -12,6 +12,8 @@ public:
 	virtual void clean();
 	virtual void OnHit();
 
+	bool GetIsDead() { return (m_currentState == PlayerState::DEAD); }
+
 private:
 	enum class PlayerState { IDLE = 0, MOVE, JUMP, ATTACK, DEAD, DAMAGED };
 	void handleInput();
@@ -50,6 +52,7 @@ private:
 	int attackStartTime = 0;
 	int damagedTime = 0;
 	int knockbackTime = 200;
+	int deadTime = 0;
 
 	int weaponChangeDelay = 3000;
 	int nextWeaponChangeDelay = 0;

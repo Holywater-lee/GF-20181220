@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "ScoreManager.h"
+#include "GetRandom.h"
 #include "Game.h"
 #include "Collision.h"
 #include "MapManager.h"
@@ -42,6 +43,7 @@ void Enemy::update()
 	if (currentState != EnemyState::DEAD)
 	{
 		CheckPlayerInRange();
+		CheckPlayerInAttackRange();
 		CheckMoveDirection();
 	}
 
@@ -201,7 +203,6 @@ void Enemy::CheckPlayerInRange()
 	if ((SDL_GetTicks() / 100) % 5 == 0)
 	{
 		playerPosition = TheGame::Instance()->GetPlayerPos();
-		CheckPlayerInAttackRange();
 
 		// 거리의 제곱 계산
 		if (Vector2D::LengthSquare(playerPosition, m_position) <= chasingDetectRange * chasingDetectRange)
@@ -239,8 +240,8 @@ void Enemy::CheckMoveDirection()
 		if (!moveDirRefreshedFlag)
 		{
 			moveDirRefreshedFlag = true;
-			randomWaitTime = TheGame::Instance()->GetRandomInt(5, 7);
-			randomDirection = TheGame::Instance()->GetRandomInt(0, 2);
+			randomWaitTime = GetRandom::GetRandomInt(5, 7);
+			randomDirection = GetRandom::GetRandomInt(0, 2);
 		}
 
 		switch (currentPatrolState)

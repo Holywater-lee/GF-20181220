@@ -51,12 +51,14 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HPBar.h" />
+    <ClInclude Include="Icon.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="LoaderParams.h" />
     <ClInclude Include="LoadFiles.h" />
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackStrategy.h" />
+    <ClInclude Include="GetRandom.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SDLGameObject.h" />
     <ClInclude Include="Text.h" />
