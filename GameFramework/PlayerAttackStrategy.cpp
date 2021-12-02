@@ -4,10 +4,12 @@
 #include "Collision.h"
 #include "FXAnimation.h"
 #include "Bullet.h"
+#include "Audio.h"
 
 void MeleeAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SDL_RendererFlip flip)
 {
 	TheCam::Instance()->AddForce(flip == SDL_FLIP_NONE ? 2 : -2, 20);
+	TheAudio::Instance()->PlaySFX("SwordSFX");
 	atkArea->x = obj->GetPos().getX() + obj->GetWidth() / 2 + (flip == SDL_FLIP_NONE ? 10 : -10 - 32);
 	atkArea->y = obj->GetPos().getY() + 2;
 	for (const auto& enemy : TheGame::Instance()->GetGameObjects())
@@ -26,6 +28,7 @@ void MeleeAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SD
 void RangedAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SDL_RendererFlip flip)
 {
 	TheCam::Instance()->AddForce(flip == SDL_FLIP_NONE ? -2 : 2, -5);
+	TheAudio::Instance()->PlaySFX("GunSFX");
 	atkArea->x = obj->GetPos().getX() + obj->GetWidth() / 2 + (flip == SDL_FLIP_NONE ? 10 : -10 - 32);
 	atkArea->y = obj->GetPos().getY() - 12;
 

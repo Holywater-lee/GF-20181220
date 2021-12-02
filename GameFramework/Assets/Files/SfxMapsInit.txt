@@ -1,0 +1,4 @@
+Hit
+SwordSFX
+GunSFX
+Jump

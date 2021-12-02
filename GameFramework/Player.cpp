@@ -4,6 +4,7 @@
 #include "Collision.h"
 #include "Camera.h"
 #include "FXAnimation.h"
+#include "Audio.h"
 
 #include "WIDTHHEIGHT.h"
 
@@ -107,6 +108,7 @@ void Player::Jump()
 
 			m_velocity.setY(-JUMPHEIGHT);
 			currentJumpCount++;
+			TheAudio::Instance()->PlaySFX("Jump");
 		}
 
 		if (m_currentState != PlayerState::JUMP && !isGrounded)
@@ -323,7 +325,8 @@ void Player::CheckCollisionWithMove()
 	if (count == 0)
 	{
 		isGrounded = false;
-		ChangeState(PlayerState::JUMP);
+		if (m_currentState != PlayerState::JUMP)
+			ChangeState(PlayerState::JUMP);
 		if (currentJumpCount == 0) currentJumpCount = 1;
 	}
 }
@@ -360,6 +363,7 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::MOVE:
 		break;
 	case PlayerState::JUMP:
+		//TheAudio::Instance()->PlaySFX("Jump");
 		break;
 	case PlayerState::ATTACK:
 		attackStartTime = SDL_GetTicks();

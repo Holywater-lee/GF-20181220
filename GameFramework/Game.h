@@ -55,6 +55,7 @@ private:
 
 	bool InitTextures();
 	bool InitTexts();
+	bool InitAudios();
 	bool Init_Everything();
 	void Clean_Everything();
 

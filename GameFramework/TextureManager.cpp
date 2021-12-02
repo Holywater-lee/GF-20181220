@@ -59,4 +59,5 @@ void TextureManager::drawBackground(std::string id, SDL_Renderer* pRenderer)
 void TextureManager::DestroyTex(std::string id)
 {
 	SDL_DestroyTexture(m_textureMap[id]);
+	m_textureMap[id] = nullptr;
 }

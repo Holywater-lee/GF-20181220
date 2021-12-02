@@ -22,6 +22,7 @@ public:
 		string temp_string;
 		int temp_int;
 
+		// 텍스쳐 주소
 		ifstream texture("Assets/Files/TexturesInit.txt");
 		if (!texture) return false;
 		while (texture.peek() != EOF)
@@ -32,6 +33,7 @@ public:
 		}
 		texture.close();
 
+		// 텍스쳐 맵
 		ifstream texMap("Assets/Files/TextureMapsInit.txt");
 		if (!texMap) return false;
 		while (texMap.peek() != EOF)
@@ -42,6 +44,40 @@ public:
 		}
 		texMap.close();
 
+		// 브금 주소 (1개만)
+		ifstream bgmFile("Assets/Files/BgmInit.txt");
+		if (!bgmFile) return false;
+		while (bgmFile.peek() != EOF)
+		{
+			getline(bgmFile, temp_string);
+			loadedBGM = temp_string;
+			cout << "BGM 주소 불러오기: " << loadedBGM << endl;
+		}
+		bgmFile.close();
+
+		// 사운드 주소
+		ifstream sfxFile("Assets/Files/SfxInit.txt");
+		if (!sfxFile) return false;
+		while (sfxFile.peek() != EOF)
+		{
+			getline(sfxFile, temp_string);
+			loadedSfxFiles.emplace_back(temp_string);
+			cout << "사운드 주소 불러오기: " << loadedSfxFiles.back() << endl;
+		}
+		sfxFile.close();
+
+		// 사운드 맵
+		ifstream sfxMap("Assets/Files/SfxMapsInit.txt");
+		if (!sfxMap) return false;
+		while (sfxMap.peek() != EOF)
+		{
+			getline(sfxMap, temp_string);
+			loadedSfxMaps.emplace_back(temp_string);
+			cout << "사운드 맵 불러오기: " << loadedSfxMaps.back() << endl;
+		}
+		sfxMap.close();
+
+		// 타일맵
 		ifstream tileMap("Assets/Files/MapInit.txt");
 		if (!tileMap) return false;
 
@@ -64,15 +100,23 @@ public:
 
 	string GetLoadedTextures(int index) { return loadedTextures[index]; }
 	string GetLoadedTexMaps(int index) { return loadedTexMaps[index]; }
+	string GetLoadedSfxFiles(int index) { return loadedSfxFiles[index]; }
+	string GetLoadedSfxMaps(int index) { return loadedSfxMaps[index]; }
+	string GetLoadedBGM() { return loadedBGM; }
 
 	size_t GetTexMapsSize() { return loadedTexMaps.size(); }
+	size_t GetSfxMapsSize() { return loadedSfxMaps.size(); }
 
 private:
 	LoadFiles() {}
 	static LoadFiles* s_pInstance;
 
+	string loadedBGM;
+
 	vector<string> loadedTextures;
 	vector<string> loadedTexMaps;
+	vector<string> loadedSfxFiles;
+	vector<string> loadedSfxMaps;
 };
 typedef LoadFiles TheLoadFiles;
 

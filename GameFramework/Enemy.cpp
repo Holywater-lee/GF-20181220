@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Collision.h"
 #include "MapManager.h"
+#include "Audio.h"
 
 #include "WIDTHHEIGHT.h"
 
@@ -288,7 +289,8 @@ void Enemy::CheckMoveDirection()
 void Enemy::Attack()
 {
 	attackFlag = true;
-
+	
+	TheAudio::Instance()->PlaySFX("Hit");
 	attackArea.x = m_position.getX() + m_width / 2 + (flip == SDL_FLIP_NONE ? 16 : -16 - attackArea.w);
 	attackArea.y = m_position.getY();
 	for (const auto& player : TheGame::Instance()->GetGameObjects())

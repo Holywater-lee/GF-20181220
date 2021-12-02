@@ -8,6 +8,7 @@
 #include "TextureManager.h"
 #include "LoadFiles.h"
 #include "MapManager.h"
+#include "Audio.h"
 
 #include "Player.h"
 
@@ -55,11 +56,15 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	//vectorsList.emplace_back(move(m_tiles));
 	//vectorsList.emplace_back(move(m_gameObjects));
 
+	if (!TheAudio::Instance()->Init()) return false;
+
 	if (!TheLoadFiles::Instance()->Load())
 	{
 		cout << "파일 불러오기 실패" << endl;
 		return false;
 	}
+
+	if (!InitAudios()) return false;
 
 	if (!Init_Everything()) return false;
 
@@ -70,6 +75,8 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 
 bool Game::Init_Everything()
 {
+	TheAudio::Instance()->PlayBGM();
+
 	if (!InitTextures()) return false;
 	if (!InitTexts()) return false;
 
@@ -83,13 +90,7 @@ bool Game::Init_Everything()
 void Game::RestartGame()
 {
 	Clean_Everything();
-
-	TheTextManager::Instance()->clean();
-
-	for (size_t i = 0; i < TheLoadFiles::Instance()->GetTexMapsSize(); i++)
-	{
-		TheTextureManager::Instance()->DestroyTex(TheLoadFiles::Instance()->GetLoadedTexMaps(i));
-	}
+	TheAudio::Instance()->StopBGM();
 
 	Init_Everything();
 	TheScore::Instance()->SetScore(0);
@@ -105,7 +106,7 @@ bool Game::InitTextures()
 
 		if (!TheTextureManager::Instance()->load(tempTexStr, tempTexMapStr, m_pRenderer))
 		{
-			cout << "불러오기 실패: " << TheLoadFiles::Instance()->GetLoadedTexMaps(i) << endl;
+			cout << "불러오기 실패: " << tempTexMapStr << endl;
 			return false;
 		}
 	}
@@ -127,6 +128,25 @@ bool Game::InitTexts()
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, SCREEN_WIDTH - 128, 0, 64, 32, L"점수: ");
 	scoreText = TheTextManager::Instance()->LoadIntToText(color_white, color_black, SCREEN_WIDTH - 64, 0, 64, 32, TheScore::Instance()->GetScore());
 	CreateText(scoreText);
+
+	return true;
+}
+
+bool Game::InitAudios()
+{
+	TheAudio::Instance()->LoadBGM(TheLoadFiles::Instance()->GetLoadedBGM().c_str());
+
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetSfxMapsSize(); i++)
+	{
+		string tempSfxStr = TheLoadFiles::Instance()->GetLoadedSfxFiles(i);
+		string tempSfxMapStr = TheLoadFiles::Instance()->GetLoadedSfxMaps(i);
+
+		if (!TheAudio::Instance()->LoadSFX(tempSfxStr.c_str(), tempSfxMapStr))
+		{
+			cout << "불러오기 실패: " << tempSfxMapStr << endl;
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -274,6 +294,13 @@ void Game::Clean_Everything()
 	}
 	playerObject = nullptr;
 	scoreText = nullptr;
+
+	TheTextManager::Instance()->clean();
+
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetTexMapsSize(); i++)
+	{
+		TheTextureManager::Instance()->DestroyTex(TheLoadFiles::Instance()->GetLoadedTexMaps(i));
+	}
 }
 
 int Game::GetRandomInt(int min, int max)
@@ -307,9 +334,14 @@ void Game::clean()
 	{
 		TheTextureManager::Instance()->DestroyTex(TheLoadFiles::Instance()->GetLoadedTexMaps(i));
 	}
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetSfxMapsSize(); i++)
+	{
+		TheAudio::Instance()->RemoveSFX(TheLoadFiles::Instance()->GetLoadedSfxMaps(i));
+	}
 
 	if (m_pWindow != 0) SDL_DestroyWindow(m_pWindow);
 	if (m_pRenderer != 0) SDL_DestroyRenderer(m_pRenderer);
+	TheAudio::Instance()->Clean();
 	TheInputHandler::Instance()->clean();
 	SDL_Quit();
 }
