@@ -67,7 +67,7 @@ private:
 
 	vector<Text*> m_texts;
 	GameObject* playerObject;
-	Text* scoreText;
+	Text* scoreText_Score;
 };
 typedef Game TheGame;
 

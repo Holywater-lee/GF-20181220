@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Camera.h"
 
-InputHandler* InputHandler::s_pInstance = 0;
+InputHandler* InputHandler::s_pInstance = nullptr;
 
 InputHandler::InputHandler()
 {
@@ -128,5 +128,6 @@ void InputHandler::onKeyUp()
 
 void InputHandler::clean()
 {
-
+	delete s_pInstance;
+	s_pInstance = nullptr;
 }

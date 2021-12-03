@@ -13,7 +13,6 @@ public:
 		return s_pInstance;
 	}
 	bool InitFont(const char* fontFile, int fontSize);
-	bool LoadText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, const char* textContents, bool isUI = true);
 	bool LoadHanguelText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, const wchar_t* textContents, bool isUI = true);
 	Text* LoadIntToText(SDL_Color fgColor, SDL_Color bgColor, int x, int y, int width, int height, int contents, bool isUI = true);
 	void RefreshIntText(Text* text, SDL_Color fgColor, SDL_Color bgColor, int contents);
@@ -21,7 +20,7 @@ public:
 
 private:
 	TextManager() {}
-	TTF_Font* m_pFont;
+	TTF_Font* m_pFont = nullptr;
 
 	static TextManager* s_pInstance;
 };

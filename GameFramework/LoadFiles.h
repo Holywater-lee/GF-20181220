@@ -107,6 +107,8 @@ public:
 	size_t GetTexMapsSize() { return loadedTexMaps.size(); }
 	size_t GetSfxMapsSize() { return loadedSfxMaps.size(); }
 
+	void Clean();
+
 private:
 	LoadFiles() {}
 	static LoadFiles* s_pInstance;

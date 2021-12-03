@@ -48,9 +48,6 @@
     <ClCompile Include="PlayerAttackStrategy.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="LoadFiles.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="UIObject.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
@@ -96,6 +93,9 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>소스 파일\UI</Filter>
     </ClCompile>
+    <ClCompile Include="LoadFiles.cpp">
+      <Filter>소스 파일\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -108,9 +108,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="LoaderParams.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadFiles.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Vector2D.h">
@@ -170,13 +167,10 @@
     <ClInclude Include="Audio.h">
       <Filter>헤더 파일\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="HPBar.h">
-      <Filter>헤더 파일\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Icon.h">
-      <Filter>헤더 파일\UI</Filter>
-    </ClInclude>
     <ClInclude Include="GetRandom.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadFiles.h">
       <Filter>헤더 파일\Manager</Filter>
     </ClInclude>
   </ItemGroup>

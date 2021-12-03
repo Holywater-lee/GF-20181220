@@ -8,6 +8,11 @@ public:
 	UIObject(const LoaderParams* pParams);
 	virtual void Draw();
 
+	void SetX(int amount) { x = amount; }
+	int GetX() { return x; }
+	void SetWidth(int amount) { width = amount; }
+	int GetWidth() { return width; }
+
 protected:
 	int x;
 	int y;

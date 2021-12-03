@@ -8,6 +8,7 @@
 
 #include "WIDTHHEIGHT.h"
 
+// 초기화
 Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams), playerPosition(0, 0)
 {
 	tag = "Enemy";
@@ -20,6 +21,7 @@ void Enemy::draw()
 	SDLGameObject::draw();
 }
 
+// 피격당하는 함수
 void Enemy::OnHit()
 {
 	if (currentState != EnemyState::DEAD)
@@ -28,6 +30,7 @@ void Enemy::OnHit()
 
 		if (life <= 0)
 		{
+			// 스코어에 10점 추가
 			TheScore::Instance()->AddScore(10);
 			ChangeState(EnemyState::DEAD);
 		}
@@ -40,11 +43,12 @@ void Enemy::OnHit()
 
 void Enemy::update()
 {
+	// 사망 상태가 아니면
 	if (currentState != EnemyState::DEAD)
 	{
-		CheckPlayerInRange();
-		CheckPlayerInAttackRange();
-		CheckMoveDirection();
+		CheckPlayerInRange(); // 플레이어가 거리 내에 있는지 (Patrol, Chasing)
+		CheckPlayerInAttackRange(); // 공격 거리 내에 있는지 (계속 쫓아가는지, 공격할건지)
+		CheckMoveDirection(); // 랜덤 시간마다 방향 체크 (랜덤인 이유는 다른 Enemy와 겹치지 않게끔 + 생동감?)
 	}
 
 	UpdateInState();
@@ -52,18 +56,9 @@ void Enemy::update()
 	CheckCollision();
 }
 
+// 상태별 다른 update
 void Enemy::UpdateInState()
 {
-	switch (currentPatrolState)
-	{
-	case PatrolState::PATROL:
-		break;
-	case PatrolState::CHASING:
-		break;
-	default:
-		break;
-	}
-
 	switch (currentState)
 	{
 	case EnemyState::IDLE:
@@ -119,8 +114,10 @@ void Enemy::UpdateInState()
 	}
 }
 
+// 상태를 변경해주는 함수
 void Enemy::ChangeState(EnemyState state)
 {
+	// 상태에서 나갈 때 처리
 	switch (currentState)
 	{
 	case EnemyState::IDLE:
@@ -133,7 +130,6 @@ void Enemy::ChangeState(EnemyState state)
 	case EnemyState::DEAD:
 		break;
 	case EnemyState::DAMAGED:
-		std::cout << "대미지드 상태 끝" << std::endl;
 		m_velocity.setX(0);
 		m_velocity.setY(0);
 		break;
@@ -141,8 +137,10 @@ void Enemy::ChangeState(EnemyState state)
 		break;
 	}
 
+	// 상태 변경
 	currentState = state;
 
+	// 변경된 상태에 대한 처리
 	switch (state)
 	{
 	case EnemyState::IDLE:
@@ -160,7 +158,6 @@ void Enemy::ChangeState(EnemyState state)
 		m_velocity.setX(0);
 		break;
 	case EnemyState::DAMAGED:
-		std::cout << "대미지드 상태 진입" << std::endl;
 		Knockback();
 		damagedTime = SDL_GetTicks();
 		break;
@@ -169,20 +166,13 @@ void Enemy::ChangeState(EnemyState state)
 	}
 }
 
+// 패트롤 상태를 변경하는 함수
 void Enemy::ChangePartrolState(PatrolState state)
 {
-	switch (currentPatrolState)
-	{
-	case PatrolState::PATROL:
-		break;
-	case PatrolState::CHASING:
-		break;
-	default:
-		break;
-	}
-
+	// 패트롤 상태 변경
 	currentPatrolState = state;
 
+	// 변경된 패트롤 상태에 대한 처리
 	switch (state)
 	{
 	case PatrolState::PATROL:
@@ -198,13 +188,16 @@ void Enemy::ChangePartrolState(PatrolState state)
 	}
 }
 
+// 플레이어가 추적거리 내에 있는지 확인하는 함수
 void Enemy::CheckPlayerInRange()
 {
+	// 일정 주기마다 실행
 	if ((SDL_GetTicks() / 100) % 5 == 0)
 	{
+		// 플레이어 위치값을 받아옴
 		playerPosition = TheGame::Instance()->GetPlayerPos();
 
-		// 거리의 제곱 계산
+		// 거리의 제곱 계산 (제곱근으로 거리를 계산하는 것보다 빠름), LengthSquare은 직접 추가한 Vector2D 함수
 		if (Vector2D::LengthSquare(playerPosition, m_position) <= chasingDetectRange * chasingDetectRange)
 		{
 			ChangePartrolState(PatrolState::CHASING);
@@ -214,6 +207,7 @@ void Enemy::CheckPlayerInRange()
 			ChangePartrolState(PatrolState::PATROL);
 		}
 
+		// 공격중이 아니라면 움직임 방향에 따라 flip 변경
 		if (currentState != EnemyState::ATTACK)
 		{
 			Flipping();
@@ -222,9 +216,10 @@ void Enemy::CheckPlayerInRange()
 	else return;
 }
 
+// 플레이어가 공격거리 내에 있는지 확인
 void Enemy::CheckPlayerInAttackRange()
 {
-	// 거리의 제곱 계산
+	// 거리의 제곱 계산 (제곱근으로 거리를 계산하는 것보다 빠름)
 	if (Vector2D::LengthSquare(playerPosition, m_position) <= attackRange * attackRange)
 	{
 		if (currentState != EnemyState::ATTACK)
@@ -233,10 +228,13 @@ void Enemy::CheckPlayerInAttackRange()
 	else return;
 }
 
+// 움직일 방향을 체크하는 함수
 void Enemy::CheckMoveDirection()
 {
+	// 랜덤한 시간마다 실행
 	if ((SDL_GetTicks() / 100) % randomWaitTime == 0)
 	{
+		// 랜덤 값은 위 if문이 실행될 때 한 번만 가져오도록 bool 변수 사용
 		if (!moveDirRefreshedFlag)
 		{
 			moveDirRefreshedFlag = true;
@@ -244,8 +242,10 @@ void Enemy::CheckMoveDirection()
 			randomDirection = GetRandom::GetRandomInt(0, 2);
 		}
 
+		// 현재 패트롤 상태에 따라 실행
 		switch (currentPatrolState)
 		{
+		// 패트롤(정찰) 상태라면 무작위 방향 가져오기
 		case PatrolState::PATROL:
 			switch (randomDirection)
 			{
@@ -262,8 +262,8 @@ void Enemy::CheckMoveDirection()
 				break;
 			}
 			ChangeState(EnemyState::MOVE);
-
 			break;
+		// 체이싱(추적) 상태라면 플레이어 위치 쪽으로 방향 정하기
 		case PatrolState::CHASING:
 			if (playerPosition.getX() - m_position.getX() > 0)
 			{
@@ -280,20 +280,23 @@ void Enemy::CheckMoveDirection()
 	}
 	else if ((SDL_GetTicks() / 100) % randomWaitTime == 1)
 	{
+		// 랜덤 값 가져오는 bool 플래그 false
 		moveDirRefreshedFlag = false;
 	}
-
-	//std::cout << "상태: " << static_cast<int>(currentState) << ", moveDir: " << static_cast<int>(moveDir) << std::endl;
-
 }
 
+// 공격 액션 함수
 void Enemy::Attack()
 {
+	// 한 번만 실행되어야 하므로 bool 플래그 사용
 	attackFlag = true;
 	
+	// 사운드 재생
 	TheAudio::Instance()->PlaySFX("Hit");
+	// 공격 방향 및 범위에 대한 처리
 	attackArea.x = m_position.getX() + m_width / 2 + (flip == SDL_FLIP_NONE ? 16 : -16 - attackArea.w);
 	attackArea.y = m_position.getY();
+	// 실제 공격 부분에 대한 처리
 	for (const auto& player : TheGame::Instance()->GetGameObjects())
 	{
 		if (Collision::onCollision(&attackArea, player))
@@ -306,19 +309,23 @@ void Enemy::Attack()
 	}
 }
 
+// 움직임에 대한 처리
 void Enemy::Move()
 {
-	int yPos = m_position.getY() + m_height + 4;
-	int xPos = m_position.getX();
+	// 가짜 값을 가져온다
+	int fakeYPos = m_position.getY() + m_height + 4;
+	int fakeXPos = m_position.getX();
 
+	// 움직임 방향에 따라 변경
 	switch (moveDir)
 	{
 	case moveDirection::RIGHT:
-		if (TheMap::Instance()->IsTileThere((xPos + m_width + 2) / TILE_SIZE, yPos / TILE_SIZE))
+		// 만약 오른쪽 아래에 타일이 있다면 이동하고
+		if (TheMap::Instance()->IsTileThere((fakeXPos + m_width + 2) / TILE_SIZE, fakeYPos / TILE_SIZE))
 		{
 			m_velocity.setX(moveSpeed);
 		}
-		else
+		else // 없다면(낭떠러지라면) 중지하고 방향을 반대로 바꾼다
 		{
 			m_velocity.setX(0);
 			moveDir = moveDirection::LEFT;
@@ -326,11 +333,12 @@ void Enemy::Move()
 		flip = SDL_FLIP_NONE;
 		break;
 	case moveDirection::LEFT:
-		if (TheMap::Instance()->IsTileThere((xPos - 2) / TILE_SIZE, yPos / TILE_SIZE))
+		// 만약 왼쪽 아래에 타일이 있다면 이동하고
+		if (TheMap::Instance()->IsTileThere((fakeXPos - 2) / TILE_SIZE, fakeYPos / TILE_SIZE))
 		{
 			m_velocity.setX(-moveSpeed);
 		}
-		else
+		else // 없다면 중지하고 방향을 반대로 바꾼다
 		{
 			m_velocity.setX(0);
 			moveDir = moveDirection::RIGHT;
@@ -343,52 +351,29 @@ void Enemy::Move()
 	default:
 		break;
 	}
-	/*
-	if (playerPosition.getX() - m_position.getX() > 0)
-	{
-		if (TheMap::Instance()->IsTileThere((xPos + m_width + 2) / TILE_SIZE, yPos / TILE_SIZE))
-		{
-			m_velocity.setX(applySpeed);
-		}
-		else
-		{
-			m_velocity.setX(0);
-		}
-	}
-	else
-	{
-		if (TheMap::Instance()->IsTileThere((xPos - 2) / TILE_SIZE, yPos / TILE_SIZE))
-		{
-			m_velocity.setX(-applySpeed);
-		}
-		else
-		{
-			m_velocity.setX(0);
-		}
-	}
-	*/
 }
 
+// 넉백 함수
 void Enemy::Knockback()
 {
 	m_velocity.setX((flip == SDL_FLIP_NONE ? -1 : 1) * knockbackPower);
 	m_velocity.setY(-knockbackPower / 2);
-	std::cout << "넉백.." << std::endl;
 }
 
+// 움직임 방향에 따라 flip 변경
 void Enemy::Flipping()
 {
-	if (playerPosition.getX() - m_position.getX() > 0)
+	if (moveDir == moveDirection::RIGHT)
 	{
 		flip = SDL_FLIP_NONE;
 	}
-	else
+	else if (moveDir == moveDirection::LEFT)
 	{
 		flip = SDL_FLIP_HORIZONTAL;
 	}
 }
 
-// 플레이어에 사용하기에는 부적합하여 Enemy에 적용 (대각선 충돌 시 이슈)
+// Enemy의 충돌 체크 코드
 void Enemy::CheckCollision()
 {
 	if (!isGrounded)

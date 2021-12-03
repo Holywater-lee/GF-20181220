@@ -24,11 +24,13 @@ void SDLGameObject::update()
 	m_position += m_velocity;
 }
 
+// 오버라이드하여 사용할 함수, 피격당할 경우 호출
 void SDLGameObject::OnHit()
 {
 
 }
 
+// isActive 변수를 두어 false로 변경해줌, false인 경우 Game이 삭제함
 void SDLGameObject::clean()
 {
 	isActive = false;

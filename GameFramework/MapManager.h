@@ -16,6 +16,8 @@ public:
 	void SetMap(int map_x, int map_y, int value);
 	void CreateMap(int x, int y);
 	bool IsTileThere(int x, int y);
+
+	void Clean();
 private:
 	MapManager() {}
 

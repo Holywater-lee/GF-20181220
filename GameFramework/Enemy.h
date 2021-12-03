@@ -48,6 +48,6 @@ private:
 	int moveSpeed = 2;
 	float attackRange = 48;
 	float chasingDetectRange = 128+32;
-	float knockbackPower = 3;
+	float knockbackPower = 4;
 	SDL_Rect attackArea = { 0,0,32,32 };
 };

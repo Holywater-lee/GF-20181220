@@ -20,6 +20,8 @@ public:
 	void drawBackground(std::string id, SDL_Renderer* pRenderer);
 	void DestroyTex(std::string id);
 
+	void Clean();
+
 private:
 	TextureManager() {}
 	static TextureManager* s_pInstance;

@@ -1,6 +1,5 @@
 #pragma once
-#include "HPBar.h"
-#include "Icon.h"
+#include "UIObject.h"
 
 class UIManager
 {
@@ -25,12 +24,13 @@ private:
 
 	int Lerp(int a, int b, float dampTime);
 
-	HPBar* hpBar;
-	HPBar* fakeHpBar;
-	Icon* weaponIcon;
+	UIObject* hpBar;
+	UIObject* fakeHpBar;
+	UIObject* weaponIcon;
 
 	int hpBarMaxAmount = 5;
 	int targetHpAmount = 0;
+	int weaponIconOriginalX = 0;
 
 	static UIManager* s_pInstance;
 };

@@ -14,6 +14,8 @@ public:
 	int GetScore();
 	void SetScore(int score);
 	void AddScore(int score);
+
+	void Clean();
 private:
 	ScoreManager() {}
 

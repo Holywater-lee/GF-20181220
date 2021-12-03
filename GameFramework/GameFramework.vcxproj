@@ -50,8 +50,6 @@
     <ClInclude Include="FXAnimation.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="HPBar.h" />
-    <ClInclude Include="Icon.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="LoaderParams.h" />
     <ClInclude Include="LoadFiles.h" />

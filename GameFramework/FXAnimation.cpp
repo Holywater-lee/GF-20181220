@@ -18,12 +18,12 @@ void FXAnimation::update()
 	DeleteTimer();
 }
 
+// 남은 시간을 계산하고 남은 시간에 맞게 프레임을 재생시키는 함수, 남은 시간이 다 되면 clean 호출
 void FXAnimation::DeleteTimer()
 {
 	remainTime = duration - (SDL_GetTicks() - createdTime);
 	if (remainTime <= 0) this->clean();
 
-	//m_currentFrame = ((duration - remainTime) / 100) % 4;
 	m_currentFrame = (duration - remainTime) / (duration / 4);
 }
 

@@ -7,11 +7,13 @@ UIManager* UIManager::s_pInstance = nullptr;
 
 UIManager::UIManager()
 {
-	fakeHpBar = new HPBar(new LoaderParams(16, SCREEN_HEIGHT - 48, 128, 32, "HPDark"));
-	hpBar = new HPBar(new LoaderParams(16, SCREEN_HEIGHT - 48, 128, 32, "HP"));
-	weaponIcon = new Icon(new LoaderParams(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 48, 32, 32, "IconGun"));
+	fakeHpBar = new UIObject(new LoaderParams(16, SCREEN_HEIGHT - 48, 128, 32, "HPDark"));
+	hpBar = new UIObject(new LoaderParams(16, SCREEN_HEIGHT - 48, 128, 32, "HP"));
+	weaponIcon = new UIObject(new LoaderParams(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 48, 32, 32, "IconGun"));
+	weaponIconOriginalX = weaponIcon->GetX();
 }
 
+// 각종 초기값을 초기화, 재시작 기능 및 처음 초기화에 사용...
 void UIManager::Init()
 {
 	RefreshHPBar(hpBarMaxAmount);
@@ -21,13 +23,15 @@ void UIManager::Init()
 
 void UIManager::Update()
 {
+	// fakeHpBar의 너비값이 설정된 값과 다르다면 Lerp 연산으로 부드러운 이동을 처리
 	if (fakeHpBar->GetWidth() != targetHpAmount)
 	{
-		fakeHpBar->SetWidth(Lerp(fakeHpBar->GetWidth(), targetHpAmount, 0.003f));
+		fakeHpBar->SetWidth(Lerp(fakeHpBar->GetWidth(), targetHpAmount, 0.001f));
 	}
-	if (weaponIcon->GetX() != weaponIcon->GetOriginalX())
+	// weaponIcon의 x값이 원래 위치와 다르다면 Lerp 연산으로 원래 위치로 이동
+	if (weaponIcon->GetX() != weaponIconOriginalX)
 	{
-		weaponIcon->SetX(Lerp(weaponIcon->GetOriginalX(), weaponIcon->GetX(), 0.1f));
+		weaponIcon->SetX(Lerp(weaponIconOriginalX, weaponIcon->GetX(), 0.05f));
 	}
 }
 
@@ -40,12 +44,14 @@ void UIManager::Draw()
 		weaponIcon->Draw();
 }
 
+// hpBar를 갱신하고 fakeHpBar가 따라가야 할 목표치를 계산하는 함수
 void UIManager::RefreshHPBar(int amount)
 {
 	targetHpAmount = static_cast<int>((float)amount * 128 / hpBarMaxAmount);
 	hpBar->SetWidth(targetHpAmount);
 }
 
+// weaponIcon을 텍스쳐 아이디 값에 따라 변경하는 함수
 void UIManager::SetWeaponIcon(std::string nameID)
 {
 	if (weaponIcon != nullptr)
@@ -53,20 +59,23 @@ void UIManager::SetWeaponIcon(std::string nameID)
 		delete weaponIcon;
 		weaponIcon = nullptr;
 	}
-	weaponIcon = new Icon(new LoaderParams(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 48, 32, 32, nameID));
+	weaponIcon = new UIObject(new LoaderParams(SCREEN_WIDTH - 48, SCREEN_HEIGHT - 48, 32, 32, nameID));
 }
 
+// weaponIcon을 좌우 랜덤하게 이동시키는 함수
 void UIManager::ShakeIcon()
 {
 	int randomInt = GetRandom::GetRandomInt(0,1);
-	weaponIcon->SetX(weaponIcon->GetOriginalX() + 32 * (randomInt == 0 ? 1 : -1));
+	weaponIcon->SetX(weaponIconOriginalX + 32 * (randomInt == 0 ? 1 : -1));
 }
 
+// Lerp가 UIManager에 있는 것은 좀 괴상한 상황이긴 하지만... 쓰는 곳이 여기 뿐이므로 일단 여기 사용
 int UIManager::Lerp(int a, int b, float dampTime)
 {
 	return (a + (b - a) * dampTime);
 }
 
+// 클린
 void UIManager::Clean()
 {
 	if (hpBar != nullptr)
@@ -84,4 +93,7 @@ void UIManager::Clean()
 		delete weaponIcon;
 		weaponIcon = nullptr;
 	}
+
+	delete s_pInstance;
+	s_pInstance = nullptr;
 }

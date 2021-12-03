@@ -21,6 +21,7 @@ bool TextureManager::load(std::string fileName, std::string id, SDL_Renderer* pR
 	return false;
 }
 
+// UIObject가 사용
 void TextureManager::draw(std::string id, int x, int y, int width, int height, SDL_Renderer* pRenderer, SDL_RendererFlip flip)
 {
 	SDL_Rect srcRect;
@@ -36,6 +37,7 @@ void TextureManager::draw(std::string id, int x, int y, int width, int height, S
 	SDL_RenderCopyEx(pRenderer, m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
 }
 
+// 게임오브젝트들이 사용
 void TextureManager::drawFrame(std::string id, int x, int y, int width, int height, int currentRow, int currentFrame, SDL_Renderer* pRenderer, SDL_RendererFlip flip, int angle)
 {
 	SDL_Rect srcRect;
@@ -56,8 +58,15 @@ void TextureManager::drawBackground(std::string id, SDL_Renderer* pRenderer)
 	SDL_RenderCopy(pRenderer, m_textureMap[id], NULL, NULL);
 }
 
+// 텍스쳐 삭제
 void TextureManager::DestroyTex(std::string id)
 {
 	SDL_DestroyTexture(m_textureMap[id]);
 	m_textureMap[id] = nullptr;
+}
+
+void TextureManager::Clean()
+{
+	delete s_pInstance;
+	s_pInstance = nullptr;
 }
