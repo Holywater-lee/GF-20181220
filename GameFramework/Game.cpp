@@ -24,6 +24,7 @@ const SDL_Color color_black = { 0,0,0 };
 const SDL_Color color_blue = { 0,0,255 };
 const SDL_Color color_red = { 255,0,0 };
 
+// 초기화
 bool Game::init(const char* title, int xpos, int ypos, int height, int width, int flags)
 {
 	cout << "초기화 중..." << endl;
@@ -115,7 +116,7 @@ bool Game::InitTextures()
 		string tempTexStr = TheLoadFiles::Instance()->GetLoadedTextures(i);
 		string tempTexMapStr = TheLoadFiles::Instance()->GetLoadedTexMaps(i);
 
-		if (!TheTextureManager::Instance()->load(tempTexStr, tempTexMapStr, m_pRenderer))
+		if (!TheTextureManager::Instance()->load(tempTexStr, tempTexMapStr))
 		{
 			cout << "불러오기 실패: " << tempTexMapStr << endl;
 			return false;
@@ -216,7 +217,7 @@ void Game::render()
 	SDL_RenderClear(m_pRenderer);
 
 	// 배경을 그리는 함수
-	TheTextureManager::Instance()->drawBackground("Background", m_pRenderer);
+	TheTextureManager::Instance()->drawBackground("Background");
 
 	for (const auto& tile : m_tiles)
 	{

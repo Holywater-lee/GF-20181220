@@ -25,8 +25,8 @@ private:
 
 	Vector2D position;
 
-	int width = SCREEN_WIDTH;
-	int height = SCREEN_HEIGHT;
+	const int width = SCREEN_WIDTH;
+	const int height = SCREEN_HEIGHT;
 	float cameraSpeed = 0.05f;
 };
 typedef Camera TheCam;

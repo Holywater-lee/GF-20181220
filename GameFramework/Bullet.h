@@ -11,10 +11,10 @@ public:
 	virtual void clean();
 
 private:
-	int moveSpeed = 6;
-	int lifeTime = 500;
-	int createdTime = 0;
-
 	void DeleteBecauseOutOfScreen();
 	void DeleteBecauseLifeTime();
+
+	const int moveSpeed = 6;
+	const int lifeTime = 500;
+	int createdTime = 0;
 };

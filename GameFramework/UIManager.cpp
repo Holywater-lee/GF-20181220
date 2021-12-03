@@ -1,7 +1,7 @@
 #include "UIManager.h"
 #include <SDL.h>
 #include "WIDTHHEIGHT.h"
-#include "GetRandom.h"
+#include "Utility.h"
 
 UIManager* UIManager::s_pInstance = nullptr;
 
@@ -26,12 +26,12 @@ void UIManager::Update()
 	// fakeHpBar의 너비값이 설정된 값과 다르다면 Lerp 연산으로 부드러운 이동을 처리
 	if (fakeHpBar->GetWidth() != targetHpAmount)
 	{
-		fakeHpBar->SetWidth(Lerp(fakeHpBar->GetWidth(), targetHpAmount, 0.001f));
+		fakeHpBar->SetWidth(Utility::Lerp(fakeHpBar->GetWidth(), targetHpAmount, 0.001f));
 	}
 	// weaponIcon의 x값이 원래 위치와 다르다면 Lerp 연산으로 원래 위치로 이동
 	if (weaponIcon->GetX() != weaponIconOriginalX)
 	{
-		weaponIcon->SetX(Lerp(weaponIconOriginalX, weaponIcon->GetX(), 0.05f));
+		weaponIcon->SetX(Utility::Lerp(weaponIconOriginalX, weaponIcon->GetX(), 0.05f));
 	}
 }
 
@@ -65,14 +65,8 @@ void UIManager::SetWeaponIcon(std::string nameID)
 // weaponIcon을 좌우 랜덤하게 이동시키는 함수
 void UIManager::ShakeIcon()
 {
-	int randomInt = GetRandom::GetRandomInt(0,1);
+	int randomInt = Utility::GetRandomInt(0,1);
 	weaponIcon->SetX(weaponIconOriginalX + 32 * (randomInt == 0 ? 1 : -1));
-}
-
-// Lerp가 UIManager에 있는 것은 좀 괴상한 상황이긴 하지만... 쓰는 곳이 여기 뿐이므로 일단 여기 사용
-int UIManager::Lerp(int a, int b, float dampTime)
-{
-	return (a + (b - a) * dampTime);
 }
 
 // 클린

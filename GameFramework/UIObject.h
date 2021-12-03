@@ -9,9 +9,9 @@ public:
 	virtual void Draw();
 
 	void SetX(int amount) { x = amount; }
-	int GetX() { return x; }
+	int GetX() const { return x; }
 	void SetWidth(int amount) { width = amount; }
-	int GetWidth() { return width; }
+	int GetWidth() const { return width; }
 
 protected:
 	int x;

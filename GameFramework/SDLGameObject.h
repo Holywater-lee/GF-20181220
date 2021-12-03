@@ -11,15 +11,15 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
-	virtual Vector2D GetPos() { return m_position; }
+	virtual Vector2D GetPos() const { return m_position; }
 	virtual void OnHit();
-	virtual bool GetIsActive() { return isActive; }
+	virtual bool GetIsActive() const { return isActive; }
 	virtual ~SDLGameObject() {}
 
-	std::string GetTag() { return tag; }
+	std::string GetTag() const { return tag; }
 
-	virtual int GetWidth() { return m_width; }
-	virtual int GetHeight() { return m_height; }
+	virtual int GetWidth() const { return m_width; }
+	virtual int GetHeight() const { return m_height; }
 
 protected:
 	Vector2D m_position;
@@ -30,11 +30,11 @@ protected:
 	int m_height;
 	int m_currentRow;
 	int m_currentFrame;
-	int m_angle;
 	std::string m_textureID;
 
 	int life;
 
+	// 활성화 되어있는지에 관한 변수, false일 경우 Game이 지움
 	bool isActive = true;
 	std::string tag = "";
 

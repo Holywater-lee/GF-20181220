@@ -1,7 +1,6 @@
 #pragma once
 #include "SDL.h"
 #include <iostream>
-#include <math.h>
 
 class Vector2D
 {
@@ -13,6 +12,7 @@ public:
 	void setY(float y) { m_y = y; }
 
 	float length() { return sqrt(m_x * m_x + m_y * m_y); }
+	// a에서 b까지의 길이의 제곱을 반환
 	static float LengthSquare(Vector2D& a, Vector2D& b) { return (a.m_x - b.m_x) * (a.m_x - b.m_x) + (a.m_y - b.m_y) * (a.m_y - b.m_y); }
 
 	Vector2D operator+(const Vector2D& v2) const;
@@ -28,6 +28,7 @@ public:
 	friend Vector2D& operator+=(Vector2D& v1, const Vector2D& v2);
 	friend Vector2D& operator-=(Vector2D& v1, const Vector2D& v2);
 
+	// Lerp로 부드러운 움직임 구현
 	static Vector2D Lerp(Vector2D& vec1, Vector2D& vec2, float time);
 
 private:

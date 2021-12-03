@@ -44,20 +44,18 @@ private:
 	PlayerAttackStrategy* attackStrategy = new RangedAttackStrategy();
 
 	int currentJumpCount = 0;
-	int maxJumpCount = 2;
+	const int maxJumpCount = 2;
+	const int multipleJumpDelay = 300;
+	const int attackDelay = 500;
+	const int knockbackPower = 25;
+	const int knockbackTime = 300;
+	const int weaponChangeDelay = 2000;
 
-	int knockbackPower = 25;
-
-	// 시간에 관한 변수들
-	int multipleJumpDelay = 300;
 	int nextJumpDelay = 0;
-	int attackDelay = 500;
 	int nextAttackDelay = 0;
 	int attackStartTime = 0;
 	int damagedTime = 0;
-	int knockbackTime = 200;
 	int deadTime = 0;
-	int weaponChangeDelay = 2000;
 	int nextWeaponChangeDelay = 0;
 
 	bool isGrounded = false;

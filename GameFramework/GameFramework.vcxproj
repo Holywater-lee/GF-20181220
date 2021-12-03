@@ -56,7 +56,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackStrategy.h" />
-    <ClInclude Include="GetRandom.h" />
+    <ClInclude Include="Utility.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SDLGameObject.h" />
     <ClInclude Include="Text.h" />

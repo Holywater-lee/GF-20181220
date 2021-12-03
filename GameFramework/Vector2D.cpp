@@ -57,8 +57,8 @@ Vector2D& operator-=(Vector2D& v1, const Vector2D& v2)
 	return v1;
 }
 
+// Lerp 연산으로 부드러운 움직임 가능
 Vector2D Vector2D::Lerp(Vector2D& vec1, Vector2D& vec2, float time)
 {
-	Vector2D lerped = vec1 + (vec2 - vec1) * time;
-	return lerped;
+	return (vec1 + (vec2 - vec1) * time);
 }

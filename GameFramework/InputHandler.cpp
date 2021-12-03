@@ -70,6 +70,7 @@ Vector2D* InputHandler::getMousePosition()
 	return m_mousePosition;
 }
 
+// 카메라 위치에 따라 상대적인 마우스 위치를 가지도록 변경
 void InputHandler::onMouseMove(SDL_Event event)
 {
 	m_mousePosition->setX(event.motion.x + TheCam::Instance()->GetX());

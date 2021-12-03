@@ -1,6 +1,6 @@
 #include "Enemy.h"
 #include "ScoreManager.h"
-#include "GetRandom.h"
+#include "Utility.h"
 #include "Game.h"
 #include "Collision.h"
 #include "MapManager.h"
@@ -238,8 +238,8 @@ void Enemy::CheckMoveDirection()
 		if (!moveDirRefreshedFlag)
 		{
 			moveDirRefreshedFlag = true;
-			randomWaitTime = GetRandom::GetRandomInt(5, 7);
-			randomDirection = GetRandom::GetRandomInt(0, 2);
+			randomWaitTime = Utility::GetRandomInt(5, 7);
+			randomDirection = Utility::GetRandomInt(0, 2);
 		}
 
 		// 현재 패트롤 상태에 따라 실행

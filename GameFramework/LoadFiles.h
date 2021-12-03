@@ -17,6 +17,7 @@ public:
 		return s_pInstance;
 	}
 
+	// 파일을 불러와 값을 읽어 저장하는 함수
 	bool Load()
 	{
 		string temp_string;
@@ -25,6 +26,7 @@ public:
 		// 텍스쳐 주소
 		ifstream texture("Assets/Files/TexturesInit.txt");
 		if (!texture) return false;
+		// 텍스쳐가 끝에 도달할 때까지
 		while (texture.peek() != EOF)
 		{
 			getline(texture, temp_string);
@@ -44,7 +46,7 @@ public:
 		}
 		texMap.close();
 
-		// 브금 주소 (1개만, 추후 수정 가능성 있음)
+		// 배경음 주소 (1개만, 추후 수정 가능성 있음)
 		ifstream bgmFile("Assets/Files/BgmInit.txt");
 		if (!bgmFile) return false;
 		while (bgmFile.peek() != EOF)
@@ -55,7 +57,7 @@ public:
 		}
 		bgmFile.close();
 
-		// 사운드 주소
+		// 효과음 주소
 		ifstream sfxFile("Assets/Files/SfxInit.txt");
 		if (!sfxFile) return false;
 		while (sfxFile.peek() != EOF)
@@ -87,6 +89,7 @@ public:
 			for (int k = 0; k < MAP_MAX_WIDTH; k++)
 			{
 				tileMap >> temp_int;
+				// MapManager에 저장
 				TheMap::Instance()->SetMap(i, k, temp_int);
 				cout << temp_int;
 			}

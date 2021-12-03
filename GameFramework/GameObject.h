@@ -8,13 +8,13 @@ public:
 	virtual void draw() = 0;
 	virtual void update() = 0;
 	virtual void clean() = 0;
-	virtual Vector2D GetPos() = 0;
+	virtual Vector2D GetPos() const = 0;
 	virtual void OnHit() = 0;
-	virtual bool GetIsActive() = 0;
+	virtual bool GetIsActive() const = 0;
 	virtual ~GameObject() {}
 
-	virtual int GetWidth() = 0;
-	virtual int GetHeight() = 0;
+	virtual int GetWidth() const = 0;
+	virtual int GetHeight() const = 0;
 
 protected:
 	GameObject(const LoaderParams* pParams) {}

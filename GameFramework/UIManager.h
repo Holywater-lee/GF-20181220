@@ -22,13 +22,11 @@ public:
 private:
 	UIManager();
 
-	int Lerp(int a, int b, float dampTime);
-
 	UIObject* hpBar;
 	UIObject* fakeHpBar;
 	UIObject* weaponIcon;
 
-	int hpBarMaxAmount = 5;
+	const int hpBarMaxAmount = 5;
 	int targetHpAmount = 0;
 	int weaponIconOriginalX = 0;
 

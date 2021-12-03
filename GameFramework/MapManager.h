@@ -21,6 +21,7 @@ public:
 private:
 	MapManager() {}
 
+	// LoadFiles에서 불러온 맵 지도
 	int loadedTileMap[MAP_MAX_HEIGHT][MAP_MAX_WIDTH] = { 0 };
 	static MapManager* s_pInstance;
 };

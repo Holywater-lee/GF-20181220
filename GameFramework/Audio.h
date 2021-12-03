@@ -28,9 +28,10 @@ private:
 	Audio() {}
 	static Audio* s_pInstance;
 
-	float maxVolume = 100;
+	// ÃÖ´ë º¼·ý °ª
+	const float maxVolume = 100;
 
-	Mix_Music* bgm;
+	Mix_Music* bgm = nullptr;
 	std::map<std::string, Mix_Chunk*> sfxMap;
 };
 typedef Audio TheAudio;

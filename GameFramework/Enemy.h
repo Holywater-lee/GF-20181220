@@ -16,6 +16,9 @@ private:
 	EnemyState currentState = EnemyState::IDLE;
 	PatrolState currentPatrolState = PatrolState::PATROL;
 
+	enum class moveDirection { RIGHT, LEFT, STOP };
+	moveDirection moveDir = moveDirection::STOP;
+
 	void ChangeState(EnemyState state);
 	void ChangePartrolState(PatrolState state);
 
@@ -35,8 +38,6 @@ private:
 	bool attackFlag = false;
 	bool moveDirRefreshedFlag = false;
 	bool isGrounded = true;
-	enum class moveDirection { RIGHT, LEFT, STOP };
-	moveDirection moveDir = moveDirection::STOP;
 
 	int damagedTime = 0;
 	int deadTime = 0;
@@ -45,9 +46,9 @@ private:
 	int randomWaitTime = 3;
 	int randomDirection = 2;
 
-	int moveSpeed = 2;
-	float attackRange = 48;
-	float chasingDetectRange = 128+32;
-	float knockbackPower = 4;
+	const int moveSpeed = 2;
+	const float attackRange = 48;
+	const float chasingDetectRange = 128+64;
+	const float knockbackPower = 4;
 	SDL_Rect attackArea = { 0,0,32,32 };
 };

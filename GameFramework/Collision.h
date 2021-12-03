@@ -6,6 +6,7 @@
 class Collision
 {
 public:
+	// 게임오브젝트 vs 게임오브젝트 충돌
 	static bool onCollision(GameObject* a, GameObject* b)
 	{
 		if (a == nullptr || b == nullptr) return false;
@@ -27,8 +28,10 @@ public:
 		return true;
 	}
 
+	// SDL_Rect vs 게임오브젝트 충돌
 	static bool onCollision(SDL_Rect* a, GameObject* b)
 	{
+		if (b == nullptr) return false;
 		float aLeft = a->x;
 		float aTop = a->y;
 

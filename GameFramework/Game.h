@@ -5,10 +5,8 @@
 #include "SDL.h"
 #include "GameObject.h"
 #include "Vector2D.h"
-
 #include "Text.h"
 #include <vector>
-#include <list>
 
 using namespace std;
 
@@ -63,7 +61,6 @@ private:
 
 	vector<GameObject*> m_tiles;
 	vector<GameObject*> m_gameObjects;
-	//list<vector<GameObject*>> vectorsList;
 
 	vector<Text*> m_texts;
 	GameObject* playerObject;
