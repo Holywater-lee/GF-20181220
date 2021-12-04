@@ -4,7 +4,7 @@
 class FXAnimation : public SDLGameObject
 {
 public:
-	FXAnimation(const LoaderParams* pParams, int sdlgetticks, int p_duration, int row = 0, bool flipped = false);
+	FXAnimation(const LoaderParams* pParams, int sdlgetticks, int p_duration, int row = 0, bool flipped = false, int frame = 4);
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
@@ -13,6 +13,7 @@ protected:
 	int createdTime = 0;
 	int duration = 0;
 	int remainTime = 0;
+	int totalFrame = 0;
 
 	void DeleteTimer();
 };

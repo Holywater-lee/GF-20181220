@@ -1,6 +1,7 @@
 #include "MapManager.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "Potion.h"
 
 MapManager* MapManager::s_pInstance = nullptr;
 
@@ -20,6 +21,10 @@ void MapManager::CreateMap(int x, int y)
 			if (loadedTileMap[i][k] == 1)
 			{
 				TheGame::Instance()->CreateTileObject(new Tile(new LoaderParams(x + k * TILE_SIZE, y + i * TILE_SIZE, TILE_SIZE, TILE_SIZE, "Tile")));
+			}
+			else if (loadedTileMap[i][k] == 2)
+			{
+				TheGame::Instance()->CreateGameObject(new Potion(new LoaderParams(x + k * TILE_SIZE, y + i * TILE_SIZE, TILE_SIZE, TILE_SIZE, "Potion")));
 			}
 			else if (loadedTileMap[i][k] == 3)
 			{

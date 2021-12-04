@@ -9,3 +9,5 @@ HP
 HPDark
 IconSword
 IconGun
+Potion
+FXPotion

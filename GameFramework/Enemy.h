@@ -8,7 +8,7 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
-	virtual void OnHit();
+	virtual void OnHit(int amount);
 
 private:
 	enum class EnemyState { IDLE, MOVE, ATTACK, DEAD, DAMAGED };
@@ -46,6 +46,7 @@ private:
 	int randomWaitTime = 3;
 	int randomDirection = 2;
 
+	const int damageAmount = 1;
 	const int moveSpeed = 2;
 	const float attackRange = 48;
 	const float chasingDetectRange = 128+64;

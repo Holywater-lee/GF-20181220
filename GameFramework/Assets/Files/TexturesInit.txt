@@ -9,3 +9,5 @@ Assets/Sprites/HPBar.png
 Assets/Sprites/HPBar_Dark.png
 Assets/Sprites/Icon_Sword.png
 Assets/Sprites/Icon_Gun.png
+Assets/Sprites/Potion.png
+Assets/Sprites/Holy_VFX.png

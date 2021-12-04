@@ -2,3 +2,4 @@ Hit
 SwordSFX
 GunSFX
 Jump
+PotionSFX

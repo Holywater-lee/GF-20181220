@@ -2,3 +2,4 @@ Assets/Sounds/Hit.wav
 Assets/Sounds/Impact.wav
 Assets/Sounds/Gun.wav
 Assets/Sounds/Jump.wav
+Assets/Sounds/Potion.wav

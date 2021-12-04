@@ -96,6 +96,9 @@
     <ClCompile Include="LoadFiles.cpp">
       <Filter>소스 파일\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Potion.cpp">
+      <Filter>소스 파일\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="LoadFiles.h">
       <Filter>헤더 파일\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Potion.h">
+      <Filter>헤더 파일\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

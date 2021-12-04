@@ -12,7 +12,7 @@ public:
 	virtual void update();
 	virtual void clean();
 	virtual Vector2D GetPos() const { return m_position; }
-	virtual void OnHit();
+	virtual void OnHit(int amount);
 	virtual bool GetIsActive() const { return isActive; }
 	virtual ~SDLGameObject() {}
 
@@ -33,6 +33,7 @@ protected:
 	std::string m_textureID;
 
 	int life;
+	int maxLife;
 
 	// 활성화 되어있는지에 관한 변수, false일 경우 Game이 지움
 	bool isActive = true;

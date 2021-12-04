@@ -23,7 +23,7 @@ void MeleeAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SD
 		{
 			if (dynamic_cast<SDLGameObject*>(enemy)->GetTag() == "Enemy")
 			{
-				enemy->OnHit();
+				enemy->OnHit(2);
 			}
 		}
 	}

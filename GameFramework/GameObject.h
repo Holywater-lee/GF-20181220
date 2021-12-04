@@ -9,7 +9,7 @@ public:
 	virtual void update() = 0;
 	virtual void clean() = 0;
 	virtual Vector2D GetPos() const = 0;
-	virtual void OnHit() = 0;
+	virtual void OnHit(int amount) = 0;
 	virtual bool GetIsActive() const = 0;
 	virtual ~GameObject() {}
 

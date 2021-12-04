@@ -12,6 +12,8 @@
 #include "LoadFiles.h"
 
 #include "Player.h"
+#include "Potion.h"
+#include "FXAnimation.h"
 
 #include <algorithm>
 
@@ -182,7 +184,7 @@ Vector2D Game::GetPlayerPos() const
 	else return Vector2D(0, 0);
 }
 
-// 총알의 충돌처리를 담당하는 함수
+// 오브젝트 간 충돌처리를 담당하는 함수
 void Game::DetectCollision()
 {
 	for (auto& bullet : m_gameObjects)
@@ -196,7 +198,7 @@ void Game::DetectCollision()
 					if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Enemy")
 					{
 						bullet->clean();
-						go->OnHit();
+						go->OnHit(1);
 					}
 				}
 			}
@@ -206,6 +208,25 @@ void Game::DetectCollision()
 				if (Collision::onCollision(bullet, tile))
 				{
 					bullet->clean();
+				}
+			}
+		}
+	}
+
+	for (auto& potion : m_gameObjects)
+	{
+		if (dynamic_cast<SDLGameObject*>(potion)->GetTag() == "Potion")
+		{
+			for (const auto& go : m_gameObjects)
+			{
+				if (potion != go && Collision::onCollision(potion, go))
+				{
+					if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Player")
+					{
+						go->OnHit(dynamic_cast<Potion*>(potion)->GetHealAmount() * -1);
+						CreateGameObject(new FXAnimation(new LoaderParams(go->GetPos().getX() - 8, go->GetPos().getY() + 8, 48, 48, "FXPotion"), SDL_GetTicks(), 1100, 0, false, 16));
+						potion->clean();
+					}
 				}
 			}
 		}
@@ -319,7 +340,6 @@ void Game::handleEvents()
 	TheInputHandler::Instance()->update();
 }
 
-// 지울거 지워주는 함수
 void Game::clean()
 {
 	// 모든 오브젝트를 지움

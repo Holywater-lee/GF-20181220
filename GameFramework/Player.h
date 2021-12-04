@@ -10,7 +10,7 @@ public:
 	virtual void draw();
 	virtual void update();
 	virtual void clean();
-	virtual void OnHit();
+	virtual void OnHit(int amount);
 
 	// 플레이어가 사망했는지 가져오는 함수
 	bool GetIsDead() { return (m_currentState == PlayerState::DEAD); }

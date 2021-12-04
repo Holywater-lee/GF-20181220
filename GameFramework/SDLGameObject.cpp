@@ -23,7 +23,7 @@ void SDLGameObject::update()
 }
 
 // 오버라이드하여 사용할 함수, 피격당할 경우 호출
-void SDLGameObject::OnHit()
+void SDLGameObject::OnHit(int amount)
 {
 
 }

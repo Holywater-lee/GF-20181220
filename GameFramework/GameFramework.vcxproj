@@ -31,6 +31,7 @@
     <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerAttackStrategy.cpp" />
+    <ClCompile Include="Potion.cpp" />
     <ClCompile Include="ScoreManager.cpp" />
     <ClCompile Include="SDLGameObject.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackStrategy.h" />
+    <ClInclude Include="Potion.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="ScoreManager.h" />
     <ClInclude Include="SDLGameObject.h" />

@@ -16,6 +16,7 @@ Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams)
 {
 	tag = "Player";
 	life = 5;
+	maxLife = life;
 }
 
 void Player::draw()
@@ -54,11 +55,14 @@ void Player::update()
 }
 
 // 맞았을 때 호출되는 함수
-void Player::OnHit()
+void Player::OnHit(int amount)
 {
 	if (m_currentState != PlayerState::DEAD)
 	{
-		life--;
+		life -= amount;
+		std::cout << "피격 " << life << ", " << maxLife << std::endl;
+
+		if (life > maxLife) life = maxLife;
 
 		if (life <= 0)
 		{
@@ -66,7 +70,7 @@ void Player::OnHit()
 			ChangeState(PlayerState::DEAD);
 			std::cout << "사망!" << std::endl;
 		}
-		else
+		else if(amount > 0)
 		{
 			ChangeState(PlayerState::DAMAGED);
 			std::cout << "타격 당함! 남은 체력: " << life << std::endl;
@@ -411,6 +415,8 @@ void Player::CheckCollisionWithMove()
 		isGrounded = false;
 		if (m_currentState != PlayerState::JUMP)
 			ChangeState(PlayerState::JUMP);
+
+		// 점프 중이지 않은 상태에서 낭떠러지로 떨어지면 점프 횟수를 제한
 		if (currentJumpCount == 0) currentJumpCount = 1;
 	}
 }

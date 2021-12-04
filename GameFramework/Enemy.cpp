@@ -13,7 +13,7 @@ Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams), playerPositi
 {
 	tag = "Enemy";
 	life = 3;
-	flip = SDL_FLIP_NONE;
+	maxLife = life;
 }
 
 void Enemy::draw()
@@ -22,11 +22,13 @@ void Enemy::draw()
 }
 
 // 피격당하는 함수
-void Enemy::OnHit()
+void Enemy::OnHit(int amount)
 {
 	if (currentState != EnemyState::DEAD)
 	{
-		life--;
+		life -= amount;
+
+		if (life > maxLife) life = maxLife;
 
 		if (life <= 0)
 		{
@@ -303,7 +305,7 @@ void Enemy::Attack()
 		{
 			if (dynamic_cast<SDLGameObject*>(player)->GetTag() == "Player")
 			{
-				player->OnHit();
+				player->OnHit(damageAmount);
 			}
 		}
 	}
