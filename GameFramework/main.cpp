@@ -1,3 +1,5 @@
+// 클래스 다이어그램 주소: https://drive.google.com/file/d/1c6zaf5CDo5ywdxnzv9p1cIj0KgtLOzOR/view?usp=sharing
+
 #include "Game.h"
 #include "WIDTHHEIGHT.h"
 

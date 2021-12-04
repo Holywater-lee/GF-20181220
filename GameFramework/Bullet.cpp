@@ -1,5 +1,4 @@
 #include "Bullet.h"
-#include "InputHandler.h"
 #include "Vector2D.h"
 #include "Game.h"
 #include "WIDTHHEIGHT.h"

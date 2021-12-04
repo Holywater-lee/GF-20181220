@@ -527,5 +527,6 @@ void Player::handleInput()
 
 void Player::clean()
 {
+	TheCam::Instance()->Clean();
 	SDLGameObject::clean();
 }

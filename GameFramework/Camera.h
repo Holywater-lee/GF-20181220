@@ -19,6 +19,7 @@ public:
 	int GetX(float pos);
 	int GetY(float pos);
 	void AddForce(float x, float y);
+	void Clean();
 private:
 	Camera() : position(0, 0) {}
 	static Camera* s_pInstance;

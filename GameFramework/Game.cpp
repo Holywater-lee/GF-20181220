@@ -199,33 +199,37 @@ void Game::DetectCollision()
 					{
 						bullet->clean();
 						go->OnHit(1);
+						break;
 					}
 				}
 			}
-
+			
 			for (const auto& tile : m_tiles)
 			{
 				if (Collision::onCollision(bullet, tile))
 				{
 					bullet->clean();
+					break;
 				}
 			}
 		}
 	}
 
-	for (auto& potion : m_gameObjects)
+	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
-		if (dynamic_cast<SDLGameObject*>(potion)->GetTag() == "Potion")
+		if (dynamic_cast<SDLGameObject*>(m_gameObjects[i])->GetTag() == "Potion")
 		{
 			for (const auto& go : m_gameObjects)
 			{
-				if (potion != go && Collision::onCollision(potion, go))
+				if (m_gameObjects[i] != go && Collision::onCollision(m_gameObjects[i], go))
 				{
 					if (dynamic_cast<SDLGameObject*>(go)->GetTag() == "Player")
 					{
-						go->OnHit(dynamic_cast<Potion*>(potion)->GetHealAmount() * -1);
+						int healAmount = dynamic_cast<Potion*>(m_gameObjects[i])->GetHealAmount() * -1;
+						m_gameObjects[i]->clean();
+						go->OnHit(healAmount);
 						CreateGameObject(new FXAnimation(new LoaderParams(go->GetPos().getX() - 8, go->GetPos().getY() + 8, 48, 48, "FXPotion"), SDL_GetTicks(), 1100, 0, false, 16));
-						potion->clean();
+						break;
 					}
 				}
 			}
@@ -262,7 +266,7 @@ void Game::render()
 void Game::update()
 {
 	RefreshGameObjects();
-	
+
 	for (const auto& go : m_gameObjects)
 	{
 		go->update();

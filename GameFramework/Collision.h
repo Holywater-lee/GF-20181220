@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "WIDTHHEIGHT.h"
-#include "MapManager.h"
 
 class Collision
 {

@@ -20,7 +20,7 @@ private:
 	moveDirection moveDir = moveDirection::STOP;
 
 	void ChangeState(EnemyState state);
-	void ChangePartrolState(PatrolState state);
+	void ChangePatrolState(PatrolState state);
 
 	void CheckCollision();
 	void CheckPlayerInRange();

@@ -34,3 +34,9 @@ void Camera::AddForce(float x, float y)
 	position.setX(position.getX() + x);
 	position.setY(position.getY() + y);
 }
+
+void Camera::Clean()
+{
+	delete s_pInstance;
+	s_pInstance = nullptr;
+}

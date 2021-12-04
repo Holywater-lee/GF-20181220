@@ -169,7 +169,7 @@ void Enemy::ChangeState(EnemyState state)
 }
 
 // 패트롤 상태를 변경하는 함수
-void Enemy::ChangePartrolState(PatrolState state)
+void Enemy::ChangePatrolState(PatrolState state)
 {
 	// 패트롤 상태 변경
 	currentPatrolState = state;
@@ -202,11 +202,11 @@ void Enemy::CheckPlayerInRange()
 		// 거리의 제곱 계산 (제곱근으로 거리를 계산하는 것보다 빠름), LengthSquare은 직접 추가한 Vector2D 함수
 		if (Vector2D::LengthSquare(playerPosition, m_position) <= chasingDetectRange * chasingDetectRange)
 		{
-			ChangePartrolState(PatrolState::CHASING);
+			ChangePatrolState(PatrolState::CHASING);
 		}
 		else
 		{
-			ChangePartrolState(PatrolState::PATROL);
+			ChangePatrolState(PatrolState::PATROL);
 		}
 
 		// 공격중이 아니라면 움직임 방향에 따라 flip 변경

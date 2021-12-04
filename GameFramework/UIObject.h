@@ -6,7 +6,7 @@ class UIObject
 {
 public:
 	UIObject(const LoaderParams* pParams);
-	virtual void Draw();
+	void Draw();
 
 	void SetX(int amount) { x = amount; }
 	int GetX() const { return x; }
