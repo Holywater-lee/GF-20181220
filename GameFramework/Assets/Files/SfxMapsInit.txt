@@ -3,3 +3,4 @@ SwordSFX
 GunSFX
 Jump
 PotionSFX
+Hallucination

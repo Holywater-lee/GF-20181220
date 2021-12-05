@@ -1,11 +1,11 @@
 #include "FXAnimation.h"
 
-FXAnimation::FXAnimation(const LoaderParams* pParams, int sdlgetticks, int p_duration, int row, bool flipped, int frame) : SDLGameObject(pParams), createdTime(sdlgetticks), duration(p_duration), totalFrame(frame)
+FXAnimation::FXAnimation(const LoaderParams* pParams, int sdlgetticks, int p_duration, int startRow, int startFrame, bool flipped, int frame) : SDLGameObject(pParams), createdTime(sdlgetticks), duration(p_duration), startFrame(startFrame), totalFrame(frame)
 {
 	tag = "FX";
 	flip = flipped ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
 	remainTime = duration - (SDL_GetTicks() - createdTime);
-	m_currentRow = row;
+	m_currentRow = startRow;
 }
 
 void FXAnimation::draw()
@@ -24,7 +24,10 @@ void FXAnimation::DeleteTimer()
 	remainTime = duration - (SDL_GetTicks() - createdTime);
 	if (remainTime <= 0) this->clean();
 
-	m_currentFrame = (duration - remainTime) / (duration / totalFrame);
+	if (totalFrame != 1)
+		m_currentFrame = startFrame + (duration - remainTime) / (duration / totalFrame);
+	else
+		m_currentFrame = startFrame;
 }
 
 void FXAnimation::clean()

@@ -133,10 +133,10 @@ bool Game::InitTexts()
 {
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 1, 32 * 18, 256, 32, L"좌우 방향키로 이동", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 1, 32 * 19, 256, 32, L"위 방향키로 점프", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 11, 32 * 18, 256, 32, L"A키를 눌러 공격", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 12, 32 * 18, 192, 32, L"A키를 눌러 공격", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 11 - 16, 32 * 19, 256 + 32, 32, L"아래 방향키로 공격 방식 전환", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 24, 32 * 17, 256, 32, L"점프 두 번으로 더블 점프", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 14, 32 * 10, 256, 32, L"간격이 길게 더블 점프", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 15, 32 * 10, 192, 32, L"S키를 눌러 대쉬", false);
 
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, SCREEN_WIDTH - 128, 0, 64, 32, L"점수: ");
 	scoreText_Score = TheTextManager::Instance()->LoadIntToText(color_white, color_black, SCREEN_WIDTH - 64, 0, 64, 32, TheScore::Instance()->GetScore());
@@ -239,7 +239,7 @@ void Game::DetectCollision()
 						int healAmount = dynamic_cast<Potion*>(m_gameObjects[i])->GetHealAmount() * -1;
 						m_gameObjects[i]->clean();
 						go->OnHit(healAmount);
-						CreateGameObject(new FXAnimation(new LoaderParams(go->GetPos().getX() - 8, go->GetPos().getY() + 8, 48, 48, "FXPotion"), SDL_GetTicks(), 1100, 0, false, 16));
+						CreateGameObject(new FXAnimation(new LoaderParams(go->GetPos().getX() - 8, go->GetPos().getY() + 8, 48, 48, "FXPotion"), SDL_GetTicks(), 1100, 0, 0, false, 16));
 						break;
 					}
 				}
@@ -259,9 +259,9 @@ void Game::render()
 	{
 		tile->draw();
 	}
-	for (const auto& go : m_gameObjects)
+	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
-		go->draw();
+		m_gameObjects[i]->draw();
 	}
 	for (const auto& text : m_texts)
 	{
@@ -278,9 +278,9 @@ void Game::update()
 {
 	RefreshGameObjects();
 
-	for (const auto& go : m_gameObjects)
+	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
-		go->update();
+		m_gameObjects[i]->update();
 	}
 	UIManager::Instance()->Update();
 
@@ -290,12 +290,12 @@ void Game::update()
 // 게임오브젝트 중 isActive가 false인 오브젝트를 지워주는 함수
 void Game::RefreshGameObjects()
 {
-	for (auto& go : m_gameObjects)
+	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
-		if (!go->GetIsActive())
+		if (!m_gameObjects[i]->GetIsActive())
 		{
-			delete go;
-			RemoveGameObject(m_gameObjects, *go);
+			delete m_gameObjects[i];
+			RemoveGameObject(m_gameObjects, *m_gameObjects[i]);
 		}
 	}
 }

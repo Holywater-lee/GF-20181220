@@ -165,8 +165,8 @@ void Enemy::ChangeState(EnemyState state)
 		m_velocity.setX(0);
 		break;
 	case EnemyState::DAMAGED:
-		Knockback();
 		damagedTime = SDL_GetTicks();
+		Knockback();
 		break;
 	default:
 		break;
@@ -230,7 +230,7 @@ void Enemy::CheckPlayerInAttackRange()
 	// 거리의 제곱 계산 (제곱근으로 거리를 계산하는 것보다 빠름)
 	if (Vector2D::LengthSquare(playerPosition, m_position) <= attackRange * attackRange)
 	{
-		if (currentState != EnemyState::ATTACK)
+		if (currentState != EnemyState::ATTACK && currentState != EnemyState::DAMAGED)
 			ChangeState(EnemyState::ATTACK);
 	}
 	else return;
@@ -364,7 +364,7 @@ void Enemy::Move()
 // 넉백 함수
 void Enemy::Knockback()
 {
-	m_velocity.setX((flip == SDL_FLIP_NONE ? -1 : 1) * knockbackPower);
+	m_velocity.setX((playerPosition.getX() - m_position.getX() > 0 ? -1 : 1) * knockbackPower);
 	m_velocity.setY(-knockbackPower / 2);
 }
 

@@ -1,14 +1,30 @@
-﻿  Enemy.cpp
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Utility.h(18,13): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Game.cpp
 F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(34,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(35,14): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(114,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(305,49): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(306,32): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(324,15): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(325,15): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(334,20): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Enemy.cpp(347,20): warning C4244: '인수': 'const int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  MapManager.cpp
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(229,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(242,102): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(242,77): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(262,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(281,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(293,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Player.cpp
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(34,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(35,14): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Camera.h(17,35): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Camera.h(18,35): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(78,38): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(119,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(147,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(159,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(335,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(345,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(396,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(491,131): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(491,107): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(501,108): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(501,89): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(504,29): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(516,51): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(517,34): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   코드를 생성하고 있습니다...
   GameFramework.vcxproj -> F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Debug\GameFramework.exe

@@ -1,4 +1,5 @@
 Assets/Sprites/Player_Sprite_Sheet_Cloaks.png
+Assets/Sprites/Player_Sprite_Sheet_Hallucination.png
 Assets/Sprites/Tile_Stone.png
 Assets/Sprites/FX_Sword_Sheet.png
 Assets/Sprites/FX_Gun_Sheet.png

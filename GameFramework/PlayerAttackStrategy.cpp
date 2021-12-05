@@ -28,7 +28,7 @@ void MeleeAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SD
 		}
 	}
 	// 공격 이펙트 오브젝트 생성
-	TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(atkArea->x, atkArea->y, 32, 64, "FXSword"), SDL_GetTicks(), 350, 1, flip == SDL_FLIP_HORIZONTAL));
+	TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(atkArea->x, atkArea->y, 32, 64, "FXSword"), SDL_GetTicks(), 350, 1, 0, flip == SDL_FLIP_HORIZONTAL));
 }
 
 // 원거리 공격 스트래티지
@@ -45,5 +45,5 @@ void RangedAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, S
 	// 총알 오브젝트 생성
 	TheGame::Instance()->CreateGameObject(new Bullet(new LoaderParams(obj->GetPos().getX() + obj->GetWidth() / 2 - 4, obj->GetPos().getY() + obj->GetHeight() / 2 - 2, 8, 8, "Bullet"), flip));
 	// 공격 이펙트 오브젝트 생성
-	TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(atkArea->x, atkArea->y, 32, 64, "FXGun"), SDL_GetTicks(), 350, 0, flip == SDL_FLIP_HORIZONTAL));
+	TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(atkArea->x, atkArea->y, 32, 64, "FXGun"), SDL_GetTicks(), 350, 0, 0, flip == SDL_FLIP_HORIZONTAL));
 }

@@ -1,4 +1,5 @@
 Player
+PlayerHallucination
 Tile
 FXSword
 FXGun

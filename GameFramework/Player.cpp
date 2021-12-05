@@ -10,6 +10,7 @@
 #include "WIDTHHEIGHT.h"
 
 const int MOVESPEED = 3;
+const int DASHSPEED = 8;
 const int JUMPHEIGHT = 8;
 
 Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams)
@@ -70,18 +71,19 @@ void Player::OnHit(int amount)
 			ChangeState(PlayerState::DEAD);
 			std::cout << "사망!" << std::endl;
 		}
-		else if(amount > 0)
+		else if (amount > 0)
 		{
 			ChangeState(PlayerState::DAMAGED);
 			std::cout << "타격 당함! 남은 체력: " << life << std::endl;
+			TheCam::Instance()->AddForce(flip == SDL_FLIP_NONE ? 10 : -10, -20);
 		}
-
+		
 		UIManager::Instance()->RefreshHPBar(life);
 	}
 }
 
 // 가만히 있을 때 인풋값을 받는 함수
-void Player::Idle()
+void Player::IdleInput()
 {
 	if (KeyDown(SDL_SCANCODE_RIGHT) || KeyDown(SDL_SCANCODE_LEFT))
 	{
@@ -90,7 +92,7 @@ void Player::Idle()
 }
 
 // 움직일 때 인풋값을 받는 함수
-void Player::Move()
+void Player::MoveInput()
 {
 	if (KeyDown(SDL_SCANCODE_RIGHT))
 	{
@@ -110,7 +112,7 @@ void Player::Move()
 }
 
 // 점프 입력값을 받는 함수
-void Player::Jump()
+void Player::JumpInput()
 {
 	if (KeyDown(SDL_SCANCODE_UP))
 	{
@@ -129,11 +131,23 @@ void Player::Jump()
 }
 
 // 공격 인풋값을 받는 함수
-void Player::Attack()
+void Player::AttackInput()
 {
 	if (KeyDown(SDL_SCANCODE_A))
 	{
 		ChangeState(PlayerState::ATTACK);
+	}
+}
+
+// 대쉬 인풋값을 받는 함수
+void Player::DashInput()
+{
+	if (KeyDown(SDL_SCANCODE_S))
+	{
+		if (SDL_GetTicks() >= dashStartTime + dashDelay)
+		{
+			ChangeState(PlayerState::DASH);
+		}
 	}
 }
 
@@ -264,9 +278,10 @@ void Player::UpdateInState()
 				break;
 			case 4:
 			case 5:
+			case 6:
 				m_currentFrame = 3;
 				break;
-			case 6:
+			case 7:
 			default:
 				ChangeState(PlayerState::IDLE);
 				break;
@@ -318,6 +333,16 @@ void Player::UpdateInState()
 		m_currentFrame = 0;
 		// 피해를 입은 시간 + 넉백 시간을 SDL_GetTicks()가 넘었다면 IDLE상태로 변경
 		if (SDL_GetTicks() >= damagedTime + knockbackTime)
+		{
+			ChangeState(PlayerState::IDLE);
+		}
+		break;
+	// 대쉬 상태
+	case PlayerState::DASH:
+		m_currentRow = 7;
+		m_currentFrame = 0;
+
+		if (SDL_GetTicks() >= dashStartTime + dashDuration)
 		{
 			ChangeState(PlayerState::IDLE);
 		}
@@ -412,7 +437,7 @@ void Player::CheckCollisionWithMove()
 	if (count == 0)
 	{
 		isGrounded = false;
-		if (m_currentState != PlayerState::JUMP)
+		if (m_currentState != PlayerState::JUMP && m_currentState != PlayerState::DASH)
 			ChangeState(PlayerState::JUMP);
 
 		// 점프 중이지 않은 상태에서 낭떠러지로 떨어지면 점프 횟수를 제한
@@ -438,6 +463,9 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::DAMAGED:
 		m_velocity.setX(0);
 		m_velocity.setY(0);
+		break;
+	case PlayerState::DASH:
+		break;
 	default:
 		break;
 	}
@@ -468,6 +496,15 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::DAMAGED:
 		Knockback();
 		damagedTime = SDL_GetTicks();
+		break;
+	case PlayerState::DASH:
+		TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX(), m_position.getY(), 32, 60, "PlayerHallucination"), SDL_GetTicks(), 300, m_currentRow, m_currentFrame, flip == SDL_FLIP_HORIZONTAL, 1));
+		TheAudio::Instance()->PlaySFX("Hallucination");
+		MoveInput();
+		m_velocity.setX(DASHSPEED * (flip == SDL_FLIP_NONE ? 1 : -1));
+		m_velocity.setY(0);
+		dashStartTime = SDL_GetTicks();
+		break;
 	default:
 		break;
 	}
@@ -492,26 +529,30 @@ void Player::handleInput()
 	switch (m_currentState)
 	{
 	case PlayerState::IDLE:
-		Idle();
-		Jump();
-		Attack();
+		IdleInput();
+		JumpInput();
+		AttackInput();
+		DashInput();
 		ChangeWeapon();
 		break;
 
 	case PlayerState::MOVE:
-		Move();
-		Jump();
-		Attack();
+		MoveInput();
+		JumpInput();
+		AttackInput();
+		DashInput();
 		ChangeWeapon();
 		break;
 
 	case PlayerState::JUMP:
-		Move();
-		Jump();
+		MoveInput();
+		JumpInput();
+		DashInput();
 		ChangeWeapon();
 		break;
 
 	case PlayerState::ATTACK:
+		DashInput();
 		break;
 
 	case PlayerState::DEAD:
@@ -519,6 +560,7 @@ void Player::handleInput()
 
 	case PlayerState::DAMAGED:
 		break;
+
 	default:
 		break;
 	}
