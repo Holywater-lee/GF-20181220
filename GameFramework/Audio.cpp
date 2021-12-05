@@ -33,10 +33,10 @@ void Audio::SetVolume(int volume)
 }
 
 // 배경음 불러오기
-bool Audio::LoadBGM(const char* pFileName)
+bool Audio::LoadBGM(const char* pFileName, std::string nameID)
 {
-	bgm = Mix_LoadMUS(pFileName);
-	if (bgm == nullptr)
+	bgmMap[nameID] = Mix_LoadMUS(pFileName);
+	if (bgmMap[nameID] == nullptr)
 	{
 		std::cout << "오류: BGM 불러오기 실패: " << Mix_GetError() << std::endl;
 		return false;
@@ -57,11 +57,11 @@ bool Audio::LoadSFX(const char* pFileName, std::string nameID)
 }
 
 // 배경음 재생
-void Audio::PlayBGM()
+void Audio::PlayBGM(std::string nameID)
 {
 	if (!Mix_PlayingMusic())
 	{
-		Mix_PlayMusic(bgm, -1); // -1은 무한반복재생
+		Mix_PlayMusic(bgmMap[nameID], -1); // -1은 무한반복재생
 	}
 }
 
@@ -88,10 +88,10 @@ void Audio::RemoveSFX(std::string nameID)
 }
 
 // 배경음 삭제
-void Audio::RemoveBGM()
+void Audio::RemoveBGM(std::string nameID)
 {
-	Mix_FreeMusic(bgm);
-	bgm = nullptr;
+	Mix_FreeMusic(bgmMap[nameID]);
+	bgmMap[nameID] = nullptr;
 }
 
 // 클린

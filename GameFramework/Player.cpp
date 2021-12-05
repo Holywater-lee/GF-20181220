@@ -211,9 +211,10 @@ void Player::UpdateInState()
 			case 0:
 			case 1:
 			case 2:
+			case 3:
 				m_currentFrame = 0;
 				break;
-			case 3:
+			case 4:
 				m_currentFrame = 1;
 				// 공격은 단 한번만 이루어져야 함으로 attackFlag라는 bool값을 부득이하게 사용 (사용하지 않으면 매 프레임 공격됨)
 				if (!attackFlag)
@@ -223,14 +224,14 @@ void Player::UpdateInState()
 					AttackActionWithStrategy();
 				}
 				break;
-			case 4:
 			case 5:
+			case 6:
 				m_currentFrame = 2;
 				break;
-			case 6:
+			case 7:
 				m_currentFrame = 3;
 				break;
-			case 7:
+			case 8:
 			default:
 				ChangeState(PlayerState::IDLE);
 				break;
@@ -244,15 +245,13 @@ void Player::UpdateInState()
 			switch ((SDL_GetTicks() - attackStartTime) / 100)
 			{
 			case 0:
-			case 1:
 				m_currentFrame = 0;
 				break;
+			case 1:
 			case 2:
-			case 3:
-			case 4:
 				m_currentFrame = 1;
 				break;
-			case 5:
+			case 3:
 				m_currentFrame = 2;
 
 				// 공격은 단 한번만 이루어져야 함으로 attackFlag라는 bool값을 부득이하게 사용 (사용하지 않으면 매 프레임 공격됨)
@@ -263,11 +262,11 @@ void Player::UpdateInState()
 					AttackActionWithStrategy();
 				}
 				break;
-			case 6:
-			case 7:
+			case 4:
+			case 5:
 				m_currentFrame = 3;
 				break;
-			case 8:
+			case 6:
 			default:
 				ChangeState(PlayerState::IDLE);
 				break;

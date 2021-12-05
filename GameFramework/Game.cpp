@@ -87,7 +87,7 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 // 모든 게임 객체를 초기화하는 함수
 bool Game::Init_Everything()
 {
-	TheAudio::Instance()->PlayBGM();
+	TheAudio::Instance()->PlayBGM("Field");
 	UIManager::Instance()->Init();
 
 	if (!InitTexts()) return false;
@@ -131,11 +131,11 @@ bool Game::InitTextures()
 // 텍스트 객체 초기화
 bool Game::InitTexts()
 {
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 2, 32 * 19, 256, 32, L"좌우 방향키로 이동", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 2, 32 * 20, 256, 32, L"위 방향키로 점프", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13, 32 * 19, 256, 32, L"A키를 눌러 공격", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 13 - 16, 32 * 20, 256 + 32, 32, L"아래 방향키로 공격 방식 전환", false);
-	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 26, 32 * 17, 256, 32, L"점프 두 번으로 더블 점프", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 1, 32 * 18, 256, 32, L"좌우 방향키로 이동", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 1, 32 * 19, 256, 32, L"위 방향키로 점프", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 11, 32 * 18, 256, 32, L"A키를 눌러 공격", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 11 - 16, 32 * 19, 256 + 32, 32, L"아래 방향키로 공격 방식 전환", false);
+	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 24, 32 * 17, 256, 32, L"점프 두 번으로 더블 점프", false);
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, 32 * 14, 32 * 10, 256, 32, L"간격이 길게 더블 점프", false);
 
 	TheTextManager::Instance()->LoadHanguelText(color_white, color_black, SCREEN_WIDTH - 128, 0, 64, 32, L"점수: ");
@@ -149,7 +149,18 @@ bool Game::InitTexts()
 bool Game::InitAudios()
 {
 	if (!TheAudio::Instance()->Init()) return false;
-	TheAudio::Instance()->LoadBGM(TheLoadFiles::Instance()->GetLoadedBGM().c_str());
+
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetBGMMapsSize(); i++)
+	{
+		string tempBGMStr = TheLoadFiles::Instance()->GetLoadedBGMFiles(i);
+		string tempBGMMapStr = TheLoadFiles::Instance()->GetLoadedBGMMaps(i);
+
+		if (!TheAudio::Instance()->LoadBGM(tempBGMStr.c_str(), tempBGMMapStr))
+		{
+			cout << "불러오기 실패: " << tempBGMMapStr << endl;
+			return false;
+		}
+	}
 
 	for (size_t i = 0; i < TheLoadFiles::Instance()->GetSfxMapsSize(); i++)
 	{
@@ -214,7 +225,7 @@ void Game::DetectCollision()
 			}
 		}
 	}
-
+	
 	for (int i = 0; i < m_gameObjects.size(); i++)
 	{
 		if (dynamic_cast<SDLGameObject*>(m_gameObjects[i])->GetTag() == "Potion")
@@ -307,7 +318,7 @@ void Game::Clean_Everything()
 	// 게임오브젝트 제거
 	for (int i = 0; i < size_go; i++)
 	{
-		// 플레이어라면 나중에 지우도록... 플레이어를 참조하는 경우 플레이어가 사라지면 에러
+		// 플레이어라면 나중에 지우도록...
 		if (dynamic_cast<SDLGameObject*>(m_gameObjects[0])->GetTag() == "Player")
 		{
 			continue;
@@ -359,7 +370,10 @@ void Game::clean()
 		TheAudio::Instance()->RemoveSFX(TheLoadFiles::Instance()->GetLoadedSfxMaps(i));
 	}
 	// 오디오(배경음) 삭제
-	TheAudio::Instance()->RemoveBGM();
+	for (size_t i = 0; i < TheLoadFiles::Instance()->GetBGMMapsSize(); i++)
+	{
+		TheAudio::Instance()->RemoveBGM(TheLoadFiles::Instance()->GetLoadedBGMMaps(i));
+	}
 
 	// 각종 매니저 싱글톤 삭제
 	TheUI::Instance()->Clean();

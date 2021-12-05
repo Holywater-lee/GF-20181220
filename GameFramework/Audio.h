@@ -14,13 +14,13 @@ public:
 	~Audio() {}
 
 	bool Init();
-	bool LoadBGM(const char* pFileName);
+	bool LoadBGM(const char* pFileName, std::string nameID);
 	bool LoadSFX(const char* pFileName, std::string nameID);
-	void PlayBGM();
+	void PlayBGM(std::string nameID);
 	void StopBGM();
 	void PlaySFX(std::string nameID);
 	void RemoveSFX(std::string nameID);
-	void RemoveBGM();
+	void RemoveBGM(std::string nameID);
 	void SetVolume(int volume = 100);
 	void Clean();
 
@@ -31,7 +31,7 @@ private:
 	// ÃÖ´ë º¼·ý °ª
 	const float maxVolume = 100;
 
-	Mix_Music* bgm = nullptr;
+	std::map<std::string, Mix_Music*> bgmMap;
 	std::map<std::string, Mix_Chunk*> sfxMap;
 };
 typedef Audio TheAudio;

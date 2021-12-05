@@ -46,16 +46,27 @@ public:
 		}
 		texMap.close();
 
-		// 배경음 주소 (1개만, 추후 수정 가능성 있음)
+		// 배경음 주소
 		ifstream bgmFile("Assets/Files/BgmInit.txt");
 		if (!bgmFile) return false;
 		while (bgmFile.peek() != EOF)
 		{
 			getline(bgmFile, temp_string);
-			loadedBGM = temp_string;
-			cout << "BGM 주소 불러오기: " << loadedBGM << endl;
+			loadedBGMFiles.emplace_back(temp_string);
+			cout << "BGM 주소 불러오기: " << loadedBGMFiles.back() << endl;
 		}
 		bgmFile.close();
+
+		// 배경음 맵
+		ifstream bgmMap("Assets/Files/BgmMapsInit.txt");
+		if (!bgmMap) return false;
+		while (bgmMap.peek() != EOF)
+		{
+			getline(bgmMap, temp_string);
+			loadedBGMMaps.emplace_back(temp_string);
+			cout << "BGM 주소 불러오기: " << loadedBGMMaps.back() << endl;
+		}
+		bgmMap.close();
 
 		// 효과음 주소
 		ifstream sfxFile("Assets/Files/SfxInit.txt");
@@ -105,10 +116,12 @@ public:
 	string GetLoadedTexMaps(int index) { return loadedTexMaps[index]; }
 	string GetLoadedSfxFiles(int index) { return loadedSfxFiles[index]; }
 	string GetLoadedSfxMaps(int index) { return loadedSfxMaps[index]; }
-	string GetLoadedBGM() { return loadedBGM; }
+	string GetLoadedBGMFiles(int index) { return loadedBGMFiles[index]; }
+	string GetLoadedBGMMaps(int index) { return loadedBGMMaps[index]; }
 
 	size_t GetTexMapsSize() { return loadedTexMaps.size(); }
 	size_t GetSfxMapsSize() { return loadedSfxMaps.size(); }
+	size_t GetBGMMapsSize() { return loadedBGMMaps.size(); }
 
 	void Clean();
 
@@ -116,11 +129,11 @@ private:
 	LoadFiles() {}
 	static LoadFiles* s_pInstance;
 
-	string loadedBGM;
-
 	vector<string> loadedTextures;
 	vector<string> loadedTexMaps;
 	vector<string> loadedSfxFiles;
 	vector<string> loadedSfxMaps;
+	vector<string> loadedBGMFiles;
+	vector<string> loadedBGMMaps;
 };
 typedef LoadFiles TheLoadFiles;

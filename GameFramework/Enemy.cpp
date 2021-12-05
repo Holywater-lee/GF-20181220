@@ -13,7 +13,7 @@ Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams), playerPositi
 {
 	tag = "Enemy";
 	life = 3;
-	maxLife = life;
+	maxLife = life; 
 }
 
 void Enemy::draw()
@@ -56,6 +56,11 @@ void Enemy::update()
 	UpdateInState();
 	SDLGameObject::update();
 	CheckCollision();
+
+	if (m_position.getY() >= LEVEL_HEIGHT)
+	{
+		this->clean();
+	}
 }
 
 // 상태별 다른 update
@@ -198,6 +203,7 @@ void Enemy::CheckPlayerInRange()
 	{
 		// 플레이어 위치값을 받아옴
 		playerPosition = TheGame::Instance()->GetPlayerPos();
+		//playerPosition = TheGame::Instance()->FindObjectPositionWithTag("Player");
 
 		// 거리의 제곱 계산 (제곱근으로 거리를 계산하는 것보다 빠름), LengthSquare은 직접 추가한 Vector2D 함수
 		if (Vector2D::LengthSquare(playerPosition, m_position) <= chasingDetectRange * chasingDetectRange)

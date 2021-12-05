@@ -57,6 +57,7 @@
     <ClInclude Include="MapManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerAttackStrategy.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Potion.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="ScoreManager.h" />
