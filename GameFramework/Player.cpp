@@ -6,6 +6,7 @@
 #include "FXAnimation.h"
 #include "Audio.h"
 #include "UIManager.h"
+#include "MapManager.h"
 
 #include "WIDTHHEIGHT.h"
 
@@ -41,7 +42,9 @@ void Player::update()
 
 	//SDLGameObject::update();
 	if (m_currentState != PlayerState::DEAD)
+	{
 		CheckCollisionWithMove();
+	}
 
 	TheCam::Instance()->Update(this);
 
@@ -366,27 +369,42 @@ void Player::CheckCollisionWithMove()
 			ChangeState(PlayerState::IDLE);
 	}
 
-	// SDLGameObject::update(); 를 사용하지 않고 x축 충돌처리와 y축 충돌처리를 따로 구분하기 위해서 이렇게 구현하였습니다
-	// SDLGameObject::update(); 를 사용한 후 각각의 축에 대해 충돌처리 시 대각선 방향에서 충돌하는 경우 원하는 움직임이 구현되지 않았습니다.
-	// x축에 대한 처리
+	// 근처의 타일 정보를 저장할 벡터
+	std::vector<SDL_Rect> collisionRects;
+
+	// 근처에 타일이 있다면 위의 collisionRects 벡터에 저장한다
+	for (int i = (m_position.getY() - TILE_SIZE) / TILE_SIZE; i <= (m_position.getY() + (TILE_SIZE * 3)) / TILE_SIZE; i += 1)
+	{
+		for (int k = (m_position.getX() - TILE_SIZE) / TILE_SIZE; k <= (m_position.getX() + (TILE_SIZE * 2)) / TILE_SIZE; k += 1)
+		{
+			if (TheMap::Instance()->IsTileThere(k, i))
+			{
+				SDL_Rect tempRect = { k * TILE_SIZE, i * TILE_SIZE, TILE_SIZE, TILE_SIZE };
+				collisionRects.emplace_back(std::move(tempRect));
+			}
+		}
+	}
+
+	// x축 이동
 	m_velocity.setX(m_velocity.getX() + m_acceleration.getX());
 	m_position.setX(m_position.getX() + m_velocity.getX());
-	for (auto& tile : TheGame::Instance()->GetTileObjects())
+	// 근처의 타일에 대해서만 충돌 체크 (최적화) / x축 충돌 체크
+	for (int i = 0; i < collisionRects.size(); i++)
 	{
-		if (Collision::onCollision(this, tile))
+		if (Collision::onCollision(&collisionRects[i], this))
 		{
 			if (m_velocity.getX() > 0)
 			{
-				m_position.setX(tile->GetPos().getX() - m_width);
+				m_position.setX(collisionRects[i].x - m_width);
 			}
 			else if (m_velocity.getX())
 			{
-				m_position.setX(tile->GetPos().getX() + tile->GetWidth());
+				m_position.setX(collisionRects[i].x + collisionRects[i].w);
 			}
 			m_velocity.setX(0);
 		}
 	}
-	// 화면 밖으로 나갈 경우 (x축)
+	// x축 화면 밖으로 나가지 못하게 한다
 	if (m_position.getX() <= 0)
 	{
 		m_position.setX(0);
@@ -396,22 +414,23 @@ void Player::CheckCollisionWithMove()
 		m_position.setX(LEVEL_WIDTH - m_width);
 	}
 
-	// y축에 대한 처리
+	// y축 이동
 	m_velocity.setY(m_velocity.getY() + m_acceleration.getY());
 	m_position.setY(m_position.getY() + m_velocity.getY());
-	for (auto& tile : TheGame::Instance()->GetTileObjects())
+	// 근처의 타일에 대해서만 충돌 체크 (최적화) / y축 충돌 체크
+	for (int i = 0; i < collisionRects.size(); i++)
 	{
-		if (Collision::onCollision(this, tile))
+		if (Collision::onCollision(&collisionRects[i], this))
 		{
 			if (m_velocity.getY() > 0)
 			{
 				isGrounded = true;
 				currentJumpCount = 0;
-				m_position.setY(tile->GetPos().getY() - m_height);
+				m_position.setY(collisionRects[i].y - m_height);
 			}
 			else if (m_velocity.getY() < 0)
 			{
-				m_position.setY(tile->GetPos().getY() + tile->GetHeight());
+				m_position.setY(collisionRects[i].y + collisionRects[i].h);
 				m_velocity.setY(0);
 			}
 
@@ -422,18 +441,19 @@ void Player::CheckCollisionWithMove()
 			}
 		}
 	}
-	
+
 	// 땅을 밟고 있는지에 대한 처리 (isGrounded)
 	m_position.setY(m_position.getY() + 1);
 	int count = 0;
-	for (auto& tile : TheGame::Instance()->GetTileObjects())
+	for (auto& tile : collisionRects)
 	{
-		if (Collision::onCollision(this, tile))
+		if (Collision::onCollision(&tile, this))
 		{
 			count++;
 		}
 	}
 	m_position.setY(m_position.getY() - 1);
+
 	if (count == 0)
 	{
 		isGrounded = false;
