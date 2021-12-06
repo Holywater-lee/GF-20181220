@@ -12,3 +12,4 @@ Assets/Sprites/Icon_Sword.png
 Assets/Sprites/Icon_Gun.png
 Assets/Sprites/Potion.png
 Assets/Sprites/Holy_VFX.png
+Assets/Sprites/Minotaur_Sheet_Fixed_96x64.png

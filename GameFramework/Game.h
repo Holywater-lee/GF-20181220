@@ -35,7 +35,6 @@ public:
 	void CreateTileObject(GameObject* obj) { m_tiles.push_back(obj); }
 	void CreateGameObject(GameObject* obj) { m_gameObjects.push_back(obj); }
 
-	vector<GameObject*> GetTileObjects() { return m_tiles; }
 	vector<GameObject*> GetGameObjects() { return m_gameObjects; }
 
 	void RefreshScore();

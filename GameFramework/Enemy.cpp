@@ -9,7 +9,7 @@
 #include "WIDTHHEIGHT.h"
 
 // 초기화
-Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams), playerPosition(0, 0)
+Enemy::Enemy(const LoaderParams* pParams) : EnemyBase(pParams), playerPosition(0, 0)
 {
 	tag = "Enemy";
 	life = 3;
@@ -18,7 +18,7 @@ Enemy::Enemy(const LoaderParams* pParams) : SDLGameObject(pParams), playerPositi
 
 void Enemy::draw()
 {
-	SDLGameObject::draw();
+	EnemyBase::draw();
 }
 
 // 피격당하는 함수
@@ -35,6 +35,12 @@ void Enemy::OnHit(int amount)
 			// 스코어에 10점 추가
 			TheScore::Instance()->AddScore(10);
 			ChangeState(EnemyState::DEAD);
+			switch (Utility::GetRandomInt(0, 1))
+			{
+				case 0: TheAudio::Instance()->PlaySFX("EnemyDeath00"); break;
+				case 1: TheAudio::Instance()->PlaySFX("EnemyDeath01"); break;
+				default: break;
+			}
 		}
 		else
 		{
@@ -54,8 +60,8 @@ void Enemy::update()
 	}
 
 	UpdateInState();
-	SDLGameObject::update();
-	CheckCollision();
+	EnemyBase::update();
+	EnemyBase::CheckCollision();
 
 	if (m_position.getY() >= LEVEL_HEIGHT)
 	{
@@ -381,72 +387,7 @@ void Enemy::Flipping()
 	}
 }
 
-// Enemy의 충돌 체크 코드
-void Enemy::CheckCollision()
-{
-	if (!isGrounded)
-	{
-		m_acceleration.setY(GRAVITY);
-	}
-
-	float oldX = m_position.getX();
-
-	for (auto& tile : TheGame::Instance()->GetTileObjects())
-	{
-		if (Collision::onCollision(this, tile))
-		{
-			if (m_position.getY() != tile->GetPos().getY() + tile->GetHeight() && m_position.getY() + m_height != tile->GetPos().getY())
-			{
-				if (m_velocity.getX() > 0 && m_position.getX() + m_width > tile->GetPos().getX() && m_position.getX() + m_width < tile->GetPos().getX() + tile->GetWidth())
-				{
-					m_position.setX(tile->GetPos().getX() - m_width);
-				}
-				else if (m_velocity.getX() < 0 && m_position.getX() < tile->GetPos().getX() + tile->GetWidth() && m_position.getX() > tile->GetWidth())
-				{
-					m_position.setX(tile->GetPos().getX() + tile->GetWidth());
-				}
-				m_velocity.setX(0);
-			}
-
-			if (m_position.getX() != tile->GetPos().getX() + tile->GetWidth() && m_position.getX() + m_width != tile->GetPos().getX())
-			{
-				if (m_velocity.getY() > 0 && m_position.getY() + m_height > tile->GetPos().getY() && m_position.getY() + m_height < tile->GetPos().getY() + tile->GetHeight())
-				{
-					isGrounded = true;
-
-					m_position.setX(oldX);
-					m_position.setY(tile->GetPos().getY() - m_height);
-				}
-				else if (m_velocity.getY() < 0 && m_position.getY() < tile->GetPos().getY() + tile->GetHeight() && m_position.getY() > tile->GetHeight())
-				{
-					m_position.setX(oldX);
-					m_position.setY(tile->GetPos().getY() + tile->GetHeight());
-					m_velocity.setY(0);
-				}
-
-				m_acceleration.setY(0);
-				m_velocity.setY(0);
-			}
-		}
-	}
-
-	m_position.setY(m_position.getY() + 1);
-	int count = 0;
-	for (auto& tile : TheGame::Instance()->GetTileObjects())
-	{
-		if (Collision::onCollision(this, tile))
-		{
-			count++;
-		}
-	}
-	m_position.setY(m_position.getY() - 1);
-	if (count == 0)
-	{
-		isGrounded = false;
-	}
-}
-
 void Enemy::clean()
 {
-	SDLGameObject::clean();
+	EnemyBase::clean();
 }

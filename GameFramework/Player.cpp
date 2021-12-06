@@ -64,7 +64,6 @@ void Player::OnHit(int amount)
 	if (m_currentState != PlayerState::DEAD)
 	{
 		life -= amount;
-		std::cout << "피격 " << life << ", " << maxLife << std::endl;
 
 		if (life > maxLife) life = maxLife;
 
@@ -72,12 +71,10 @@ void Player::OnHit(int amount)
 		{
 			life = 0;
 			ChangeState(PlayerState::DEAD);
-			std::cout << "사망!" << std::endl;
 		}
 		else if (amount > 0)
 		{
 			ChangeState(PlayerState::DAMAGED);
-			std::cout << "타격 당함! 남은 체력: " << life << std::endl;
 			TheCam::Instance()->AddForce(flip == SDL_FLIP_NONE ? 10 : -10, -20);
 		}
 		
@@ -373,9 +370,9 @@ void Player::CheckCollisionWithMove()
 	std::vector<SDL_Rect> collisionRects;
 
 	// 근처에 타일이 있다면 위의 collisionRects 벡터에 저장한다
-	for (int i = (m_position.getY() - TILE_SIZE) / TILE_SIZE; i <= (m_position.getY() + (TILE_SIZE * 3)) / TILE_SIZE; i += 1)
+	for (int i = (m_position.getY() - TILE_SIZE) / TILE_SIZE; i <= (m_position.getY() + (TILE_SIZE * 3)) / TILE_SIZE; i++)
 	{
-		for (int k = (m_position.getX() - TILE_SIZE) / TILE_SIZE; k <= (m_position.getX() + (TILE_SIZE * 2)) / TILE_SIZE; k += 1)
+		for (int k = (m_position.getX() - TILE_SIZE) / TILE_SIZE; k <= (m_position.getX() + (TILE_SIZE * 2)) / TILE_SIZE; k++)
 		{
 			if (TheMap::Instance()->IsTileThere(k, i))
 			{

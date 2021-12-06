@@ -1,7 +1,7 @@
 #pragma once
-#include "SDLGameObject.h"
+#include "EnemyBase.h"
 
-class Enemy : public SDLGameObject
+class Enemy : public EnemyBase
 {
 public:
 	Enemy(const LoaderParams* pParams);
@@ -22,7 +22,6 @@ private:
 	void ChangeState(EnemyState state);
 	void ChangePatrolState(PatrolState state);
 
-	void CheckCollision();
 	void CheckPlayerInRange();
 	void CheckPlayerInAttackRange();
 	void CheckMoveDirection();
@@ -37,7 +36,6 @@ private:
 
 	bool attackFlag = false;
 	bool moveDirRefreshedFlag = false;
-	bool isGrounded = true;
 
 	int damagedTime = 0;
 	int deadTime = 0;

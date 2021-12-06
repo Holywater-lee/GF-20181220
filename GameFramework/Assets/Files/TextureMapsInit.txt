@@ -12,3 +12,4 @@ IconSword
 IconGun
 Potion
 FXPotion
+BossEnemy

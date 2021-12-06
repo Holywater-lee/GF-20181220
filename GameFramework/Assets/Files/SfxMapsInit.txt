@@ -4,3 +4,5 @@ GunSFX
 Jump
 PotionSFX
 Hallucination
+EnemyDeath00
+EnemyDeath01
