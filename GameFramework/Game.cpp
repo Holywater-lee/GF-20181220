@@ -78,7 +78,7 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 	if (!Init_Everything()) return false;
 
 	// 오디오 볼륨 조절
-	TheAudio::Instance()->SetVolume(15);
+	TheAudio::Instance()->SetVolume(25);
 
 	cout << "초기화 성공!" << endl;
 	m_bRunning = true;
@@ -89,13 +89,13 @@ bool Game::init(const char* title, int xpos, int ypos, int height, int width, in
 bool Game::Init_Everything()
 {
 	TheAudio::Instance()->PlayBGM("Field");
-	UIManager::Instance()->Init();
+	TheUI::Instance()->Init();
 
 	if (!InitTexts()) return false;
 
 	TheMap::Instance()->CreateMap(0, 0);
 
-	CreateGameObject(new BossEnemy(new LoaderParams(32 * 6, 32 * 15, 96, 64, "BossEnemy")));
+	CreateGameObject(new BossEnemy(new LoaderParams(32 * 50, 32 * 15, 96, 64, "BossEnemy")));
 
 	playerObject = new Player(new LoaderParams(32 * 2, 32 * 14, 32, 60, "Player"));
 	CreateGameObject(playerObject);
@@ -379,7 +379,7 @@ void Game::clean()
 		TheAudio::Instance()->RemoveBGM(TheLoadFiles::Instance()->GetLoadedBGMMaps(i));
 	}
 
-	// 각종 매니저 싱글톤 삭제
+	// 각종 매니저 관련 삭제
 	TheUI::Instance()->Clean();
 	TheTextManager::Instance()->clean();
 	TheAudio::Instance()->Clean();

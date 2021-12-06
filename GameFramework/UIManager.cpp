@@ -19,6 +19,11 @@ void UIManager::Init()
 	RefreshHPBar(hpBarMaxAmount);
 	fakeHpBar->SetWidth(targetHpAmount);
 	SetWeaponIcon("IconGun");
+	if (gameOverUI != nullptr)
+	{
+		delete gameOverUI;
+		gameOverUI = nullptr;
+	}
 }
 
 void UIManager::Update()
@@ -42,6 +47,9 @@ void UIManager::Draw()
 
 	if (weaponIcon != nullptr)
 		weaponIcon->Draw();
+
+	if (gameOverUI != nullptr)
+		gameOverUI->Draw();
 }
 
 // hpBar를 갱신하고 fakeHpBar가 따라가야 할 목표치를 계산하는 함수
@@ -69,6 +77,24 @@ void UIManager::ShakeIcon()
 	weaponIcon->SetX(weaponIconOriginalX + 32 * (randomInt == 0 ? 1 : -1));
 }
 
+void UIManager::SetGameOverUI(bool win)
+{
+	if (gameOverUI != nullptr)
+	{
+		delete gameOverUI;
+		gameOverUI = nullptr;
+	}
+
+	if (win)
+	{
+		gameOverUI = new UIObject(new LoaderParams(SCREEN_WIDTH / 2 - 128, SCREEN_HEIGHT / 2 - 128, 256, 256, "WinUI"));
+	}
+	else
+	{
+		gameOverUI = new UIObject(new LoaderParams(SCREEN_WIDTH / 2 - 128, SCREEN_HEIGHT / 2 - 128, 256, 256, "GameOverUI"));
+	}
+}
+
 // 클린
 void UIManager::Clean()
 {
@@ -86,6 +112,11 @@ void UIManager::Clean()
 	{
 		delete weaponIcon;
 		weaponIcon = nullptr;
+	}
+	if (gameOverUI != nullptr)
+	{
+		delete gameOverUI;
+		gameOverUI = nullptr;
 	}
 
 	delete s_pInstance;

@@ -13,3 +13,7 @@ IconGun
 Potion
 FXPotion
 BossEnemy
+FXHit
+FXGathering
+GameOverUI
+WinUI

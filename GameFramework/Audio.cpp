@@ -59,6 +59,7 @@ bool Audio::LoadSFX(const char* pFileName, std::string nameID)
 // 배경음 재생
 void Audio::PlayBGM(std::string nameID)
 {
+	StopBGM();
 	if (!Mix_PlayingMusic())
 	{
 		Mix_PlayMusic(bgmMap[nameID], -1); // -1은 무한반복재생

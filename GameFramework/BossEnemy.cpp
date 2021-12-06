@@ -3,12 +3,15 @@
 #include "Utility.h"
 #include "Collision.h"
 #include "Game.h"
+#include "Audio.h"
+#include "FXAnimation.h"
+#include "UIManager.h"
 
 // 초기화
 BossEnemy::BossEnemy(const LoaderParams* pParams) : EnemyBase(pParams)
 {
 	tag = "Enemy";
-	life = 50;
+	life = 40;
 	maxLife = life;
 	score = 200;
 }
@@ -35,6 +38,7 @@ void BossEnemy::OnHit(int amount)
 		}
 
 		std::cout << "보스 생명력: " << life << std::endl;
+		TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX() + 32, m_position.getY() + 16, 32, 32, "FXHit"), SDL_GetTicks(), 300, 0, 0, false, 7));
 	}
 }
 
@@ -73,6 +77,43 @@ void BossEnemy::ChooseRandomPattern()
 	}
 }
 
+void BossEnemy::CheckPlayer()
+{
+	Vector2D playerPos = TheGame::Instance()->GetPlayerPos();
+
+	if (!isFoundPlayer)
+	{
+		// 플레이어가 맵의 특정 위치에 있다면
+		if (playerPos.getX() / TILE_SIZE > 50 && playerPos.getX() / TILE_SIZE < 58 && playerPos.getY() / TILE_SIZE < 19)
+		{
+			isFoundPlayer = true;
+			TheAudio::Instance()->PlayBGM("Boss");
+		}
+	}
+	else
+	{
+		if (Vector2D::LengthSquare(playerPos, m_position) <= attackDetectRange * attackDetectRange)
+		{
+			isPlayerInAttackRange = true;
+
+			if (!attackFlag)
+			{
+				actionFlag = true;
+				ChooseRandomPattern();
+			}
+			else if (currentPattern == PatternState::MOVE)
+				ChangeState(PatternState::IDLE);
+		}
+		else
+		{
+			isPlayerInAttackRange = false;
+
+			if (currentPattern != PatternState::MOVE)
+				ChangeState(PatternState::MOVE);
+		}
+	}
+}
+
 // 상태 별 다른 업데이트
 void BossEnemy::UpdateInState()
 {
@@ -88,11 +129,16 @@ void BossEnemy::UpdateInState()
 			actionFlag = false;
 		}
 
-		if (!actionFlag)
-		{
-			actionFlag = true;
-			ChooseRandomPattern();
-		}
+		CheckPlayer();
+		break;
+
+	case PatternState::MOVE:
+		m_currentRow = 1;
+
+		m_currentFrame = (SDL_GetTicks() / 100) % 8;
+		Flipping();
+		m_velocity.setX(moveSpeed * (flip == SDL_FLIP_NONE ? 1 : -1));
+		CheckPlayer();
 		break;
 
 	case PatternState::PT_Charge:
@@ -232,34 +278,32 @@ void BossEnemy::UpdateInState()
 			m_currentFrame = 1;
 			break;
 		case 2:
-		case 3:
-		case 4:
 			m_currentFrame = 2;
 			break;
-		case 5:
+		case 3:
 			m_currentFrame = 3;
-			whirlAttackArea.x = m_position.getX() + 8;
+			whirlAttackArea.x = m_position.getX();
 			whirlAttackArea.y = m_position.getY() + 32;
 			Attack(&whirlAttackArea);
 			break;
-		case 6:
-		case 7:
+		case 4:
+		case 5:
 			m_currentFrame = 4;
 			break;
-		case 8:
+		case 6:
 			m_currentFrame = 5;
 			Attack(&whirlAttackArea); // 두 번은 피격당하지 않으나(attackFlag) 공격 판정은 두 번임
 			break;
-		case 9:
+		case 7:
 			m_currentFrame = 6;
 			break;
+		case 8:
+		case 9:
 		case 10:
 		case 11:
-		case 12:
-		case 13:
 			m_currentFrame = 7;
 			break;
-		case 14:
+		case 12:
 		default:
 			ChangeState(PatternState::IDLE);
 			break;
@@ -269,15 +313,38 @@ void BossEnemy::UpdateInState()
 	case PatternState::DEAD:
 		m_currentRow = 7;
 
-		if ((SDL_GetTicks() - deadTime / 150) % 6 < 6)
-			m_currentFrame = (SDL_GetTicks() - deadTime / 150) % 6;
-		else
+		switch ((SDL_GetTicks() - deadTime) / 100)
+		{
+		case 0:
+			m_currentFrame = 0;
+			break;
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			m_currentFrame = 1;
+			break;
+		case 5:
+		case 6:
+			m_currentFrame = 2;
+			break;
+		case 7:
+		case 8:
+			m_currentFrame = 3;
+			break;
+		case 9:
+			m_currentFrame = 4;
+			break;
+		case 10:
+		default:
 			m_currentFrame = 5;
+			break;
+		}
 		break;
 
 	case PatternState::ChargeRun:
 		m_currentRow = 1;
-		m_currentFrame = (SDL_GetTicks() / 70) % 8;
+		m_currentFrame = (SDL_GetTicks() / 60) % 8;
 
 		if (SDL_GetTicks() >= chargeStartTime + chargeDuration)
 		{
@@ -330,6 +397,9 @@ void BossEnemy::ChangeState(PatternState state)
 		case PatternState::IDLE:
 			Flipping();
 			break;
+		case PatternState::MOVE:
+			m_velocity.setX(0);
+			break;
 		case PatternState::PT_Charge:
 			break;
 		case PatternState::PT_Slash:
@@ -372,6 +442,7 @@ void BossEnemy::ChangeState(PatternState state)
 	case PatternState::PT_Buff:
 		buffStartTime = SDL_GetTicks();
 		isBuffed = true;
+		TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX() + 16, m_position.getY(), 64, 64, "FXGathering"), SDL_GetTicks(), 1200, 0, 0, false, 33));
 		std::cout << "보스 버프 적용됨: 피해량 1 추가" << std::endl;
 		break;
 	case PatternState::PT_Whirl:
@@ -383,6 +454,7 @@ void BossEnemy::ChangeState(PatternState state)
 	case PatternState::DEAD:
 		deadTime = SDL_GetTicks();
 		m_velocity.setX(0);
+		TheUI::Instance()->SetGameOverUI(true);
 		break;
 	default:
 		break;

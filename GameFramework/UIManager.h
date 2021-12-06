@@ -19,12 +19,15 @@ public:
 	void SetWeaponIcon(std::string nameID);
 	void ShakeIcon();
 
+	void SetGameOverUI(bool win = true);
+
 private:
 	UIManager();
 
 	UIObject* hpBar;
 	UIObject* fakeHpBar;
 	UIObject* weaponIcon;
+	UIObject* gameOverUI;
 
 	const int hpBarMaxAmount = 5;
 	int targetHpAmount = 0;

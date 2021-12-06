@@ -13,3 +13,7 @@ Assets/Sprites/Icon_Gun.png
 Assets/Sprites/Potion.png
 Assets/Sprites/Holy_VFX.png
 Assets/Sprites/Minotaur_Sheet_Fixed_96x64.png
+Assets/Sprites/Holy_VFX_Hit.png
+Assets/Sprites/Gathering_Fixed-Sheet.png
+Assets/Sprites/GameOverUI.png
+Assets/Sprites/WinUI.png

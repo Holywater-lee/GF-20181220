@@ -78,6 +78,7 @@ void Player::OnHit(int amount)
 			TheCam::Instance()->AddForce(flip == SDL_FLIP_NONE ? 10 : -10, -20);
 		}
 		
+		TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX(), m_position.getY() + 16, 32, 32, "FXHit"), SDL_GetTicks(), 300, 0, 0, false, 7));
 		UIManager::Instance()->RefreshHPBar(life);
 	}
 }
@@ -509,6 +510,7 @@ void Player::ChangeState(PlayerState state)
 		break;
 	case PlayerState::DEAD:
 		deadTime = SDL_GetTicks();
+		TheUI::Instance()->SetGameOverUI(false);
 		break;
 	case PlayerState::DAMAGED:
 		Knockback();
