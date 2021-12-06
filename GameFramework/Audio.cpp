@@ -54,6 +54,8 @@ bool Audio::LoadSFX(const char* pFileName, std::string nameID)
 		std::cout << "오류: 효과음 불러오기 실패: " << Mix_GetError() << std::endl;
 		return false;
 	}
+
+	return true;
 }
 
 // 배경음 재생

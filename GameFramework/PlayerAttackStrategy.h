@@ -7,6 +7,7 @@ class PlayerAttackStrategy
 {
 public:
 	virtual void AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SDL_RendererFlip flip) = 0;
+	virtual ~PlayerAttackStrategy() {}
 };
 
 // 근접 공격 스트래티지
@@ -14,6 +15,7 @@ class MeleeAttackStrategy : public PlayerAttackStrategy
 {
 public:
 	virtual void AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SDL_RendererFlip flip);
+	virtual ~MeleeAttackStrategy() {}
 };
 
 // 원거리 공격 스트래티지
@@ -21,4 +23,5 @@ class RangedAttackStrategy : public PlayerAttackStrategy
 {
 public:
 	virtual void AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SDL_RendererFlip flip);
+	virtual ~RangedAttackStrategy() {}
 };

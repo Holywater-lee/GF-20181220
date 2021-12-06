@@ -1,21 +1,56 @@
-﻿  BossEnemy.cpp
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Utility.h(18,13): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+﻿  Audio.cpp
+  Game.cpp
 F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(34,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
 F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(35,14): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(41,116): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(41,92): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(51,21): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(67,21): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(128,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(141,29): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(174,56): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(175,39): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(214,55): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(215,41): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(286,39): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(287,42): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(350,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(432,113): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(432,92): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\BossEnemy.cpp(437,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(233,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(246,102): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(246,77): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(266,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(285,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Game.cpp(297,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  MapManager.cpp
+  Player.cpp
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(34,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(35,14): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Camera.h(17,35): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Camera.h(18,35): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(78,38): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(81,111): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(81,89): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(120,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(148,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(160,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(336,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(346,22): warning C4018: '>=': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(374,13): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(376,14): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(390,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(396,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(400,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(412,31): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(419,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(427,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(431,41): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(509,131): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(509,107): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(521,108): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(521,89): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(524,29): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(536,51): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Player.cpp(537,34): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  PlayerAttackStrategy.cpp
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Camera.h(17,35): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Camera.h(18,35): warning C4244: 'return': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(34,15): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Collision.h(35,14): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(13,36): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(17,58): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(18,36): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(39,36): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(43,58): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(44,36): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(47,160): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\PlayerAttackStrategy.cpp(47,111): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  LINK : F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Debug\GameFramework.exe을(를) 찾을 수 없거나 마지막 증분 링크에 의해 빌드되지 않았습니다. 전체 링크를 수행하고 있습니다.
   GameFramework.vcxproj -> F:\github_desktop\sdlproject\GameFramework\GF-20181220\GameFramework\Debug\GameFramework.exe
