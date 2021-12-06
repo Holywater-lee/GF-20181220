@@ -6,7 +6,7 @@
 #include "WIDTHHEIGHT.h"
 
 // 충돌 체크
-void EnemyBase::CheckCollision()
+void EnemyBase::CheckCollision(int checkX, int checkY)
 {
 	if (!isGrounded)
 	{
@@ -17,9 +17,9 @@ void EnemyBase::CheckCollision()
 	std::vector<SDL_Rect> collisionRects;
 
 	// 근처에 타일이 있다면 위의 collisionRects 벡터에 저장한다
-	for (int i = (m_position.getY() - TILE_SIZE) / TILE_SIZE; i <= (m_position.getY() + (TILE_SIZE * 1)) / TILE_SIZE; i++)
+	for (int i = (m_position.getY() - TILE_SIZE) / TILE_SIZE; i <= (m_position.getY() + (TILE_SIZE * checkY)) / TILE_SIZE; i++)
 	{
-		for (int k = (m_position.getX() - TILE_SIZE) / TILE_SIZE; k <= (m_position.getX() + (TILE_SIZE * 1)) / TILE_SIZE; k++)
+		for (int k = (m_position.getX() - TILE_SIZE) / TILE_SIZE; k <= (m_position.getX() + (TILE_SIZE * checkX)) / TILE_SIZE; k++)
 		{
 			if (TheMap::Instance()->IsTileThere(k, i))
 			{

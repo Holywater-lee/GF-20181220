@@ -14,6 +14,7 @@
 #include "Player.h"
 #include "Potion.h"
 #include "FXAnimation.h"
+#include "BossEnemy.h"
 
 #include <algorithm>
 
@@ -93,7 +94,10 @@ bool Game::Init_Everything()
 	if (!InitTexts()) return false;
 
 	TheMap::Instance()->CreateMap(0, 0);
-	playerObject = new Player(new LoaderParams(32 * 2, 32 * 16, 32, 60, "Player"));
+
+	CreateGameObject(new BossEnemy(new LoaderParams(32 * 6, 32 * 15, 96, 64, "BossEnemy")));
+
+	playerObject = new Player(new LoaderParams(32 * 2, 32 * 14, 32, 60, "Player"));
 	CreateGameObject(playerObject);
 
 	return true;

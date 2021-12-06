@@ -13,7 +13,8 @@ Enemy::Enemy(const LoaderParams* pParams) : EnemyBase(pParams), playerPosition(0
 {
 	tag = "Enemy";
 	life = 3;
-	maxLife = life; 
+	maxLife = life;
+	score = 5;
 }
 
 void Enemy::draw()
@@ -32,15 +33,9 @@ void Enemy::OnHit(int amount)
 
 		if (life <= 0)
 		{
-			// 스코어에 10점 추가
-			TheScore::Instance()->AddScore(10);
+			// 스코어에 점수 추가
+			TheScore::Instance()->AddScore(score);
 			ChangeState(EnemyState::DEAD);
-			switch (Utility::GetRandomInt(0, 1))
-			{
-				case 0: TheAudio::Instance()->PlaySFX("EnemyDeath00"); break;
-				case 1: TheAudio::Instance()->PlaySFX("EnemyDeath01"); break;
-				default: break;
-			}
 		}
 		else
 		{
@@ -61,7 +56,7 @@ void Enemy::update()
 
 	UpdateInState();
 	EnemyBase::update();
-	EnemyBase::CheckCollision();
+	EnemyBase::CheckCollision(1, 1);
 
 	if (m_position.getY() >= LEVEL_HEIGHT)
 	{
@@ -169,6 +164,12 @@ void Enemy::ChangeState(EnemyState state)
 	case EnemyState::DEAD:
 		deadTime = SDL_GetTicks();
 		m_velocity.setX(0);
+		switch (Utility::GetRandomInt(0, 1))
+		{
+			case 0: TheAudio::Instance()->PlaySFX("EnemyDeath00"); break;
+			case 1: TheAudio::Instance()->PlaySFX("EnemyDeath01"); break;
+			default: break;
+		}
 		break;
 	case EnemyState::DAMAGED:
 		damagedTime = SDL_GetTicks();

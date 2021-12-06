@@ -20,6 +20,7 @@ public:
 	virtual void OnHit(int amount) = 0;
 
 protected:
-	virtual void CheckCollision();
+	virtual void CheckCollision(int checkX, int checkY);
 	bool isGrounded = true;
+	int score = 0;
 };
