@@ -6,3 +6,8 @@ Assets/Sounds/Potion.wav
 Assets/Sounds/PTeHal01.wav
 Assets/Sounds/TMaDth00.wav
 Assets/Sounds/TMaDth01.wav
+Assets/Sounds/AirWhoosh.wav
+Assets/Sounds/Hit_Sword.wav
+Assets/Sounds/Hit_Heavy.wav
+Assets/Sounds/WinSound.wav
+Assets/Sounds/GameOverSound.wav

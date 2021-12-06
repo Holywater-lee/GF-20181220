@@ -511,6 +511,7 @@ void Player::ChangeState(PlayerState state)
 	case PlayerState::DEAD:
 		deadTime = SDL_GetTicks();
 		TheUI::Instance()->SetGameOverUI(false);
+		TheAudio::Instance()->PlaySFX("GameOver");
 		break;
 	case PlayerState::DAMAGED:
 		Knockback();

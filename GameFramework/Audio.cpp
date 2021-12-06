@@ -23,7 +23,7 @@ void Audio::SetVolume(int volume)
 	// Mix_VolumeMusic의 최대값은 128이지만 최대값을 100으로 설정
 	int setVolume = static_cast<int>((MIX_MAX_VOLUME / maxVolume) * volume);
 	// 배경음 볼륨 조절
-	Mix_VolumeMusic(setVolume);
+	Mix_VolumeMusic(setVolume - 10); // 배경음은 좀 낮게 설정,,
 
 	// 모든 효과음을 순회하며 볼륨 조절
 	for (size_t i = 0; i < TheLoadFiles::Instance()->GetSfxMapsSize(); i++)

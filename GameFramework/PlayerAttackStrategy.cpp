@@ -24,6 +24,7 @@ void MeleeAttackStrategy::AttackAction(SDLGameObject* obj, SDL_Rect* atkArea, SD
 			if (dynamic_cast<SDLGameObject*>(enemy)->GetTag() == "Enemy")
 			{
 				enemy->OnHit(2);
+				TheAudio::Instance()->PlaySFX("SwordHit");
 			}
 		}
 	}

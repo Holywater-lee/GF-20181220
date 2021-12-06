@@ -77,6 +77,7 @@ void BossEnemy::ChooseRandomPattern()
 	}
 }
 
+// 플레이어 위치 체크
 void BossEnemy::CheckPlayer()
 {
 	Vector2D playerPos = TheGame::Instance()->GetPlayerPos();
@@ -357,11 +358,13 @@ void BossEnemy::UpdateInState()
 	}
 }
 
+// 공격 처리 함수
 void BossEnemy::Attack(SDL_Rect* area)
 {
 	if (!attackFlag)
 	{
 		attackFlag = true;
+		TheAudio::Instance()->PlaySFX("AirWhoosh");
 
 		// 실제 공격 부분에 대한 처리
 		for (const auto& player : TheGame::Instance()->GetGameObjects())
@@ -371,12 +374,14 @@ void BossEnemy::Attack(SDL_Rect* area)
 				if (dynamic_cast<SDLGameObject*>(player)->GetTag() == "Player")
 				{
 					player->OnHit(damageAmount + (isBuffed ? buffAddDamage : 0));
+					TheAudio::Instance()->PlaySFX("HeavyHit");
 				}
 			}
 		}
 	}
 }
 
+// 플레이어 방향을 기준으로 flip하는 함수
 void BossEnemy::Flipping()
 {
 	if (m_position.getX() + m_width / 2 < TheGame::Instance()->GetPlayerPos().getX() + 16)
@@ -400,20 +405,8 @@ void BossEnemy::ChangeState(PatternState state)
 		case PatternState::MOVE:
 			m_velocity.setX(0);
 			break;
-		case PatternState::PT_Charge:
-			break;
-		case PatternState::PT_Slash:
-			break;
-		case PatternState::PT_Stab:
-			break;
-		case PatternState::PT_Buff:
-			break;
-		case PatternState::PT_Whirl:
-			break;
 		case PatternState::ChargeRun:
 			m_velocity.setX(0);
-			break;
-		case PatternState::DEAD:
 			break;
 		default:
 			break;
@@ -433,19 +426,11 @@ void BossEnemy::ChangeState(PatternState state)
 		attackFlag = false;
 		idleEnterTime = SDL_GetTicks();
 		break;
-	case PatternState::PT_Charge:
-		break;
-	case PatternState::PT_Slash:
-		break;
-	case PatternState::PT_Stab:
-		break;
 	case PatternState::PT_Buff:
 		buffStartTime = SDL_GetTicks();
 		isBuffed = true;
 		TheGame::Instance()->CreateGameObject(new FXAnimation(new LoaderParams(m_position.getX() + 16, m_position.getY(), 64, 64, "FXGathering"), SDL_GetTicks(), 1200, 0, 0, false, 33));
 		std::cout << "보스 버프 적용됨: 피해량 1 추가" << std::endl;
-		break;
-	case PatternState::PT_Whirl:
 		break;
 	case PatternState::ChargeRun:
 		chargeStartTime = SDL_GetTicks();
@@ -455,6 +440,7 @@ void BossEnemy::ChangeState(PatternState state)
 		deadTime = SDL_GetTicks();
 		m_velocity.setX(0);
 		TheUI::Instance()->SetGameOverUI(true);
+		TheAudio::Instance()->PlaySFX("Win");
 		break;
 	default:
 		break;
