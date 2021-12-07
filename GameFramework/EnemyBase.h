@@ -19,6 +19,7 @@ public:
 		SDLGameObject::clean();
 	}
 	virtual void OnHit(int amount) = 0;
+	virtual ~EnemyBase() {}
 
 protected:
 	void CheckCollision(int checkX, int checkY);

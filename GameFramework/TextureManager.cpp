@@ -51,7 +51,7 @@ void TextureManager::drawFrame(std::string id, int x, int y, int width, int heig
 	destRect.x = x;
 	destRect.y = y;
 
-	SDL_RenderCopyEx(TheGame::Instance()->getRenderer(), m_textureMap[id], &srcRect, &destRect, NULL, NULL, flip);
+	SDL_RenderCopyEx(TheGame::Instance()->getRenderer(), m_textureMap[id], &srcRect, &destRect, 0, 0, flip);
 }
 
 void TextureManager::drawBackground(std::string id)

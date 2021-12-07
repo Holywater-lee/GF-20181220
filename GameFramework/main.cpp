@@ -14,7 +14,7 @@ const int DELAY_TIME = 1000.0f / FPS;
 
 int main(int argc, char* argv[])
 {
-	Game::Instance()->init("20181220_LEESUNGSOO_GWAJE_2", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+	Game::Instance()->init("20181220_LEESUNGSOO_GIMALPROJECT", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
 	Uint32 frameStart, frameTime;
 
