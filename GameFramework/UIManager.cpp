@@ -19,6 +19,7 @@ void UIManager::Init()
 	RefreshHPBar(hpBarMaxAmount);
 	fakeHpBar->SetWidth(targetHpAmount);
 	SetWeaponIcon("IconGun");
+
 	if (gameOverUI != nullptr)
 	{
 		delete gameOverUI;

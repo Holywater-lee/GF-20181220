@@ -24,10 +24,10 @@ public:
 private:
 	UIManager();
 
-	UIObject* hpBar;
-	UIObject* fakeHpBar;
-	UIObject* weaponIcon;
-	UIObject* gameOverUI;
+	UIObject* hpBar = nullptr;
+	UIObject* fakeHpBar = nullptr;
+	UIObject* weaponIcon = nullptr;
+	UIObject* gameOverUI = nullptr;
 
 	const int hpBarMaxAmount = 5;
 	int targetHpAmount = 0;
