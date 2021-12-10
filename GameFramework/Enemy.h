@@ -5,9 +5,7 @@ class Enemy : public EnemyBase
 {
 public:
 	Enemy(const LoaderParams* pParams);
-	virtual void draw();
 	virtual void update();
-	virtual void clean();
 	virtual void OnHit(int amount);
 
 private:

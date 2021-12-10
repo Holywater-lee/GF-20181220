@@ -21,11 +21,6 @@ Player::Player(const LoaderParams* pParams) : SDLGameObject(pParams)
 	maxLife = life;
 }
 
-void Player::draw()
-{
-	SDLGameObject::draw();
-}
-
 void Player::update()
 {
 	if (m_currentState == PlayerState::DEAD)

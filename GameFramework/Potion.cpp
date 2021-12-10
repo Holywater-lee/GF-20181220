@@ -7,11 +7,6 @@ Potion::Potion(const LoaderParams* pParams) : SDLGameObject(pParams), originalYP
 	tag = "Potion";
 }
 
-void Potion::draw()
-{
-	SDLGameObject::draw();
-}
-
 void Potion::update()
 {
 	m_position.setY(originalYPos + 4 * sin(SDL_GetTicks() / 100));

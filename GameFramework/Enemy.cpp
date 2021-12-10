@@ -17,11 +17,6 @@ Enemy::Enemy(const LoaderParams* pParams) : EnemyBase(pParams), playerPosition(0
 	score = 5;
 }
 
-void Enemy::draw()
-{
-	EnemyBase::draw();
-}
-
 // 피격당하는 함수
 void Enemy::OnHit(int amount)
 {
@@ -55,7 +50,7 @@ void Enemy::update()
 	}
 
 	UpdateInState();
-	EnemyBase::update();
+	SDLGameObject::update();
 	EnemyBase::CheckCollision(1, 1);
 
 	if (m_position.getY() >= LEVEL_HEIGHT)
@@ -386,9 +381,4 @@ void Enemy::Flipping()
 	{
 		flip = SDL_FLIP_HORIZONTAL;
 	}
-}
-
-void Enemy::clean()
-{
-	EnemyBase::clean();
 }

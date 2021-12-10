@@ -8,11 +8,6 @@ FXAnimation::FXAnimation(const LoaderParams* pParams, int sdlgetticks, int p_dur
 	m_currentRow = startRow;
 }
 
-void FXAnimation::draw()
-{
-	SDLGameObject::draw();
-}
-
 void FXAnimation::update()
 {
 	DeleteTimer();
@@ -28,9 +23,4 @@ void FXAnimation::DeleteTimer()
 		m_currentFrame = startFrame + (duration - remainTime) / (duration / totalFrame);
 	else
 		m_currentFrame = startFrame;
-}
-
-void FXAnimation::clean()
-{
-	SDLGameObject::clean();
 }

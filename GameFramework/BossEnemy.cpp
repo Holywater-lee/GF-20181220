@@ -16,11 +16,6 @@ BossEnemy::BossEnemy(const LoaderParams* pParams) : EnemyBase(pParams)
 	score = 200;
 }
 
-void BossEnemy::draw()
-{
-	EnemyBase::draw();
-}
-
 // 피격당하는 함수
 void BossEnemy::OnHit(int amount)
 {
@@ -44,7 +39,7 @@ void BossEnemy::OnHit(int amount)
 
 void BossEnemy::update()
 {
-	EnemyBase::update();
+	SDLGameObject::update();
 	EnemyBase::CheckCollision(4, 3);
 	UpdateInState();
 
@@ -445,9 +440,4 @@ void BossEnemy::ChangeState(PatternState state)
 	default:
 		break;
 	}
-}
-
-void BossEnemy::clean()
-{
-	EnemyBase::clean();
 }

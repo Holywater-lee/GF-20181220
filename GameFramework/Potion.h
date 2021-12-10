@@ -5,7 +5,6 @@ class Potion : public SDLGameObject
 {
 public:
 	Potion(const LoaderParams* pParams);
-	virtual void draw();
 	virtual void update();
 	virtual void clean();
 

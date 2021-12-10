@@ -39,7 +39,6 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="TextureManager.cpp" />
-    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UIObject.cpp" />
     <ClCompile Include="Vector2D.cpp" />
@@ -68,7 +67,6 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="TextManager.h" />
     <ClInclude Include="TextureManager.h" />
-    <ClInclude Include="Tile.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="UIObject.h" />
     <ClInclude Include="Vector2D.h" />

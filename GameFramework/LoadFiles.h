@@ -4,6 +4,7 @@
 #include "WIDTHHEIGHT.h"
 #include "MapManager.h"
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 

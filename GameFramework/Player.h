@@ -7,7 +7,6 @@ class Player : public SDLGameObject
 public:
 	Player(const LoaderParams* pParams);
 	~Player() { delete attackStrategy; attackStrategy = nullptr; }
-	virtual void draw();
 	virtual void update();
 	virtual void clean();
 	virtual void OnHit(int amount);

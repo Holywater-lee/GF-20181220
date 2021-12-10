@@ -6,19 +6,7 @@ class EnemyBase : public SDLGameObject
 {
 public:
 	EnemyBase(const LoaderParams* pParams) : SDLGameObject(pParams) {}
-	virtual void draw()
-	{
-		SDLGameObject::draw();
-	}
-	virtual void update()
-	{
-		SDLGameObject::update();
-	}
-	virtual void clean()
-	{
-		SDLGameObject::clean();
-	}
-	virtual void OnHit(int amount) = 0;
+
 	virtual ~EnemyBase() {}
 
 protected:

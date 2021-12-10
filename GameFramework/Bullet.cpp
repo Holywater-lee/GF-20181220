@@ -43,19 +43,9 @@ void Bullet::DeleteBecauseLifeTime()
 	}
 }
 
-void Bullet::draw()
-{
-	SDLGameObject::draw();
-}
-
 void Bullet::update()
 {
 	SDLGameObject::update();
 	DeleteBecauseOutOfScreen();
 	DeleteBecauseLifeTime();
-}
-
-void Bullet::clean()
-{
-	SDLGameObject::clean();
 }

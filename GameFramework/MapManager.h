@@ -1,6 +1,5 @@
 #pragma once
 #include "WIDTHHEIGHT.h"
-#include "Tile.h"
 
 class MapManager
 {
